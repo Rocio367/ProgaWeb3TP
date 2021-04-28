@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgaWeb3TP", "ProgaWeb3TP\ProgaWeb3TP.csproj", "{24CC0323-90EC-4228-882D-DF7E5BBF737D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgaWeb3TP", "ProgaWeb3TP.csproj", "{D289B20A-EA69-4096-A9FA-685176198B98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24CC0323-90EC-4228-882D-DF7E5BBF737D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24CC0323-90EC-4228-882D-DF7E5BBF737D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24CC0323-90EC-4228-882D-DF7E5BBF737D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24CC0323-90EC-4228-882D-DF7E5BBF737D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D289B20A-EA69-4096-A9FA-685176198B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D289B20A-EA69-4096-A9FA-685176198B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D289B20A-EA69-4096-A9FA-685176198B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D289B20A-EA69-4096-A9FA-685176198B98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FC1A0CE1-5242-4011-A9D6-EF6190B8464A}
+		SolutionGuid = {05EDECB5-3757-40BC-9ECD-894A0E71DDA5}
 	EndGlobalSection
 EndGlobal
