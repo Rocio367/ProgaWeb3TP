@@ -2,12 +2,11 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 #add-btn {
-   background-color:red!important;
+   margin-top:2em!important;
 }
 .container {
     height: 100%;
     align-content: center;
-    background-color: red !important;
 }
 a.navbar-brand {
   white-space: normal;
