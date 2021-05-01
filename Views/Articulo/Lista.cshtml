@@ -64,7 +64,7 @@
                             <th class="text-center" scope="row">Descripcion @i</th>
                             <td class="text-center">@i</td>
                             <td class="text-center"><button role="link" onclick="window.location='/Articulo/Editar'" type="button" class="btn btn-info">Ver</button></td>
-                            <td class="text-center"><button type="button" class="btn btn-danger">Eliminar</button></td>
+                            <td class="text-center"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Eliminar</button></td>
                         </tr>
                     }
 
@@ -82,14 +82,37 @@
             <nav aria-label="Page navigation example  ">
 
                 <ul class="pagination  justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#"><i class="bi bi-arrow-left"></i>Anterior</a></li>
+                    <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i>Anterior</a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Siguiente<i class="bi bi-arrow-right"></i></a></li>
+                    <li class="page-item"><a class="page-link" href="#">Siguiente<i class="bi bi-chevron-right"></i></a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+             
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <span class="model-text">¿Esta seguro que desea eliminar el artículo{nombre artículo}?</span>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>
