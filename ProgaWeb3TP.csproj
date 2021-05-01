@@ -51,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="src\DTOs\DTOs.csproj" />
     <ProjectReference Include="src\Repositorios\Repositorios.csproj" />
     <ProjectReference Include="src\Servicios\Servicios.csproj" />
 	  <ProjectReference Include="src\Modelos\Modelos.csproj" />
