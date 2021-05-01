@@ -35,7 +35,6 @@
         "dependencies": {
           "Bootstrap.v3.Datetimepicker.CSS": "4.17.49",
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "5.0.5",
-          "bootstrap": "4.6.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -327,19 +326,18 @@
           "ProgaWeb3TP.dll": {}
         }
       },
-      "bootstrap/4.6.0": {
+      "bootstrap/3.4.1": {
         "dependencies": {
-          "jQuery": "3.0.0",
-          "popper.js": "1.16.1"
+          "jQuery": "1.9.1"
         }
       },
       "Bootstrap.v3.Datetimepicker.CSS/4.17.49": {
         "dependencies": {
           "Moment.js": "2.9.0",
-          "bootstrap": "4.6.0"
+          "bootstrap": "3.4.1"
         }
       },
-      "jQuery/3.0.0": {},
+      "jQuery/1.9.1": {},
       "Microsoft.AspNetCore.Mvc.Razor.Extensions/5.0.5": {
         "dependencies": {
           "Microsoft.AspNetCore.Razor.Language": "5.0.5",
@@ -528,7 +526,6 @@
       },
       "Microsoft.NETCore.Platforms/2.1.2": {},
       "Moment.js/2.9.0": {},
-      "popper.js/1.16.1": {},
       "System.Collections.Immutable/5.0.0": {
         "compile": {
           "lib/netstandard2.0/System.Collections.Immutable.dll": {}
@@ -2254,12 +2251,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "bootstrap/4.6.0": {
+    "bootstrap/3.4.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nGsIRcbAcBybxBeoL5H6Uax8bb+nrT+tbx3/3n1yXCWq/s+fgEvdo0BAYIq1GmbBizA2KKShyFNiJaSanonIIQ==",
-      "path": "bootstrap/4.6.0",
-      "hashPath": "bootstrap.4.6.0.nupkg.sha512"
+      "sha512": "sha512-rnqnZV4sFAgB240hnLRwqoUaV2DfzrYsc6PbsYzRTObrrucLZyvb+8F1yTVT1sDbXMi/NXlyRmiL6wF+d4ZJMA==",
+      "path": "bootstrap/3.4.1",
+      "hashPath": "bootstrap.3.4.1.nupkg.sha512"
     },
     "Bootstrap.v3.Datetimepicker.CSS/4.17.49": {
       "type": "package",
@@ -2268,12 +2265,12 @@
       "path": "bootstrap.v3.datetimepicker.css/4.17.49",
       "hashPath": "bootstrap.v3.datetimepicker.css.4.17.49.nupkg.sha512"
     },
-    "jQuery/3.0.0": {
+    "jQuery/1.9.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xFfntV19HzCtKdJWOp/XT9PUY3SslokTDDLFJZdBug36j1XVhw1+vPQ/n7Gd5y+jdpesn5B1m1yn1qIUq57jlA==",
-      "path": "jquery/3.0.0",
-      "hashPath": "jquery.3.0.0.nupkg.sha512"
+      "sha512": "sha512-HiX9icLyiJGgiL5EOIn0d1MBPHVV2M9mzWT4mANdniDNR51RvAFTyKEXEd2+5yQJ4PJ5xePOR61Vjj/omQzYcw==",
+      "path": "jquery/1.9.1",
+      "hashPath": "jquery.1.9.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.Razor.Extensions/5.0.5": {
       "type": "package",
@@ -2344,13 +2341,6 @@
       "sha512": "sha512-4rhbvFzmgXp/gjvwjxt9Qjmdz+2CD9T99erXEDtZHlYxaI06F9A4628/Vpxklm8D9RmwJjKjp1244FwEh+a5WQ==",
       "path": "moment.js/2.9.0",
       "hashPath": "moment.js.2.9.0.nupkg.sha512"
-    },
-    "popper.js/1.16.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6GiVZho0vwBnId7pK7NLTjMGq4F0/VE65I08CCeKlarVoUt1w8SGTtJmhNo/0pK38EGUP/xbT4+OkWB8UTMPBw==",
-      "path": "popper.js/1.16.1",
-      "hashPath": "popper.js.1.16.1.nupkg.sha512"
     },
     "System.Collections.Immutable/5.0.0": {
       "type": "package",

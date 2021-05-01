@@ -371,3 +371,4 @@ C:\Users\Usuario\source\repos\ProgaWeb3TP\obj\Debug\net5.0\Razor\Views\Articulo\
 C:\Users\Usuario\source\repos\ProgaWeb3TP\obj\Debug\net5.0\Razor\Views\Usuario\Crear.cshtml.g.cs
 C:\Users\Usuario\source\repos\ProgaWeb3TP\obj\Debug\net5.0\Razor\Views\Usuario\Editar.cshtml.g.cs
 C:\Users\Usuario\source\repos\ProgaWeb3TP\obj\Debug\net5.0\Razor\Views\Usuario\Lista.cshtml.g.cs
+C:\Users\Usuario\source\repos\ProgaWeb3TP\bin\Debug\net5.0\libman.json
