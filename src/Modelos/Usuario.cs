@@ -2,7 +2,7 @@
 
 namespace Modelos
 {
-    class Usuario
+    public class Usuario
     {
 		public int IdUsuario { set; get; }
 		public Boolean EsAdmin { set; get; }
