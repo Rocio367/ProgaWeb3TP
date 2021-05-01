@@ -7,9 +7,9 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-12">
 
-           
-                <button   role="link" onclick="window.location='/Articulo/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Articulo </button>
-           
+
+            <button role="link" onclick="window.location='/Articulo/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Articulo </button>
+
         </div>
     </div>
     <div class="row justify-content-center align-items-center">
@@ -61,9 +61,9 @@
                     @for (int i = 0; i < 6; i++)
                     {
                         <tr>
-                            <th  class="text-center" scope="row">Descripcion @i</th>
+                            <th class="text-center" scope="row">Descripcion @i</th>
                             <td class="text-center">@i</td>
-                            <td class="text-center"><button type="button" class="btn btn-info">Ver</button></td>
+                            <td class="text-center"><button role="link" onclick="window.location='/Articulo/Editar'" type="button" class="btn btn-info">Ver</button></td>
                             <td class="text-center"><button type="button" class="btn btn-danger">Eliminar</button></td>
                         </tr>
                     }
@@ -92,3 +92,4 @@
         </div>
     </div>
 </div>
+
