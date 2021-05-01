@@ -51,10 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="src\Repositorios\Repositorios.csproj" />
     <ProjectReference Include="src\Servicios\Servicios.csproj" />
   </ItemGroup>

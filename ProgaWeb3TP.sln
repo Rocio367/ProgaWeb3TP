@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgaWeb3TP", "ProgaWeb3TP.csproj", "{D289B20A-EA69-4096-A9FA-685176198B98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "..\Entidades\Entidades.csproj", "{08AB2FCB-814D-4549-9371-D8F8514C06AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "src\Servicios\Servicios.csproj", "{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicios", "src\Servicios\Servicios.csproj", "{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositorios", "src\Repositorios\Repositorios.csproj", "{FED0136B-68A0-4B5A-AB65-1867C1AFA401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorios", "src\Repositorios\Repositorios.csproj", "{FED0136B-68A0-4B5A-AB65-1867C1AFA401}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelos", "..\Modelos\Modelos.csproj", "{FDDFA71A-E4E6-4CE5-BA25-0221CB0286F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{D289B20A-EA69-4096-A9FA-685176198B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D289B20A-EA69-4096-A9FA-685176198B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D289B20A-EA69-4096-A9FA-685176198B98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDFA71A-E4E6-4CE5-BA25-0221CB0286F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDFA71A-E4E6-4CE5-BA25-0221CB0286F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDFA71A-E4E6-4CE5-BA25-0221CB0286F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDFA71A-E4E6-4CE5-BA25-0221CB0286F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
