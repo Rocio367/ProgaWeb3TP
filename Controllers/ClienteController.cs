@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -18,6 +21,7 @@ namespace ProgaWeb3TP.Controllers
         {
             return View();
         }
+   
 
         public ActionResult Editar()
         {
