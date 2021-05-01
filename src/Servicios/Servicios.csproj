@@ -12,4 +12,9 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DTOs\DTOs.csproj" />
+    <ProjectReference Include="..\Repositorios\Repositorios.csproj" />
+  </ItemGroup>
+
 </Project>
