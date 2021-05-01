@@ -1,20 +1,25 @@
-﻿
+﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Modelos;
+using Servicios;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace ProgaWeb3TP.Controllers
 {
     public class ClienteController : Controller
     {
+        private IServicioCliente _servicioCliente;
+
+        public ClienteController(IServicioCliente servicioCliente)
+        {
+            _servicioCliente = servicioCliente;
+        }
+
         public ActionResult Lista()
         {
-            return View();
+            List<ClienteDTO> clientes = _servicioCliente.ObtenerClientes();
+            return View(clientes);
         }
 
         public ActionResult Crear()
@@ -43,7 +48,29 @@ namespace ProgaWeb3TP.Controllers
         // POST: ClienteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Crear(ClienteDTO clienteDTO)
+        {
+            _servicioCliente.Guardar(clienteDTO);
+            return RedirectToAction("Lista", "Cliente");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarYCrearOtro(ClienteDTO clienteDTO)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelarCreacion()
         {
             try
             {

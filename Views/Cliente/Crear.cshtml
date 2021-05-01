@@ -1,63 +1,51 @@
-﻿
-@{
-}
+﻿@model DTOs.ClienteDTO
 
 <div class="container">
     <div id="crear-row" class="row justify-content-center align-items-center">
         <div id="crear-column" class="col-md-10">
-
-
             <h4 class="card-title mb-4 mt-1 ">Nuevo Cliente</h4>
-            <form>
-
+            @using (Html.BeginForm("Crear", "Cliente", FormMethod.Post)) 
+            { 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label>Nombre:</label>
-                        <input type="text" class="form-control" placeholder="Carlos">
+                        @Html.LabelFor(model => model.Nombre)
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
-                        <label>Numero:</label>
-                        <input type="number" class="form-control" placeholder="234">
+                        @Html.LabelFor(model => model.Numero)
+                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
-
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label>Telefono:</label>
-                        <input type="tel" class="form-control" placeholder="11452688">
+                        @Html.LabelFor(model => model.Telefono)
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" placeholder="yourName@gmail.com">
-                    </div> <!-- form-group// -->
-
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Direccion:</label>
-                        <input type="text" class="form-control" placeholder="11452688">
-                    </div> <!-- form-group// -->
-                    <div class="form-group col-md-6">
-                        <label>Cuit:</label>
-                        <input type="number" class="form-control" placeholder="20-472349651-2">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
 
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Direccion)
+                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.CUIT)
+                        @Html.EditorFor(model => model.CUIT, new { htmlAttributes = new { @class = "form-control" } })
+                    </div> <!-- form-group// -->
 
-
-
+                </div>
 
                 <div class="form-group ">
-                    <button class="btn btn-primary">Guardar  </button>
-                    <button class="btn btn-primary ">Guardar y Crear Otro  </button>
-
-                    <button class="btn btn-secondary ">Cancelar  </button>
-
+                    <input type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" />
+                    <input type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" />
+                    <input type="submit" value="Cancelar" formaction="CancelarCreacion" class="btn btn-secondary" />
                 </div> <!-- form-group// -->
-
-            </form>
+            }
 
         </div>
     </div>
