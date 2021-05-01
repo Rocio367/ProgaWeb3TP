@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgaWeb3TP", "ProgaWeb3TP.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "..\Entidades\Entidades.csproj", "{08AB2FCB-814D-4549-9371-D8F8514C06AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicios", "src\Servicios\Servicios.csproj", "{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorios", "src\Repositorios\Repositorios.csproj", "{FED0136B-68A0-4B5A-AB65-1867C1AFA401}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08AB2FCB-814D-4549-9371-D8F8514C06AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{340CB95B-CF9A-4CE1-BB27-B8EF6BF15668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED0136B-68A0-4B5A-AB65-1867C1AFA401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
