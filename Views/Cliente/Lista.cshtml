@@ -1,6 +1,4 @@
-﻿
-@{
-}
+﻿@model IEnumerable<DTOs.ClienteDTO>
 
 <div class="container">
 
@@ -57,23 +55,17 @@
                 </thead>
                 <tbody>
 
-                    @for (int i = 0; i < 6; i++)
+                    @foreach (DTOs.ClienteDTO cliente in Model)
                     {
                         <tr>
-                            <th class="text-center" scope="row">Nombre @i</th>
-                            <td class="text-center">estado  @i</td>
-                            <td class="text-center">--</td>
+                            <th class="text-center" scope="row">@cliente.Nombre</th>
+                            <td class="text-center">@cliente.Numero</td>
+                            <td class="text-center">@cliente.Telefono</td>
                             <td class="text-center"><button  role="link"  onclick="window.location='/Cliente/Editar'" type="button" class="btn btn-info">Ver</button></td>
                         </tr>
                     }
-
-
-
-
                 </tbody>
             </table>
-
-
         </div>
     </div>
     <div class="row justify-content-center align-items-center">

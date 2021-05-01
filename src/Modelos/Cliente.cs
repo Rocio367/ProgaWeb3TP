@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelos
 {
-    class Cliente
+    public class Cliente
     {
 		public int IdCliente { set; get; }
 		public int Numero { set; get; }
