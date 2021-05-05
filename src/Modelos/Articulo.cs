@@ -2,7 +2,7 @@
 
 namespace Modelos
 {
-    class Articulo
+    public class Articulo
     {
 		public int IdArticulo { set; get; }
 		public string Codigo { set; get; }
