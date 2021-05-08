@@ -48,18 +48,38 @@ namespace ProgaWeb3TP.Controllers
         // POST: ClienteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(ClienteDTO clienteDTO)
+        public IActionResult Crear(ClienteDTO clienteDTO)
         {
-            _servicioCliente.Guardar(clienteDTO);
-            return RedirectToAction("Lista", "Cliente");
+            IActionResult vista = null;
+
+            if (ModelState.IsValid)
+            {
+                _servicioCliente.Guardar(clienteDTO);
+                vista = RedirectToAction("Lista", "Cliente");
+            }
+            else
+            {
+                vista = View("Crear");
+            }
+            return vista;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GuardarYCrearOtro(ClienteDTO clienteDTO)
+        public IActionResult GuardarYCrearOtro(ClienteDTO clienteDTO)
         {
-            _servicioCliente.Guardar(clienteDTO);
-            return RedirectToAction("Crear", "Cliente");
+            IActionResult vista = null;
+
+            if (ModelState.IsValid)
+            {
+                _servicioCliente.Guardar(clienteDTO);
+                vista = RedirectToAction("Crear", "Cliente");
+            }
+            else
+            {
+                vista = View("Crear");
+            }
+            return vista;
         }
 
         [HttpPost]
