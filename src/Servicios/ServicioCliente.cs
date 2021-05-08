@@ -18,7 +18,6 @@ namespace Servicios
             Cliente cliente = new Cliente
             {
                 Nombre = clienteDTO.Nombre,
-                Numero = clienteDTO.Numero ?? 0, //Aca iria la logica de generar un numero de cliente
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
