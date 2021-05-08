@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    interface IServicioArticulo
+    public interface IServicioArticulo
     {
         void Guardar(ArticuloDTO ArticuloDTO);
         void Editar(ArticuloDTO ArticuloDTO);
