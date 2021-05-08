@@ -18,11 +18,11 @@ namespace Servicios
             Cliente cliente = new Cliente
             {
                 Nombre = clienteDTO.Nombre,
-                Numero = clienteDTO.Numero,
+                Numero = clienteDTO.Numero ?? 0, //Aca iria la logica de generar un numero de cliente
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
-                CUIT = clienteDTO.CUIT
+                CUIT = clienteDTO.Cuit
             };
             _repositorioCliente.Guardar(cliente);
         }
@@ -38,7 +38,7 @@ namespace Servicios
                     Email = cliente.Email,
                     Telefono = cliente.Telefono,
                     Direccion = cliente.Direccion,
-                    CUIT = cliente.CUIT
+                    Cuit = cliente.CUIT
                 }
             ).ToList();
         }
