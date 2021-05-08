@@ -58,14 +58,8 @@ namespace ProgaWeb3TP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GuardarYCrearOtro(ClienteDTO clienteDTO)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _servicioCliente.Guardar(clienteDTO);
+            return RedirectToAction("Crear", "Cliente");
         }
 
         [HttpPost]
