@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    class ServicioArticulo: IServicioArticulo
+    public class ServicioArticulo: IServicioArticulo
     {
         private IRepositorioArticulo _repositorioArticulo;
         public ServicioArticulo(IRepositorioArticulo repositorioArticulo)
@@ -27,7 +27,7 @@ namespace Servicios
             };
             _repositorioArticulo.Guardar(aticulo);
         }
-        void Editar(ArticuloDTO ArticuloDTO) {
+        public void Editar(ArticuloDTO ArticuloDTO) {
             Articulo aticulo = new Articulo
             {
                 Codigo = ArticuloDTO.Codigo,
@@ -36,7 +36,7 @@ namespace Servicios
             };
             _repositorioArticulo.Editar(aticulo);
         }
-        void Eliminar(ArticuloDTO ArticuloDTO) {
+        public void Eliminar(ArticuloDTO ArticuloDTO) {
             Articulo aticulo = new Articulo
             {
                 Codigo = ArticuloDTO.Codigo,
