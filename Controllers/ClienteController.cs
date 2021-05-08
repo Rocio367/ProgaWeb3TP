@@ -66,14 +66,7 @@ namespace ProgaWeb3TP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CancelarCreacion()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Lista", "Cliente");
         }
 
         // GET: ClienteController/Edit/5
