@@ -11,7 +11,8 @@ namespace Servicios
     {
         void Guardar(ArticuloDTO ArticuloDTO);
         void Editar(ArticuloDTO ArticuloDTO);
-        void Eliminar(ArticuloDTO ArticuloDTO);
+        void Eliminar(int id);
         List<ArticuloDTO> ObtenerArticulos();
+        ArticuloDTO ObtenerArticulo(int id);
     }
 }
