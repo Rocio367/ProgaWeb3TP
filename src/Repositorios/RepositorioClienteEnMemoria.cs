@@ -1,5 +1,6 @@
 ﻿using Modelos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Repositorios
 {
@@ -14,13 +15,18 @@ namespace Repositorios
         }
         public void Guardar(Cliente cliente)
         {
-            cliente.Numero = _proximoNumeroDeCliente;
+            cliente.IdCliente = cliente.Numero = _proximoNumeroDeCliente;
             _clientes.Add(cliente);
 
             _proximoNumeroDeCliente++;
         }
 
-        public List<Cliente> ObtenerClientes()
+        public Cliente ObtenerCliente(int id)
+        {
+            return _clientes.Find(cliente => cliente.IdCliente.Equals(id));
+        }
+
+    public List<Cliente> ObtenerClientes()
         {
             return _clientes;
         }

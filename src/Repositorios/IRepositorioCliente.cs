@@ -7,5 +7,6 @@ namespace Repositorios
     {
         void Guardar(Cliente cliente);
         List<Cliente> ObtenerClientes();
+        Cliente ObtenerCliente(int id);
     }
 }

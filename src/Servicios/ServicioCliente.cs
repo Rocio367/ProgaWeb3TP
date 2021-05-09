@@ -18,7 +18,6 @@ namespace Servicios
             Cliente cliente = new Cliente
             {
                 Nombre = clienteDTO.Nombre,
-                Numero = clienteDTO.Numero ?? 0, //Aca iria la logica de generar un numero de cliente
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
@@ -27,20 +26,29 @@ namespace Servicios
             _repositorioCliente.Guardar(cliente);
         }
 
+        public ClienteDTO ObtenerCliente(int id)
+        {
+            Cliente cliente =  _repositorioCliente.ObtenerCliente(id);
+            return ConvertirEnDTO(cliente);
+        }
+
         public List<ClienteDTO> ObtenerClientes()
         {
             List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
-            return clientes.Select(cliente =>            
-                new ClienteDTO
-                {
-                    Nombre = cliente.Nombre,
-                    Numero = cliente.Numero,
-                    Email = cliente.Email,
-                    Telefono = cliente.Telefono,
-                    Direccion = cliente.Direccion,
-                    Cuit = cliente.CUIT
-                }
-            ).ToList();
+            return clientes.Select(cliente => ConvertirEnDTO(cliente)).ToList();
+        }
+
+        private static ClienteDTO ConvertirEnDTO(Cliente cliente)
+        {
+            return new ClienteDTO
+            {
+                Nombre = cliente.Nombre,
+                Numero = cliente.Numero,
+                Email = cliente.Email,
+                Telefono = cliente.Telefono,
+                Direccion = cliente.Direccion,
+                Cuit = cliente.CUIT
+            };
         }
     }
 }

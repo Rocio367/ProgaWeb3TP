@@ -33,10 +33,10 @@ namespace ProgaWeb3TP.Controllers
             return View();
         }
 
-        // GET: ClienteController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Ver(int id)
         {
-            return View();
+            ClienteDTO cliente = _servicioCliente.ObtenerCliente(id);
+            return View("Editar", cliente);
         }
 
         // GET: ClienteController/Create
