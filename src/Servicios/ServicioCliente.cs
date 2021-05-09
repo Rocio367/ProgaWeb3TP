@@ -67,5 +67,18 @@ namespace Servicios
                 }
             }
         }
+
+        public void Eliminar(int id)
+        {
+            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
+            foreach (Cliente cliente in clientes)
+            {
+                if (id == cliente.IdCliente)
+                {
+                    clientes.Remove(cliente);
+                    break; //una vez encontrado el cliente sale del ciclo ..caso contrario vuelve a buscar y tira error por que la lista fue modificada
+                }
+            }
+        }
     }
 }

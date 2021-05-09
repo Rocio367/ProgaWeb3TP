@@ -16,7 +16,7 @@
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         @Html.LabelFor(model => model.Numero)
-                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control"} })
+                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
 
                 </div>
@@ -47,10 +47,10 @@
 
                 <div class="form-group ">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
-                    
-                        @Html.ActionLink("Cancelar", "Lista","Cliente",null,new { @class = "btn btn-secondary text-white" })
-                    
-                    
+
+                    @Html.ActionLink("Cancelar", "Lista", "Cliente", null, new { @class = "btn btn-secondary text-white" })
+
+
                     <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>
                 </div> <!-- form-group// -->
 
@@ -70,10 +70,15 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <span class="model-text">¿Esta seguro que desea eliminar al cliente{nombre cliente}?</span>
+                <span class="model-text">¿Esta seguro que desea eliminar al cliente @Html.DisplayFor(model => model.Nombre)?</span>
+
             </div>
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Si</button>
+                @using (Html.BeginForm("Eliminar", "Cliente", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.IdCliente)
+                <input type="submit" value="Si" class="btn btn-primary" />
+                }                
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
             </div>
