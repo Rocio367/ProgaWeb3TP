@@ -18,29 +18,67 @@ namespace Servicios
             Cliente cliente = new Cliente
             {
                 Nombre = clienteDTO.Nombre,
-                Numero = clienteDTO.Numero,
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
-                CUIT = clienteDTO.CUIT
+                CUIT = clienteDTO.Cuit
             };
             _repositorioCliente.Guardar(cliente);
+        }
+
+        public ClienteDTO ObtenerCliente(int id)
+        {
+            Cliente cliente =  _repositorioCliente.ObtenerCliente(id);
+            return ConvertirEnDTO(cliente);
         }
 
         public List<ClienteDTO> ObtenerClientes()
         {
             List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
-            return clientes.Select(cliente =>            
-                new ClienteDTO
+            return clientes.Select(cliente => ConvertirEnDTO(cliente)).ToList();
+        }
+
+        private static ClienteDTO ConvertirEnDTO(Cliente cliente)
+        {
+            return new ClienteDTO
+            {   IdCliente = cliente.IdCliente,
+                Nombre = cliente.Nombre,
+                Numero = cliente.Numero,
+                Email = cliente.Email,
+                Telefono = cliente.Telefono,
+                Direccion = cliente.Direccion,
+                Cuit = cliente.CUIT
+            };
+        }
+
+        public void Editar(int id, ClienteDTO clienteDTO)
+        {
+            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
+            foreach (Cliente cliente in clientes)
+            {
+                if(id == cliente.IdCliente)
                 {
-                    Nombre = cliente.Nombre,
-                    Numero = cliente.Numero,
-                    Email = cliente.Email,
-                    Telefono = cliente.Telefono,
-                    Direccion = cliente.Direccion,
-                    CUIT = cliente.CUIT
+                    cliente.Nombre = clienteDTO.Nombre;
+                    cliente.Numero = (int)clienteDTO.Numero;
+                    cliente.Email = clienteDTO.Email;
+                    cliente.Telefono = clienteDTO.Telefono;
+                    cliente.Direccion = clienteDTO.Direccion;
+                    cliente.CUIT = clienteDTO.Cuit;
                 }
-            ).ToList();
+            }
+        }
+
+        public void Eliminar(int id)
+        {
+            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
+            foreach (Cliente cliente in clientes)
+            {
+                if (id == cliente.IdCliente)
+                {
+                    clientes.Remove(cliente);
+                    break; //una vez encontrado el cliente sale del ciclo ..caso contrario vuelve a buscar y tira error por que la lista fue modificada
+                }
+            }
         }
     }
 }
