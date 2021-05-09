@@ -1,6 +1,4 @@
-﻿
-@{
-}
+﻿@model DTOs.ClienteDTO
 
 <div class="container">
     <div id="crear-row" class="row justify-content-center align-items-center">
@@ -13,22 +11,22 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Nombre:</label>
-                        <input type="text" class="form-control" placeholder="Carlos">
+                        <input type="text" class="form-control" name="Nombre" value="@Model.Nombre">
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         <label>Numero:</label>
-                        <input type="number" class="form-control" placeholder="234">
+                        <input type="number" class="form-control" name="Numero" value="@Model.Numero">
                     </div> <!-- form-group// -->
 
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Telefono:</label>
-                        <input type="tel" class="form-control" placeholder="11452688">
+                        <input type="tel" class="form-control" name="Telefono" value="@Model.Telefono">
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         <label>Email:</label>
-                        <input type="email" class="form-control" placeholder="yourName@gmail.com">
+                        <input type="email" class="form-control" name="Email" value="@Model.Email">
                     </div> <!-- form-group// -->
 
                 </div>
@@ -36,18 +34,14 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Direccion:</label>
-                        <input type="text" class="form-control" placeholder="11452688">
+                        <input type="text" class="form-control" name="Direccion" value="@Model.Direccion">
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         <label>Cuit:</label>
-                        <input type="number" class="form-control" placeholder="20-472349651-2">
+                        <input type="text" class="form-control" name="Cuit" value="@Model.Cuit">
                     </div> <!-- form-group// -->
 
                 </div>
-
-
-
-
 
                 <div class="form-group ">
                     <button class="btn btn-primary">Guardar  </button>
