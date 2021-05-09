@@ -41,7 +41,7 @@ namespace Servicios
         private static ClienteDTO ConvertirEnDTO(Cliente cliente)
         {
             return new ClienteDTO
-            {
+            {   IdCliente = cliente.IdCliente,
                 Nombre = cliente.Nombre,
                 Numero = cliente.Numero,
                 Email = cliente.Email,
@@ -49,6 +49,23 @@ namespace Servicios
                 Direccion = cliente.Direccion,
                 Cuit = cliente.CUIT
             };
+        }
+
+        public void Editar(int id, ClienteDTO clienteDTO)
+        {
+            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
+            foreach (Cliente cliente in clientes)
+            {
+                if(id == cliente.IdCliente)
+                {
+                    cliente.Nombre = clienteDTO.Nombre;
+                    cliente.Numero = (int)clienteDTO.Numero;
+                    cliente.Email = clienteDTO.Email;
+                    cliente.Telefono = clienteDTO.Telefono;
+                    cliente.Direccion = clienteDTO.Direccion;
+                    cliente.CUIT = clienteDTO.Cuit;
+                }
+            }
         }
     }
 }
