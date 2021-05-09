@@ -8,5 +8,7 @@ namespace Servicios
         void Guardar(ClienteDTO clienteDTO);
         List<ClienteDTO> ObtenerClientes();
         ClienteDTO ObtenerCliente(int id);
+
+        void Editar(int id, ClienteDTO clienteDTO);
     }
 }

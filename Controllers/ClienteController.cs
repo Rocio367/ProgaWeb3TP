@@ -130,5 +130,24 @@ namespace ProgaWeb3TP.Controllers
                 return View();
             }
         }
+        // POST: ClienteController/Editar/idCliente a editar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(ClienteDTO clienteDTO)
+        {
+            IActionResult vista = null;
+
+            if (ModelState.IsValid)
+            {
+                int id = clienteDTO.IdCliente;
+                _servicioCliente.Editar(id,clienteDTO);
+                vista = RedirectToAction("Lista", "Cliente");
+            }
+            else
+            {
+                vista = View("Editar");
+            }
+            return vista;
+        }
     }
 }

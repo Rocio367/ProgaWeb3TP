@@ -7,6 +7,7 @@ namespace DTOs
 		public int? Numero { set; get; }
 		[Required(ErrorMessage = "El campo Nombre es requerido")]
 		public string Nombre { set; get; }
+		public int IdCliente { set; get; }
 		public string Telefono { set; get; }
 		public string Email { set; get; }
 		public string Direccion { set; get; }
