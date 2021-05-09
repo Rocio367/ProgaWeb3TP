@@ -149,5 +149,15 @@ namespace ProgaWeb3TP.Controllers
             }
             return vista;
         }
+        public IActionResult Eliminar(ClienteDTO clienteDTO)
+        {
+                IActionResult vista = null;
+                int id = clienteDTO.IdCliente;
+                _servicioCliente.Eliminar(id);
+                vista = RedirectToAction("Lista", "Cliente");
+            
+            
+            return vista;
+        }
     }
 }
