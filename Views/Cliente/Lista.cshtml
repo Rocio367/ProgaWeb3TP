@@ -61,7 +61,9 @@
                             <th class="text-center" scope="row">@cliente.Nombre</th>
                             <td class="text-center">@cliente.Numero</td>
                             <td class="text-center">@cliente.Telefono</td>
-                            <td class="text-center"><button  role="link"  onclick="window.location='/Cliente/Editar'" type="button" class="btn btn-info">Ver</button></td>
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="Ver/@cliente.IdCliente" role="button">Ver</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
