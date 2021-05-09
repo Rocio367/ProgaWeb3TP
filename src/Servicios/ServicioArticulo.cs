@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    public class ServicioArticulo: IServicioArticulo
+    public class ServicioArticulo : IServicioArticulo
     {
         private IRepositorioArticulo _repositorioArticulo;
         public ServicioArticulo(IRepositorioArticulo repositorioArticulo)
@@ -23,27 +23,25 @@ namespace Servicios
             {
                 Codigo = articuloDTO.Codigo,
                 Descripcion = articuloDTO.Descripcion,
-              
+
             };
             _repositorioArticulo.Guardar(aticulo);
         }
-        public void Editar(ArticuloDTO ArticuloDTO) {
+        public void Editar(ArticuloDTO ArticuloDTO)
+        {
             Articulo aticulo = new Articulo
             {
+                IdArticulo = ArticuloDTO.Id,
                 Codigo = ArticuloDTO.Codigo,
                 Descripcion = ArticuloDTO.Descripcion,
 
             };
             _repositorioArticulo.Editar(aticulo);
         }
-        public void Eliminar(ArticuloDTO ArticuloDTO) {
-            Articulo aticulo = new Articulo
-            {
-                Codigo = ArticuloDTO.Codigo,
-                Descripcion = ArticuloDTO.Descripcion,
+        public void Eliminar(int id)
+        {
 
-            };
-            _repositorioArticulo.Eliminar(aticulo);
+            _repositorioArticulo.Eliminar(id);
         }
         public List<ArticuloDTO> ObtenerArticulos()
         {
@@ -51,11 +49,25 @@ namespace Servicios
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {
+                    Id = articulo.IdArticulo,
                     Codigo = articulo.Codigo,
                     Descripcion = articulo.Descripcion,
-                   
+
                 }
             ).ToList();
         }
+        public ArticuloDTO ObtenerArticulo(int id)
+        {
+            Articulo articulo = this._repositorioArticulo.ObtenerArticulo(id);
+            ArticuloDTO articuloDTO = new ArticuloDTO
+            {
+                Id = articulo.IdArticulo,
+                Codigo = articulo.Codigo,
+                Descripcion = articulo.Descripcion
+            };
+            return articuloDTO;
+        }
+
+
     }
 }

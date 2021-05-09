@@ -11,7 +11,8 @@ namespace Repositorios
     {
         void Guardar(Articulo articulo);
         void Editar(Articulo articulo);
-        void Eliminar(Articulo articulo);
+        void Eliminar(int id);
+        Articulo ObtenerArticulo(int id);
 
         List<Articulo> ObtenerArticulos();
     }

@@ -1,4 +1,8 @@
 ﻿
+
+
+
+@model List<DTOs.ArticuloDTO>
 @{
 }
 
@@ -45,6 +49,7 @@
         </div>
 
     </div>
+    @ViewData["mensaje"]
     <div class="row justify-content-center align-items-center">
         <div class="col-md-12">
             <table class="table  table-bordered">
@@ -58,13 +63,13 @@
                 </thead>
                 <tbody>
 
-                    @for (int i = 0; i < 6; i++)
+                    @foreach (DTOs.ArticuloDTO art in @Model)
                     {
                         <tr>
-                            <th class="text-center" scope="row">Descripcion @i</th>
-                            <td class="text-center">@i</td>
-                            <td class="text-center"><button role="link" onclick="window.location='/Articulo/Editar'" type="button" class="btn btn-info">Ver</button></td>
-                            <td class="text-center"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Eliminar</button></td>
+                            <th class="text-center" scope="row">@art.Descripcion</th>
+                            <td class="text-center">@art.Codigo</td>
+                            <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Editar/@art.Id'" class="btn btn-info">Ver</button></td>
+                            <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button></td>
                         </tr>
                     }
 
@@ -100,7 +105,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-             
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -116,3 +121,4 @@
         </div>
     </div>
 </div>
+

@@ -1,4 +1,6 @@
 ﻿
+@model DTOs.ArticuloDTO
+
 @{
 }
 
@@ -6,18 +8,22 @@
     <div id="crear-row" class="row justify-content-center align-items-center">
         <div id="crear-column" class="col-md-10">
 
-
+            @ViewData["mensaje"]
             <h4 class="card-title mb-4 mt-1 ">Nuevo Articulo</h4>
-            <form>
+            <form action="/Articulo/Crear" method="post">
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Codigo:</label>
-                        <input type="number" class="form-control" placeholder="1688">
+                        <input type="number" asp-for="Codigo" class="form-control" placeholder="1688">
+                        <span class="text-danger" asp-validation-for="Codigo"></span>
+
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         <label>Descripcion:</label>
-                        <input type="text" class="form-control" placeholder="">
+                        <input type="text" asp-for="Descripcion" class="form-control" placeholder="">
+                        <span class="text-danger" asp-validation-for="Descripcion"></span>
+
                     </div> <!-- form-group// -->
 
                 </div>
@@ -27,12 +33,10 @@
 
 
                 <div class="form-group ">
-                    <button class="btn btn-primary">Guardar  </button>
-                    <button class="btn btn-primary ">Guardar y Crear Otro  </button>
-
-                    <button class="btn btn-secondary ">Cancelar  </button>
-
-                </div> <!-- form-group// -->
+                    <input type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" />
+                    <input type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" />
+                    <input type="submit" value="Cancelar" formaction="Cancelar" class="btn btn-secondary" />
+                </div><!-- form-group// -->
 
             </form>
 

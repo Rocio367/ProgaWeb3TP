@@ -10,31 +10,39 @@ namespace Repositorios
 {
     class RepositorioArticulo : IRepositorioArticulo
     {
-        private List<Articulo> _articulos;
 
         public void Guardar(Articulo articulo)
         {
-            _articulos.Add(articulo);
+            Datos.Articulos.Add(articulo);
         }
 
         public void Editar(Articulo articulo)
         {
-            var index = _articulos.IndexOf(articulo);
-            _articulos.RemoveAt(index);
-            _articulos.Insert(index,articulo);
+
+            Articulo art = Datos.Articulos.Find(a => a.IdArticulo == articulo.IdArticulo);
+            art.Codigo = articulo.Codigo;
+            art.Descripcion = articulo.Descripcion;
 
         }
 
-        public void Eliminar(Articulo articulo)
+        public void Eliminar(int id)
         {
-            var index = _articulos.IndexOf(articulo);
-            _articulos.RemoveAt(index);
+            Articulo art = Datos.Articulos.Find(a => a.IdArticulo == id);
+            Datos.Articulos.Remove(art);
 
         }
 
         public List<Articulo> ObtenerArticulos()
         {
-            return _articulos;
+            return Datos.Articulos;
         }
+
+        public Articulo ObtenerArticulo(int id)
+        {
+
+            return Datos.Articulos.Find(a => a.IdArticulo == id);
+        }
+
+
     }
 }
