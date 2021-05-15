@@ -14,6 +14,8 @@ namespace Repositorios
         void Eliminar(int id);
         Articulo ObtenerArticulo(int id);
 
-        List<Articulo> ObtenerArticulos();
+        List<Articulo> ObtenerArticulos(string nombre, string number, Boolean? eliminados);
+        List<string> ObtenerDescripciones();
+        List<string> ObtenerCodigos();
     }
 }
