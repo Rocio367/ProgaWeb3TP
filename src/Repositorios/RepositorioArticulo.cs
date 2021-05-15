@@ -28,19 +28,35 @@ namespace Repositorios
         public void Eliminar(int id)
         {
             Articulo art = Datos.Articulos.Find(a => a.IdArticulo == id);
-            Datos.Articulos.Remove(art);
-
+            art.FechaBorrado = DateTime.Now;
         }
 
         public List<Articulo> ObtenerArticulos(string nombre, string number, Boolean? eliminados)
         {
 
-            if (nombre!=null || number!=null)
+            if (nombre!=null || number!=null )
             {
-                return Datos.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+                if (eliminados == true)
+                {
+                    return Datos.Articulos.Where(a => (a.Descripcion == nombre || a.Codigo == number) && a.FechaBorrado.Equals(new DateTime())).ToList();
+
+                }
+                else {
+                    return Datos.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+
+                }
             }
             else {
-                return Datos.Articulos;
+                if (eliminados == true)
+                {
+                    return Datos.Articulos.Where(a => a.FechaBorrado.Equals(new DateTime())).ToList();
+
+                }
+                else
+                {
+                    return Datos.Articulos;
+
+                }
             }
         }
         public List<string> ObtenerDescripciones() {
