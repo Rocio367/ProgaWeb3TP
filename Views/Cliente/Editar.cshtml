@@ -16,7 +16,7 @@
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         @Html.LabelFor(model => model.Numero)
-                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", readOnly= "readonly" } })
                     </div> <!-- form-group// -->
 
                 </div>
