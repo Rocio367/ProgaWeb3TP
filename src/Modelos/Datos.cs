@@ -15,19 +15,20 @@ namespace Modelos
         {
             Articulo art1 = new Articulo();
             art1.IdArticulo = 1;
-            art1.Codigo = "5456";
+            art1.Codigo = "1";
             art1.Descripcion = "Heladera";
             Articulo art2 = new Articulo();
             art2.IdArticulo = 2;
-            art2.Codigo = "5456";
+            art2.Codigo = "2";
             art2.Descripcion = "TV";
             Articulo art3 = new Articulo();
             art3.IdArticulo = 3;
-            art3.Codigo = "5456";
+            art3.Codigo = "3";
             art3.Descripcion = "Cama";
             Articulos.Add(art1);
             Articulos.Add(art2);
             Articulos.Add(art3);
+        
 
 
 

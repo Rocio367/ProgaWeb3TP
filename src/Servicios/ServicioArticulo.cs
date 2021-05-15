@@ -43,9 +43,9 @@ namespace Servicios
 
             _repositorioArticulo.Eliminar(id);
         }
-        public List<ArticuloDTO> ObtenerArticulos()
+        public List<ArticuloDTO> ObtenerArticulos(string nombre, string number, Boolean? eliminados)
         {
-            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulos();
+            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulos(nombre,number,eliminados);
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {
@@ -55,6 +55,13 @@ namespace Servicios
 
                 }
             ).ToList();
+        }
+
+        public List<string> ObtenerDescripciones() {
+        return this._repositorioArticulo.ObtenerDescripciones();
+        }
+        public List<string> ObtenerCodigos() {
+            return this._repositorioArticulo.ObtenerCodigos();
         }
         public ArticuloDTO ObtenerArticulo(int id)
         {

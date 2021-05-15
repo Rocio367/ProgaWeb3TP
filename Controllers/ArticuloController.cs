@@ -5,7 +5,8 @@ using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using PagedList;
+using ProgaWeb3TP.Models;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -19,27 +20,30 @@ namespace ProgaWeb3TP.Controllers
         }
 
         // GET: ArticuloController
-        public ActionResult Lista()
+        public ActionResult Lista(string? nombre, string? numero,Boolean eliminados, int? page=1)
         {
-            ViewData["mensaje"] = "";
-            return View(this._servicioArticulo.ObtenerArticulos());
+            ListaAticulosVM model = new ListaAticulosVM();
+            model.numero = numero;
+            model.nombre = nombre;
+            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero,eliminados).ToPagedList(page.Value, 10);
+            model.nombres = this._servicioArticulo.ObtenerDescripciones();
+            model.numeros = this._servicioArticulo.ObtenerCodigos();
+
+            ViewBag.page = page;
+            return View(model);
         }
-        public ActionResult ListaConMensajeCreado(string id)
-        {
-            ViewData["mensaje"] = id;
-            return View("Lista", this._servicioArticulo.ObtenerArticulos());
-        }
+      
         public ActionResult Crear()
         {
-            ViewData["mensaje"] = "";
+            TempData["mensaje"] = "";
 
             return View();
         }
         public ActionResult Eliminar(int id)
         {
             this._servicioArticulo.Eliminar(id);
-            string mensaje = "El articulo fue eliminado correctamente";
-            return RedirectToAction("ListaConMensajeCreado", "Articulo", new { id = mensaje });
+            TempData["mensaje"] = "El articulo fue eliminado correctamente";
+            return RedirectToAction("Lista", "Articulo");
         }
         [HttpPost]
         public ActionResult Crear(ArticuloDTO art)
@@ -49,13 +53,14 @@ namespace ProgaWeb3TP.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Guardar(art);
-                    string mensaje = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
-                    return RedirectToAction("ListaConMensajeCreado", "Articulo", new { id = mensaje });
+                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
+
+                    return RedirectToAction("Lista", "Articulo" );
 
                 }
                 else
                 {
-                    ViewData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
+                    TempData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
                 }
                 return View(art);
             }
@@ -115,13 +120,13 @@ namespace ProgaWeb3TP.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Editar(art);
-                    string mensaje = "Articulo " + art.Codigo + " " + art.Descripcion + " fue modificado con éxito";
-                    return RedirectToAction("ListaConMensajeCreado", "Articulo", new { id = mensaje });
+                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue modificado con éxito";
+                    return RedirectToAction("Lista", "Articulo");
 
                 }
                 else
                 {
-                    ViewData["mensaje"] = "Complete corectamente el formulario para modificar el articulo";
+                    TempData["mensaje"] = "Complete corectamente el formulario para modificar el articulo";
                 }
                 return View(art);
             }
