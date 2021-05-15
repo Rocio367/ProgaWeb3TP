@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    public class ServicioArticulo: IServicioArticulo
+    public class ServicioArticulo : IServicioArticulo
     {
         private IRepositorioArticulo _repositorioArticulo;
         public ServicioArticulo(IRepositorioArticulo repositorioArticulo)
@@ -23,39 +23,58 @@ namespace Servicios
             {
                 Codigo = articuloDTO.Codigo,
                 Descripcion = articuloDTO.Descripcion,
-              
+
             };
             _repositorioArticulo.Guardar(aticulo);
         }
-        public void Editar(ArticuloDTO ArticuloDTO) {
+        public void Editar(ArticuloDTO ArticuloDTO)
+        {
             Articulo aticulo = new Articulo
             {
+                IdArticulo = ArticuloDTO.Id,
                 Codigo = ArticuloDTO.Codigo,
                 Descripcion = ArticuloDTO.Descripcion,
 
             };
             _repositorioArticulo.Editar(aticulo);
         }
-        public void Eliminar(ArticuloDTO ArticuloDTO) {
-            Articulo aticulo = new Articulo
-            {
-                Codigo = ArticuloDTO.Codigo,
-                Descripcion = ArticuloDTO.Descripcion,
-
-            };
-            _repositorioArticulo.Eliminar(aticulo);
-        }
-        public List<ArticuloDTO> ObtenerArticulos()
+        public void Eliminar(int id)
         {
-            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulos();
+
+            _repositorioArticulo.Eliminar(id);
+        }
+        public List<ArticuloDTO> ObtenerArticulos(string nombre, string number, Boolean? eliminados)
+        {
+            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulos(nombre,number,eliminados);
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {
+                    Id = articulo.IdArticulo,
                     Codigo = articulo.Codigo,
                     Descripcion = articulo.Descripcion,
-                   
+
                 }
             ).ToList();
         }
+
+        public List<string> ObtenerDescripciones() {
+        return this._repositorioArticulo.ObtenerDescripciones();
+        }
+        public List<string> ObtenerCodigos() {
+            return this._repositorioArticulo.ObtenerCodigos();
+        }
+        public ArticuloDTO ObtenerArticulo(int id)
+        {
+            Articulo articulo = this._repositorioArticulo.ObtenerArticulo(id);
+            ArticuloDTO articuloDTO = new ArticuloDTO
+            {
+                Id = articulo.IdArticulo,
+                Codigo = articulo.Codigo,
+                Descripcion = articulo.Descripcion
+            };
+            return articuloDTO;
+        }
+
+
     }
 }
