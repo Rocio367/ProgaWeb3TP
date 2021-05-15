@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProgaWeb3TP.Controllers
 {
-    public class RegistrarseController : Controller
+    public class RegistrarseController : BaseController
     {
         // GET: RegistrarseController1
         public ActionResult Registrarse()
