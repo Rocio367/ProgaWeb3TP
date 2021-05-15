@@ -11,7 +11,10 @@ namespace Servicios
     {
         void Guardar(ArticuloDTO ArticuloDTO);
         void Editar(ArticuloDTO ArticuloDTO);
-        void Eliminar(ArticuloDTO ArticuloDTO);
-        List<ArticuloDTO> ObtenerArticulos();
+        void Eliminar(int id);
+        List<ArticuloDTO> ObtenerArticulos(string nombre,string number,Boolean? eliminados);
+        ArticuloDTO ObtenerArticulo(int id);
+        List<string> ObtenerDescripciones();
+        List<string> ObtenerCodigos();
     }
 }

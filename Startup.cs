@@ -26,6 +26,8 @@ namespace ProgaWeb3TP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<IServicioArticulo, ServicioArticulo>();
+            services.AddSingleton<IRepositorioArticulo, RepositorioArticulo>();
             services.AddSingleton<IServicioCliente, ServicioCliente>();
             services.AddSingleton<IRepositorioCliente, RepositorioClienteEnMemoria>();
         }
