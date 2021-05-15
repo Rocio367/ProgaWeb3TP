@@ -145,7 +145,7 @@ namespace ProgaWeb3TP.Controllers
             }
             else
             {
-                vista = View("Editar");
+                vista = View("Editar", clienteDTO);
             }
             return vista;
         }
