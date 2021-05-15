@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProgaWeb3TP.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         // GET: LoginController
         public ActionResult login()

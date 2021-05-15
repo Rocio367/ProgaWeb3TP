@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ProgaWeb3TP.Controllers
 {
-    public class ClienteController : Controller
+    public class ClienteController : BaseController
     {
         private IServicioCliente _servicioCliente;
 
@@ -56,6 +56,7 @@ namespace ProgaWeb3TP.Controllers
             {
                 _servicioCliente.Guardar(clienteDTO);
                 vista = RedirectToAction("Lista", "Cliente");
+                CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
             }
             else
             {
@@ -74,6 +75,7 @@ namespace ProgaWeb3TP.Controllers
             {
                 _servicioCliente.Guardar(clienteDTO);
                 vista = RedirectToAction("Crear", "Cliente");
+                CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
             }
             else
             {

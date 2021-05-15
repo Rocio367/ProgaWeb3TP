@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProgaWeb3TP.Controllers
 {
-    public class ArticuloController : Controller
+    public class ArticuloController : BaseController
     {
         // GET: ArticuloController
         public ActionResult Lista()
