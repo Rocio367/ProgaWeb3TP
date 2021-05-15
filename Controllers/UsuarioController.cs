@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProgaWeb3TP.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         // GET: UsuarioController1
   
