@@ -87,12 +87,43 @@
 
                     @foreach (DTOs.ArticuloDTO art in @Model.articulos)
                     {
-                        <tr>
-                            <th class="text-center" scope="row">@art.Descripcion</th>
-                            <td class="text-center">@art.Codigo</td>
-                            <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Editar/@art.Id'" class="btn btn-info">Ver</button></td>
-                            <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button></td>
-                        </tr>
+                    <tr>
+                        <th class="text-center" scope="row">@art.Descripcion</th>
+                        <td class="text-center">@art.Codigo</td>
+                        <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Editar/@art.Id'" class="btn btn-info">Ver</button></td>
+                        <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@art.Id">Eliminar</button> </td>
+                        @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
+
+                                        <!-- Button to Open the Modal -->
+                                        
+
+                                        <!-- The Modal -->
+                                        <div class="modal fade" id="eliminarId-@art.Id">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Eliminar?</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Está seguro que desea eliminar el articulo @art.Codigo @art.Descripcion?
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">ELIMINAR</button>
+                                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                    </tr>
                     }
 
 
