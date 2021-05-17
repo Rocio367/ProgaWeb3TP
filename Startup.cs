@@ -29,7 +29,9 @@ namespace ProgaWeb3TP
             services.AddSingleton<IServicioArticulo, ServicioArticulo>();
             services.AddSingleton<IRepositorioArticulo, RepositorioArticulo>();
             services.AddSingleton<IServicioCliente, ServicioCliente>();
+            services.AddSingleton<IServicioUsuario, ServicioUsuario>();
             services.AddSingleton<IRepositorioCliente, RepositorioClienteEnMemoria>();
+            services.AddSingleton<IRepositorioUsuario, RepositorioUsuarioEnMemoria>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

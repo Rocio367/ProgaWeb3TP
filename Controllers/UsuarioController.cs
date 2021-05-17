@@ -1,16 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DTOs;
+using Servicios;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ProgaWeb3TP.Controllers
 {
     public class UsuarioController : BaseController
     {
+        private IServicioUsuario _servicioUsuario;
+
+        public UsuarioController(IServicioUsuario servicioUsuario)
+        {
+            _servicioUsuario = servicioUsuario;
+        }
+
         // GET: UsuarioController1
-  
+
         public ActionResult Lista()
         {
-            return View();
+            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuarios();
+            return View(usuarios);
         }
 
         public ActionResult Crear()
