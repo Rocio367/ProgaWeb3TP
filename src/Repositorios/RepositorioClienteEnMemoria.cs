@@ -12,6 +12,15 @@ namespace Repositorios
         public RepositorioClienteEnMemoria()
         {
            _clientes = new List<Cliente>();
+            Cliente c1 = new Cliente
+            {
+                Nombre = "Jose",
+                Email = "jose@hotmail.com",
+                Telefono = "44543215",
+                Direccion = "almafuerte 5152",
+                CUIT = "20-94507958-5"
+            };
+            _clientes.Add(c1);
         }
         public void Guardar(Cliente cliente)
         {

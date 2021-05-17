@@ -1,15 +1,13 @@
-﻿
-@{
-}
+﻿@model IEnumerable<DTOs.UsuarioDTO>
 
 <div class="container">
 
     <div class="row justify-content-center align-items-center">
         <div class="col-md-12">
 
-         
-                <button  role="link"  onclick="window.location='/Usuario/Crear'"  class="btn btn-primary float-right mt-2 mb-2"> Nuevo Usuario </button>
-          
+
+            <button role="link" onclick="window.location='/Usuario/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Usuario </button>
+
         </div>
     </div>
     <div class="row justify-content-center align-items-center">
@@ -58,19 +56,25 @@
                 </thead>
                 <tbody>
 
-                    @for (int i = 0; i < 6; i++)
+
+                    @*  @for (int i = 0; i < 6; i++)
+        {
+            <tr>
+                <th class="text-center" scope="row">Nombre @i</th>
+                <td class="text-center">estado  @i</td>
+                <td class="text-center">--</td>
+                <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar'" type="button" class="btn btn-info">Ver</button></td>
+            </tr>
+        }*@
+                    @foreach (DTOs.UsuarioDTO usuario in Model)
                     {
                         <tr>
-                            <th class="text-center" scope="row">Nombre @i</th>
-                            <td class="text-center">estado  @i</td>
-                            <td class="text-center">--</td>
-                            <td class="text-center"><button  role="link"  onclick="window.location='/Usuario/Editar'" type="button" class="btn btn-info">Ver</button></td>
+                            <th class="text-center" scope="row">@usuario.Nombre</th>
+                            <td class="text-center">@usuario.Email</td>
+                            <td class="text-center">---</td>
+                            <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar-@usuario.IdUsuario'" type="button" class="btn btn-info">Ver</button></td>
                         </tr>
                     }
-
-
-
-
                 </tbody>
             </table>
 
