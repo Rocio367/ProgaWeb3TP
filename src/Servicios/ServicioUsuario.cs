@@ -33,5 +33,58 @@ namespace Servicios
                 Password = usuario.Password
             };
         }
+
+        public void Guardar(UsuarioDTO usuarioDTO)
+        {
+            Usuario usuario = new Usuario
+            {
+                Nombre = usuarioDTO.Nombre,
+                Email = usuarioDTO.Email,
+                Apellido = usuarioDTO.Apellido,
+                Password = usuarioDTO.Password,
+                
+            };
+            _repositorioUsuario.Guardar(usuario);
+        }
+
+        public UsuarioDTO ObtenerUsuario(int id)
+        {
+            Usuario usuario = _repositorioUsuario.ObtenerUsuario(id);
+            return ConvertirEnDTO(usuario);
+        }
+
+        public void Editar(int id, UsuarioDTO usuarioDTO)
+        { 
+            List<Usuario> usuarios = _repositorioUsuario.ObtenerUsuarios();
+            foreach (Usuario usuario in usuarios)
+            {
+
+                if (id == usuario.IdUsuario)
+                {
+                    usuario.Nombre = usuarioDTO.Nombre;
+                    usuario.Email = usuarioDTO.Email;
+                    usuario.Apellido = usuarioDTO.Apellido;
+                    usuario.Password = usuarioDTO.Password;
+
+                 }
+             
+            }
+        }
+
+        public void Eliminar(int id)
+        {
+            List<Usuario> usuarios = _repositorioUsuario.ObtenerUsuarios();
+            foreach (Usuario usuario in usuarios)
+            {
+
+                if (id == usuario.IdUsuario)
+                {
+                    usuarios.Remove(usuario);
+                    break;
+
+                }
+
+            }
+        }
     }
 }

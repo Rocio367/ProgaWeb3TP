@@ -68,12 +68,15 @@
         }*@
                     @foreach (DTOs.UsuarioDTO usuario in Model)
                     {
-                        <tr>
-                            <th class="text-center" scope="row">@usuario.Nombre</th>
-                            <td class="text-center">@usuario.Email</td>
-                            <td class="text-center">---</td>
-                            <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar-@usuario.IdUsuario'" type="button" class="btn btn-info">Ver</button></td>
-                        </tr>
+                    <tr>
+                        <th class="text-center" scope="row">@usuario.Nombre</th>
+                        <td class="text-center">@usuario.Email</td>
+                        <td class="text-center">---</td>
+                        @*  <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar-@usuario.IdUsuario'" type="button" class="btn btn-info">Ver</button></td>*@
+                        <td class="text-center">
+                            <a class="btn btn-primary" href="Ver/@usuario.IdUsuario" role="button">Ver</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

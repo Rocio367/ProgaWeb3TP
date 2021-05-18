@@ -28,11 +28,55 @@ namespace ProgaWeb3TP.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Crear(UsuarioDTO usuarioDTO)
+        {
+            IActionResult vista = null;
+            if(ModelState.IsValid)
+            {
+                _servicioUsuario.Guardar(usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+                CrearNotificacionExitosa($"El Usuario {usuarioDTO.Nombre} se ha creado correctamente");
+            }
+            else
+            {
+                vista = View("Crear");
+                CrearNotificacionDeError("no es posible");
+            }
+            return vista;
+        }
 
+        public ActionResult Ver(int id)
+        {
+            UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
+            return View("Editar", usuario);
+        }
         public ActionResult Editar()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(UsuarioDTO usuarioDTO)
+        {
+            IActionResult vista = null;
+            if(ModelState.IsValid)
+            {
+                int id = usuarioDTO.IdUsuario;
+                _servicioUsuario.Editar(id, usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+            }
+            else
+            {
+                vista = View("Editar", usuarioDTO);
+            }
+            return vista;
+        }
+
+
+
 
  
         // POST: UsuarioController1/Create
