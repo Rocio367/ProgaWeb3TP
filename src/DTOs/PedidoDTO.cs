@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Servicios
+namespace DTOs
 {
-    public interface IServicioPedido
+    public class PedidoDTO
     {
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using Repositorios;
 using DTOs;
-using Modelos;
-using Servicios;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ProgaWeb3TP.ContextBD;
 
 namespace Servicios
 {
@@ -43,9 +40,22 @@ namespace Servicios
 
             _repositorioArticulo.Eliminar(id);
         }
-        public List<ArticuloDTO> ObtenerArticulos(string nombre, string number, Boolean? eliminados)
+
+        public List<ArticuloDTO> ObtenerArticulosSinFiltro() {
+            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulosSinFiltro();
+            return articulos.Select(articulo =>
+                new ArticuloDTO
+                {
+                    Id = articulo.IdArticulo,
+                    Codigo = articulo.Codigo,
+                    Descripcion = articulo.Descripcion,
+
+                }
+            ).ToList();
+        }
+        public List<ArticuloDTO> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
         {
-            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulos(nombre,number,eliminados);
+            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulosConFiltro(nombre,number,eliminados);
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {

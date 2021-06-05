@@ -29,7 +29,14 @@ namespace ProgaWeb3TP
             services.AddSingleton<IServicioArticulo, ServicioArticulo>();
             services.AddSingleton<IRepositorioArticulo, RepositorioArticulo>();
             services.AddSingleton<IServicioCliente, ServicioCliente>();
+            services.AddSingleton<IServicioPedido, ServicioPedido>();
             services.AddSingleton<IRepositorioCliente, RepositorioClienteEnMemoria>();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+//                options.Cookie.Name = ".MiAPP.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +58,7 @@ namespace ProgaWeb3TP
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

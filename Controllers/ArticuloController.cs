@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Servicios;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using PagedList;
 using ProgaWeb3TP.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -26,24 +26,40 @@ namespace ProgaWeb3TP.Controllers
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero,eliminados).ToPagedList(page.Value, 10);
+            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 
             ViewBag.page = page;
+         
+           return View(model);
+        }
+
+        public ActionResult Filtrar(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+        {
+            ListaAticulosVM model = new ListaAticulosVM();
+            model.numero = numero;
+            model.nombre = nombre;
+            model.eliminados = eliminados;
+            model.articulos = this._servicioArticulo.ObtenerArticulosConFiltro(nombre, numero, eliminados).ToPagedList(page.Value, 10);
+            model.nombres = this._servicioArticulo.ObtenerDescripciones();
+            model.numeros = this._servicioArticulo.ObtenerCodigos();
+
+            ViewBag.page = page;
+
             return View(model);
         }
-      
+
+
         public ActionResult Crear()
         {
-            TempData["mensaje"] = "";
 
             return View();
         }
         public ActionResult Eliminar(int id)
         {
             this._servicioArticulo.Eliminar(id);
-            TempData["mensaje"] = "El articulo fue eliminado correctamente";
+            CrearNotificacionExitosa("El articulo fue eliminado correctamente");
             return RedirectToAction("Lista", "Articulo");
         }
         [HttpPost]
@@ -51,17 +67,20 @@ namespace ProgaWeb3TP.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Guardar(art);
-                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
+                    CrearNotificacionExitosa("Articulo "+ art.Descripcion + " fue creado con correctamente");
+                    
 
                     return RedirectToAction("Lista", "Articulo" );
 
                 }
                 else
                 {
-                    TempData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo articulo");
+                    
                 }
                 return View(art);
             }
@@ -80,12 +99,12 @@ namespace ProgaWeb3TP.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Guardar(art);
-                    ViewData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
+                    CrearNotificacionExitosa("Articulo " +  art.Descripcion + " fue creado con éxito");
                     art = null;
                 }
                 else
                 {
-                    ViewData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo articulo");
                 }
                 return View("Crear", art);
             }
@@ -121,13 +140,13 @@ namespace ProgaWeb3TP.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Editar(art);
-                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue modificado con éxito";
+                    CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue modificado con éxito");
                     return RedirectToAction("Lista", "Articulo");
 
                 }
                 else
                 {
-                    TempData["mensaje"] = "Complete corectamente el formulario para modificar el articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para editar un nuevo articulo");
                 }
                 return View(art);
             }

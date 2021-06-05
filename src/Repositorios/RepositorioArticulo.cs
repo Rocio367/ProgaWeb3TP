@@ -1,74 +1,90 @@
 ﻿
-using Modelos;
+
+using ProgaWeb3TP.ContextBD;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Repositorios
 {
     class RepositorioArticulo : IRepositorioArticulo
     {
+        _20211CTPContext _context;
+        public RepositorioArticulo() {
+            _context = new _20211CTPContext();
 
+        }
         public void Guardar(Articulo articulo)
         {
-            Datos.Articulos.Add(articulo);
+            _context.Add(articulo);
+            _context.SaveChanges();
         }
 
         public void Editar(Articulo articulo)
         {
 
-            Articulo art = Datos.Articulos.Find(a => a.IdArticulo == articulo.IdArticulo);
+            Articulo art = _context.Articulos.Find(articulo.IdArticulo);
             art.Codigo = articulo.Codigo;
             art.Descripcion = articulo.Descripcion;
+            art.FechaModificacion = DateTime.Now;
+            _context.SaveChanges();
 
         }
 
         public void Eliminar(int id)
         {
-            Articulo art = Datos.Articulos.Find(a => a.IdArticulo == id);
+            Articulo art = _context.Articulos.Find(id);
             art.FechaBorrado = DateTime.Now;
+            _context.SaveChanges();
+
+        }
+        public List<Articulo> ObtenerArticulosSinFiltro()
+        {
+            return _context.Articulos.ToList();
         }
 
-        public List<Articulo> ObtenerArticulos(string nombre, string number, Boolean? eliminados)
+        public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
         {
-
-            if (nombre!=null || number!=null )
+            _20211CTPContext context = new _20211CTPContext();
+           
+           //falta filtro con EntityFramework
+          /*  if (nombre!=null || number!=null )
             {
                 if (eliminados == true)
                 {
-                    return Datos.Articulos.Where(a => (a.Descripcion == nombre || a.Codigo == number) && a.FechaBorrado.Equals(new DateTime())).ToList();
+                    return _context.Articulos.Where(a => (a.Descripcion == nombre || a.Codigo == number) && a.FechaBorrado == DateTime.MinValue).ToList();
 
                 }
                 else {
-                    return Datos.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+                    return _context.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
 
                 }
             }
             else {
                 if (eliminados == true)
                 {
-                    return Datos.Articulos.Where(a => a.FechaBorrado.Equals(new DateTime())).ToList();
+                    return _context.Articulos.Where(a => a.FechaBorrado == DateTime.MinValue).ToList();
 
                 }
                 else
-                {
-                    return Datos.Articulos;
+                {*/
+                    return _context.Articulos.ToList() ;
 
-                }
-            }
+                //}
+          //  }
         }
         public List<string> ObtenerDescripciones() {
             List<string> descripciones = new List<string>();
-            Datos.Articulos.ForEach(d => {
+            _context.Articulos.ToList().ForEach(d => {
                 descripciones.Add(d.Descripcion);
             });
             return descripciones.Distinct().ToList();
         }
         public List<string> ObtenerCodigos() {
             List<string> codigos = new List<string>();
-            Datos.Articulos.ForEach(d => {
+            _context.Articulos.ToList().ForEach(d => {
                 codigos.Add(d.Codigo);
             });
             return codigos.Distinct().ToList();
@@ -76,7 +92,7 @@ namespace Repositorios
         public Articulo ObtenerArticulo(int id)
         {
 
-            return Datos.Articulos.Find(a => a.IdArticulo == id);
+            return _context.Articulos.Find(id);
         }
 
 
