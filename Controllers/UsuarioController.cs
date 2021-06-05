@@ -1,27 +1,82 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DTOs;
+using Servicios;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ProgaWeb3TP.Controllers
 {
     public class UsuarioController : BaseController
     {
+        private IServicioUsuario _servicioUsuario;
+
+        public UsuarioController(IServicioUsuario servicioUsuario)
+        {
+            _servicioUsuario = servicioUsuario;
+        }
+
         // GET: UsuarioController1
-  
+
         public ActionResult Lista()
         {
-            return View();
+            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuarios();
+            return View(usuarios);
         }
 
         public ActionResult Crear()
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Crear(UsuarioDTO usuarioDTO)
+        {
+            IActionResult vista = null;
+            if(ModelState.IsValid)
+            {
+                _servicioUsuario.Guardar(usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+                CrearNotificacionExitosa($"El Usuario {usuarioDTO.Nombre} se ha creado correctamente");
+            }
+            else
+            {
+                vista = View("Crear");
+                CrearNotificacionDeError("no es posible");
+            }
+            return vista;
+        }
 
+        public ActionResult Ver(int id)
+        {
+            UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
+            return View("Editar", usuario);
+        }
         public ActionResult Editar()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(UsuarioDTO usuarioDTO)
+        {
+            IActionResult vista = null;
+            if(ModelState.IsValid)
+            {
+                int id = usuarioDTO.IdUsuario;
+                _servicioUsuario.Editar(id, usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+            }
+            else
+            {
+                vista = View("Editar", usuarioDTO);
+            }
+            return vista;
+        }
+
+
+
 
  
         // POST: UsuarioController1/Create
