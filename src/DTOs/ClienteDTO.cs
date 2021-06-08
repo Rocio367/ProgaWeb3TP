@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace DTOs
 {
-    public class ClienteDTO
+	public class ClienteDTO
     {
 		public int? Numero { set; get; }
 		[Required(ErrorMessage = "El campo Nombre es requerido")]
