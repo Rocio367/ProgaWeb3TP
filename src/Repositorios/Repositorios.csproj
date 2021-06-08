@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ProgaWeb3TP.csproj" />
     <ProjectReference Include="..\Modelos\Modelos.csproj" />
   </ItemGroup>
 

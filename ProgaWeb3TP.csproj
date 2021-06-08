@@ -60,6 +60,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="src\DTOs\DTOs.csproj" />
     <ProjectReference Include="src\Modelos\Modelos.csproj" />
   </ItemGroup>
 </Project>

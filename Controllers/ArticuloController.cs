@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using PagedList;
 using ProgaWeb3TP.Models;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 namespace ProgaWeb3TP.Controllers
 {
