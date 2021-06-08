@@ -8,6 +8,7 @@ using ProgaWeb3TP.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
+
 namespace ProgaWeb3TP.Controllers
 {
     public class ArticuloController : BaseController

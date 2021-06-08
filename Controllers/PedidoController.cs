@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProgaWeb3TP.Models;
 using Servicios;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PagedList;
+
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -16,7 +15,37 @@ namespace ProgaWeb3TP.Controllers
 
         public PedidoController(IServicioPedido servicioPedido)
         {
+
             _servicioPedido = servicioPedido;
+            return View();
+
+            _servicioPedido = servicioPedido;
+        }
+
+        public ActionResult Lista()
+        {
+            ListaPedidosVM model = new ListaPedidosVM();
+            model.pedidos = this._servicioPedido.ObtenerPedidosSinFiltro().ToPagedList(1, 10);
+            model.estados = this._servicioPedido.ObtenerEstados();
+            model.clientes = this._servicioPedido.ObtenerClientes();
+          
+            ViewBag.page = 1;
+
+            return View(model);
+        }
+        public ActionResult Filtrar(int id_cliente, int estado, Boolean eliminados = true, int? page = 1)
+        {
+            ListaPedidosVM model = new ListaPedidosVM();
+            model.id_cliente = id_cliente;
+            model.id_estado = estado;
+            model.eliminados = eliminados;
+            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, estado, eliminados).ToPagedList(page.Value, 10);
+            model.estados = this._servicioPedido.ObtenerEstados();
+            model.clientes = this._servicioPedido.ObtenerClientes();
+
+            ViewBag.page = page;
+
+            return View(model);
         }
 
         public ActionResult Lista(int id_cliente, string estado, Boolean eliminados = true, int? page = 1)
