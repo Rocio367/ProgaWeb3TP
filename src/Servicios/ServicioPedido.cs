@@ -34,18 +34,25 @@ namespace Servicios
             _repositorioPedido.Eliminar(id);
         }
 
-        public void Guardar(PedidoDTO pedido)
+        public int Guardar(PedidoDTO pedido)
         {
-            //fijarse qe datos se guardan
-            Pedido ped = new Pedido
-            {
-                IdPedido = pedido.IdPedido,
-                IdCliente = pedido.idCliente,
-                IdEstado = pedido.IdEstado,
-             //   FechaCreacion = ped.FechaCreacion,
+        
 
+         Pedido ped = new Pedido
+            {
+                IdCliente = pedido.idCliente,
+                Comentarios=pedido.Comentarios,
             };
-            _repositorioPedido.Guardar(ped);
+
+            pedido.PedidoArticulos.ForEach(d =>
+            {
+                ped.PedidoArticulos.Add(new PedidoArticulo {
+                    IdArticulo = d.articulo.Id,
+                    Cantidad=d.cantidad
+                }) ;
+            });
+            
+           return  _repositorioPedido.Guardar(ped);
         }
 
         public List<ClienteDTO> ObtenerClientes()

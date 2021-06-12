@@ -15,7 +15,7 @@
                     <div class="form-group col-md-6">
                         <label>Codigo:</label>
                         <input type="number" asp-for="Codigo" value="@Model.Codigo" class="form-control" placeholder="1688">
-                        <span class="text-danger"  asp-validation-for="Codigo"></span>
+                        <span class="text-danger" asp-validation-for="Codigo"></span>
 
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
@@ -42,3 +42,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_ValidationScriptsPartial" />

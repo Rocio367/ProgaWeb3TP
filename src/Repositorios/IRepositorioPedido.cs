@@ -8,7 +8,7 @@ namespace ProgaWeb3TP.src.Repositorios
 {
     public interface IRepositorioPedido
     {
-        void Guardar(Pedido pedido);
+        int Guardar(Pedido pedido);
         void Editar(Pedido pedido);
         void Eliminar(int id);
         Pedido ObtenerPedido(int id);
