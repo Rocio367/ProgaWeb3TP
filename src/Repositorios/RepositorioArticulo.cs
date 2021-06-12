@@ -46,8 +46,6 @@ namespace Repositorios
 
         public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
         {
-            _20211CTPContext context = new _20211CTPContext();
-
           
                 if (eliminados == true)
                 {
