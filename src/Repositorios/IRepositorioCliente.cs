@@ -1,4 +1,4 @@
-﻿using Modelos;
+﻿using ProgaWeb3TP.src.Entidades;
 using System.Collections.Generic;
 
 namespace Repositorios
