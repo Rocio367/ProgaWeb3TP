@@ -1,5 +1,5 @@
 ﻿using DTOs;
-using Modelos;
+using ProgaWeb3TP.src.Entidades;
 using Repositorios;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Servicios
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
-                CUIT = clienteDTO.Cuit
+                Cuit = clienteDTO.Cuit
             };
             _repositorioCliente.Guardar(cliente);
         }
@@ -47,7 +47,7 @@ namespace Servicios
                 Email = cliente.Email,
                 Telefono = cliente.Telefono,
                 Direccion = cliente.Direccion,
-                Cuit = cliente.CUIT
+                Cuit = cliente.Cuit
             };
         }
 
@@ -63,7 +63,7 @@ namespace Servicios
                     cliente.Email = clienteDTO.Email;
                     cliente.Telefono = clienteDTO.Telefono;
                     cliente.Direccion = clienteDTO.Direccion;
-                    cliente.CUIT = clienteDTO.Cuit;
+                    cliente.Cuit = clienteDTO.Cuit;
                 }
             }
         }
