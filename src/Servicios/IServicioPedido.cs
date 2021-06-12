@@ -1,15 +1,12 @@
-﻿
-using DTOs;
+﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Servicios
 {
     interface IServicioPedido
     {
-        List<EstadoPedidoDTO> ObtenerEstados();
-        List<ClienteDTO> ObtenerClientes();
-        List<PedidoDTO> ObtenerPedidosSinFiltro();
-        List<PedidoDTO> ObtenerPedidosConFiltro(int id_cliente, int estado, bool eliminados);
     }
 }
