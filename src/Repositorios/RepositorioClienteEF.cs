@@ -15,6 +15,8 @@ namespace Repositorios
 
         public void Guardar(Cliente cliente)
         {
+            int ultimoNumeroCliente = _contexto.Clientes.Max(c => c.Numero);
+            cliente.Numero = ultimoNumeroCliente + 1;
             _contexto.Clientes.Add(cliente);
             _contexto.SaveChanges();
         }
