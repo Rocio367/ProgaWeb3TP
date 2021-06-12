@@ -29,10 +29,14 @@ namespace ProgaWeb3TP.src.Repositorios
             _context.SaveChanges();
         }
 
-        public void Guardar(Pedido pedido)
+        public int Guardar(Pedido pedido)
         {
+            pedido.IdEstado = 1;
+            pedido.FechaCreacion = DateTime.Now;
+            pedido.NroPedido = (_context.Pedidos.Max(d => d.NroPedido))+1;
             _context.Add(pedido);
             _context.SaveChanges();
+            return pedido.NroPedido;
         }
 
         public List<Cliente> ObtenerClientes()

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProgaWeb3TP.src.Entidades;
+using ProgaWeb3TP.src.Repositorios;
 using Repositorios;
 using Servicios;
 using System;
@@ -27,6 +28,13 @@ namespace ProgaWeb3TP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".MiAPP.Session";
+                
+            });
+
             services.AddControllersWithViews();
             services.AddSingleton<IServicioArticulo, ServicioArticulo>();
             services.AddSingleton<IRepositorioArticulo, RepositorioArticulo>();
@@ -34,7 +42,8 @@ namespace ProgaWeb3TP
             services.AddSingleton<IServicioUsuario, ServicioUsuario>();
             services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();
             services.AddSingleton<IRepositorioUsuario, RepositorioUsuarioEnMemoria>();
-
+            services.AddSingleton<IServicioPedido, ServicioPedido>();
+            services.AddSingleton<IRepositorioPedido, RepositorioPedido>();
             services.AddDbContext<_20211CTPContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
         }
@@ -58,6 +67,8 @@ namespace ProgaWeb3TP
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

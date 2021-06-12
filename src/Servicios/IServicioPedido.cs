@@ -10,7 +10,7 @@ namespace Servicios
 {
     public interface IServicioPedido
     {
-        void Guardar(PedidoDTO pedido);
+        int Guardar(PedidoDTO pedido);
         void Editar(PedidoDTO pedido);
         void Eliminar(int id);
         PedidoDTO ObtenerPedido(int id);
