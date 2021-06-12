@@ -1,4 +1,4 @@
-﻿using Modelos;
+﻿using ProgaWeb3TP.src.Entidades;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +18,7 @@ namespace Repositorios
                 Email = "jose@hotmail.com",
                 Telefono = "44543215",
                 Direccion = "almafuerte 5152",
-                CUIT = "20-94507958-5"
+                Cuit = "20-94507958-5"
             };
             _clientes.Add(c1);
         }
