@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PagedList;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -16,17 +17,21 @@ namespace ProgaWeb3TP.Controllers
             _servicioCliente = servicioCliente;
         }
 
-        public ActionResult Lista()
+        public ActionResult Lista(int? numeroPagina)
         {
             List<ClienteDTO> clientes = _servicioCliente.ObtenerClientes();
-            return View(clientes);
+            int paginaPedida = numeroPagina ?? 1;
+            var pagina = clientes.ToPagedList(paginaPedida, 3);
+            
+            ViewBag.Pagina = pagina;
+            ViewBag.NumeroPaginaActual = paginaPedida;
+            return View();
         }
 
         public ActionResult Crear()
         {
             return View();
         }
-   
 
         public ActionResult Editar()
         {
