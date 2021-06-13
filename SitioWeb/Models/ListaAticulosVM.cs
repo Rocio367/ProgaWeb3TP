@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace SitioWeb.Models
+{
+    public class ListaAticulosVM
+    {
+        public string nombre { get; set; }
+        public string numero { get; set; }
+        public Boolean eliminados { get; set; }
+
+        public PagedList.IPagedList<DTOs.ArticuloDTO> articulos { get; set; }
+        public List<string> nombres { get; set; }
+        public List<string> numeros { get; set; }
+       
+    }
+}

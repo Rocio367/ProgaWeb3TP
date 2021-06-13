@@ -1,0 +1,182 @@
+﻿
+
+
+@using PagedList.Mvc;
+
+@model SitioWeb.Models.ListaAticulosVM
+@{
+    var page = (int)@ViewBag.page;
+    var pageNext = page + 1;
+    var pageLast = page - 1;
+    var tope = @Model.articulos.PageCount+1;
+}
+
+<div class="container">
+
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-12">
+
+
+            <button role="link" onclick="window.location='/Articulo/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Articulo </button>
+
+        </div>
+    </div>
+    <form action="/Articulo/Lista" method="get">
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Nombre Articulo:</label>
+                    <select class="custom-select" type="text" asp-for="nombre">
+                        <option value="">Sin filtro</option>
+
+                        @foreach (string nombre in @Model.nombres)
+                        {
+                            <option value="@nombre"> @nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Numero:</label>
+                    <select class="custom-select" asp-for="numero">
+                        <option value="">Sin filtro</option>
+
+                        @foreach (string numero in @Model.numeros)
+                        {
+                            <option value="@numero"> @numero</option>
+
+                        }
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-check mt-3">
+                    <input type="checkbox" class="form-check-input" asp-for="eliminados">
+                    <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
+                </div>
+            </div>
+            <div class="col-md-1">
+
+                <div class="form-check mt-3">
+                    <input type="submit" value="Filtrar" formaction="Lista" class="btn btn-primary" />
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </form>
+    @TempData["mensaje"]
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-12">
+            <table class="table  table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center" scope="col">Descripcion</th>
+                        <th class="text-center" scope="col">Codigo</th>
+                        <th class="text-center" scope="col">Ver </th>
+                        <th class="text-center" scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (DTOs.ArticuloDTO art in @Model.articulos)
+                    {
+                    <tr>
+                        <th class="text-center" scope="row">@art.Descripcion</th>
+                        <td class="text-center">@art.Codigo</td>
+                        <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Editar/@art.Id'" class="btn btn-info">Ver</button></td>
+                        <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@art.Id">Eliminar</button> </td>
+                        @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
+
+                                        <!-- Button to Open the Modal -->
+                                        
+
+                                        <!-- The Modal -->
+                                        <div class="modal fade" id="eliminarId-@art.Id">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Eliminar?</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Está seguro que desea eliminar el articulo @art.Codigo @art.Descripcion?
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">ELIMINAR</button>
+                                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                    </tr>
+                    }
+
+
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-12 text-center">
+            <nav aria-label="Page navigation example  ">
+
+
+                <ul class="pagination  justify-content-center">
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageLast==0)?1 : @pageLast })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+
+                    @for (int index = 1; index <= @Model.articulos.PageCount; index++)
+                    {
+                        <li class="page-item" role="link" onclick="window.location='/Articulo/Lista?page=@index'"><a class="page-link" href="#">@index</a></li>
+
+                    }
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageNext== @tope)? @Model.articulos.PageCount : @pageNext   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <span class="model-text">¿Esta seguro que desea eliminar el artículo{nombre artículo}?</span>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
