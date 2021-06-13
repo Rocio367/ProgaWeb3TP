@@ -1,0 +1,109 @@
+﻿
+@{
+}
+<div class="container">
+    <div id="crear-row" class="row justify-content-center align-items-center">
+        <div id="crear-column" class="col-md-10">
+
+
+            <h4 class="card-title mb-4 mt-1 ">Editar Pedido</h4>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlSelect1">Cliente:</label>
+                        Alberto
+
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlSelect1">Ultima Modificacion:</label> hace 2 minutos(Damian) 
+
+                    </div> <!-- form-group// -->
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="exampleFormControlSelect1">Descripcion o codigo:</label>
+                        <select class="custom-select" id="exampleFormControlSelect1">
+                            <option>??</option>
+                        </select>
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-4">
+                        <label>Cantidad:</label>
+                        <input type="number" class="form-control" placeholder="2">
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-4 ">
+
+                        <button class="btn btn-primary " id="add-btn"> Agregar</button>
+
+                    </div> <!-- form-group// -->
+                </div>
+                <div class="form-row">
+                    <table class="table  table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th  class="text-center" scope="col">Descripcion</th>
+                                <th class="text-center"  scope="col">Codigo</th>
+                                <th  class="text-center" scope="col">Cantidad</th>
+                                <th  class="text-center" scope="col">Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                <tr>
+                                    <th  class="text-center">Decripcion @i</th>
+                                    <td  class="text-center">  @i</td>
+                                    <td  class="text-center">  @i</td>
+                                    <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar'" type="button" class="btn btn-info">Quitar</button></td>
+                                </tr>
+                            }
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Comentario:</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+
+
+
+
+                <div class="form-group ">
+                    <button class="btn btn-primary">Guardar  </button>
+                    <button class="btn btn-secondary ">Cancelar  </button>
+                    <button class="btn btn-secondary ">Cerrar</button>
+                    <button class="btn btn-info ">Entregado</button>
+                    <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+
+                </div> <!-- form-group// -->
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <span class="modal-text">¿Esta seguro que desea eliminar el pedido{nombre pedido}?</span>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>
