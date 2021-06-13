@@ -70,6 +70,7 @@ namespace ProgaWeb3TP.src.Repositorios
 
             List<Pedido>  todos=_context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.IdEstadoNavigation).ToList();
             List <Pedido> resultadosFiltro= new List<Pedido>();
+            resultadosFiltro = todos;
             if (id_estado != 0 || id_cliente != 0) {
                 resultadosFiltro = todos.Where(e => e.IdEstado == id_estado || e.IdCliente == id_cliente).ToList(); ;
             }

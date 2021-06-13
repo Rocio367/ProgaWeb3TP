@@ -46,23 +46,28 @@ namespace Repositorios
 
         public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
         {
-          
-                if (eliminados == true)
-                {
-                    return _context.Articulos.Where(a =>( a.Descripcion == nombre || a.Codigo == number) && a.FechaBorrado == null).ToList();
+            List<Articulo> todos = _context.Articulos.ToList();
+            List<Articulo> resultadosFiltro = new List<Articulo>();
+            resultadosFiltro = todos;
 
+            if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(number))
+            {
+                resultadosFiltro = todos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+            }
+            if (eliminados)
+            {
+                if (resultadosFiltro.Count() == 0)
+                {
+                    resultadosFiltro = todos.Where(e => e.FechaBorrado == null).ToList();
                 }
                 else
                 {
-                if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(number))
-                {
-                    return _context.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+                    resultadosFiltro = resultadosFiltro.Where(e => e.FechaBorrado == null).ToList();
                 }
-                else {
-                    return _context.Articulos.ToList();
 
-                }
             }
+
+            return resultadosFiltro;
             
            
             
