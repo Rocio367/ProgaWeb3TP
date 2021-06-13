@@ -1,5 +1,5 @@
 ﻿using DTOs;
-using Modelos;
+using ProgaWeb3TP.src.Entidades;
 using Repositorios;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace Servicios
                 EsAdmin = usuario.EsAdmin,
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
-                FechaNacimiento = usuario.FechaNacimiento,
+                //FechaNacimiento = usuario.FechaNacimiento,
                 Email = usuario.Email,
                 Password = usuario.Password
             };

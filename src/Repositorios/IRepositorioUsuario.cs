@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using ProgaWeb3TP.src.Entidades;
 using System.Threading.Tasks;
-using Modelos;
+
 
 namespace Repositorios
 {

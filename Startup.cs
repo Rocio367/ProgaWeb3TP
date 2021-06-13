@@ -35,9 +35,9 @@ namespace ProgaWeb3TP
             services.AddSingleton<IServicioArticulo, ServicioArticulo>();
             services.AddSingleton<IRepositorioArticulo, RepositorioArticulo>();
             services.AddScoped<IServicioCliente, ServicioCliente>();
-            services.AddSingleton<IServicioUsuario, ServicioUsuario>();
+            services.AddScoped<IServicioUsuario, ServicioUsuario>();
             services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();
-            services.AddSingleton<IRepositorioUsuario, RepositorioUsuarioEnMemoria>();
+            services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
             services.AddSingleton<IServicioPedido, ServicioPedido>();
             services.AddSingleton<IRepositorioPedido, RepositorioPedido>();
             services.AddDbContext<_20211CTPContext>(options =>
