@@ -9,12 +9,12 @@ namespace ProgaWeb3TP.src.Repositorios
     public interface IRepositorioPedido
     {
         int Guardar(Pedido pedido);
-        void Editar(Pedido pedido);
+        int Editar(Pedido pedido);
         void Eliminar(int id);
         Pedido ObtenerPedido(int id);
 
         List<Pedido> ObtenerPedidosSinFiltro();
-        List<Pedido> ObtenerPedidosConFiltro(int id_cliente, int id_estado, Boolean eliminados);
+        List<Pedido> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados,Boolean ult_meses);
         List<Cliente> ObtenerClientes();
         List<EstadoPedido> ObtenerEstados();
     }

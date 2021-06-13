@@ -1,4 +1,5 @@
-﻿using ProgaWeb3TP.src.Entidades;
+﻿using Microsoft.EntityFrameworkCore;
+using ProgaWeb3TP.src.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,13 @@ namespace ProgaWeb3TP.src.Repositorios
             _context = new _20211CTPContext();
 
         }
-        public void Editar(Pedido pedido)
+        public int Editar(Pedido pedido)
         {
             Pedido ped = _context.Pedidos.Find(pedido.IdPedido);
-            // falta ver las propiedades a editar
+            ped = pedido;
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
+            return ped.NroPedido;
         }
 
         public void Eliminar(int id)
@@ -56,29 +58,49 @@ namespace ProgaWeb3TP.src.Repositorios
 
         public List<Pedido> ObtenerPedidosSinFiltro()
         {
-            return _context.Pedidos.Where(a => a.FechaBorrado == null).ToList();
+            DateTime now = DateTime.Now;
+            //falta filtro de ult mdificacion
+            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.IdEstadoNavigation).Where(a => a.FechaBorrado == null && now.Month - a.FechaCreacion.Month <= 2).ToList();
 
         }
 
-        public List<Pedido> ObtenerPedidosConFiltro(int id_cliente, int id_estado, bool eliminados)
+        public List<Pedido> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados=true, Boolean ult_meses = true)
         {
-            if (eliminados == true)
+             DateTime now  = DateTime.Now;
+
+            List<Pedido>  todos=_context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.IdEstadoNavigation).ToList();
+            List <Pedido> resultadosFiltro= new List<Pedido>();
+            if (id_estado != 0 || id_cliente != 0) {
+                resultadosFiltro = todos.Where(e => e.IdEstado == id_estado || e.IdCliente == id_cliente).ToList(); ;
+            }
+           
+            if (eliminados)
             {
-                return _context.Pedidos.Where(a => (a.IdCliente == id_cliente || a.IdEstado == id_estado) && a.FechaBorrado == null).ToList();
+                if (resultadosFiltro.Count() == 0)
+                {
+                    resultadosFiltro = todos.Where(e => e.FechaBorrado == null).ToList();
+                }
+                else {
+                    resultadosFiltro = resultadosFiltro.Where(e => e.FechaBorrado == null).ToList();
+                }
 
             }
-            else
+
+            if (ult_meses)
             {
-                if (id_estado == 0 || id_cliente == 0)
+                if (resultadosFiltro.Count() == 0)
                 {
-                    return _context.Pedidos.Where(a => a.IdCliente == id_cliente || a.IdEstado == id_estado).ToList();
+
+                   resultadosFiltro = todos.Where(e =>now.Month - e.FechaCreacion.Month <= 1).ToList();
                 }
                 else
                 {
-                    return _context.Pedidos.ToList();
-
+                    resultadosFiltro = resultadosFiltro.Where(e => now.Month - e.FechaCreacion.Month <= 1).ToList();
                 }
+
             }
+
+            return resultadosFiltro;
         }
     }
 }

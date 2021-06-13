@@ -16,17 +16,27 @@ namespace Servicios
         {
             _repositorioPedido = repositorioPedido;
         }
-        public void Editar(PedidoDTO pedido)
+        public int Editar(PedidoDTO pedido)
         {
-            //fijarse que datos se modifican 
             Pedido ped = new Pedido
             {
-               /* IdArticulo = ArticuloDTO.Id,
-                Codigo = ArticuloDTO.Codigo,
-                Descripcion = ArticuloDTO.Descripcion,*/
-
+                IdCliente = pedido.idCliente,
+                Comentarios = pedido.Comentarios,
+                IdPedido = pedido.IdPedido,
+                IdEstado=pedido.IdEstado,
+                NroPedido=pedido.NroPedido
             };
-            _repositorioPedido.Editar(ped);
+
+            pedido.PedidoArticulos.ForEach(d =>
+            {
+                ped.PedidoArticulos.Add(new PedidoArticulo
+                {
+                    IdArticulo = d.articulo.Id,
+                    Cantidad = d.cantidad
+                });
+            });
+
+            return _repositorioPedido.Editar(ped);
         }
 
         public void Eliminar(int id)
@@ -69,9 +79,18 @@ namespace Servicios
             ).ToList();
         }
 
-        public List<EstadoPedido> ObtenerEstados()
+        public List<EstadoPedidoDTO> ObtenerEstados()
         {
-            return _repositorioPedido.ObtenerEstados();
+            List<EstadoPedido> estados = _repositorioPedido.ObtenerEstados();
+            return estados.Select(est =>
+                new EstadoPedidoDTO
+                {
+                    IdEstadoPedido = est.IdEstadoPedido,
+                    Descripcion = est.Descripcion,
+
+
+                }
+            ).ToList();
         }
 
         public PedidoDTO ObtenerPedido(int id)
@@ -89,9 +108,9 @@ namespace Servicios
             return pedidoDTO;
         }
 
-        public List<PedidoDTO> ObtenerPedidosConFiltro(int id_cliente, int id_estado, bool eliminados)
+        public List<PedidoDTO> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, bool eliminados, Boolean ult_meses)
         {
-            List<Pedido> pedidos = _repositorioPedido.ObtenerPedidosConFiltro(id_cliente,id_estado,eliminados);
+            List<Pedido> pedidos = _repositorioPedido.ObtenerPedidosConFiltro(id_cliente,id_estado,eliminados,ult_meses);
             return pedidos.Select(ped =>
                 new PedidoDTO
                 { 
@@ -99,9 +118,19 @@ namespace Servicios
                     idCliente=ped.IdCliente,
                     IdEstado = ped.IdEstado,
                     FechaCreacion = ped.FechaCreacion,
-                    FechaModificacion = ped.FechaModificacion,
-
-    }
+                    FechaModificacion = (ped.FechaModificacion == null) ? ped.FechaCreacion : ped.FechaModificacion,
+                    NroPedido = ped.NroPedido,
+                    IdClienteNavigation = new ClienteDTO
+                    {
+                        IdCliente = ped.IdClienteNavigation.IdCliente,
+                        Nombre = ped.IdClienteNavigation.Nombre
+                    },
+                    IdEstadoNavigation = new EstadoPedidoDTO
+                    {
+                        IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
+                        Descripcion = ped.IdEstadoNavigation.Descripcion
+                    },
+                }
             ).ToList();
         }
 
@@ -115,8 +144,17 @@ namespace Servicios
                     idCliente = ped.IdCliente,
                     IdEstado = ped.IdEstado,
                     FechaCreacion = ped.FechaCreacion,
-                    FechaModificacion = ped.FechaModificacion,
-
+                    IdClienteNavigation=new ClienteDTO {
+                        IdCliente=ped.IdClienteNavigation.IdCliente,
+                        Nombre=ped.IdClienteNavigation.Nombre
+                    },
+                    IdEstadoNavigation = new EstadoPedidoDTO
+                    {
+                        IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
+                        Descripcion = ped.IdEstadoNavigation.Descripcion
+                    },
+                    FechaModificacion = (ped.FechaModificacion == null) ? ped.FechaCreacion : ped.FechaModificacion,
+                    NroPedido = ped.NroPedido,
                 }
             ).ToList();
         }

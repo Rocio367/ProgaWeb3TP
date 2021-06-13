@@ -1,4 +1,4 @@
-﻿
+﻿@model CrearPedidoVM
 @{
 }
 <div class="container">
@@ -15,7 +15,7 @@
 
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
-                        <label for="exampleFormControlSelect1">Ultima Modificacion:</label> hace 2 minutos(Damian) 
+                        <label for="exampleFormControlSelect1">Ultima Modificacion:</label> hace 2 minutos(Damian)
 
                     </div> <!-- form-group// -->
                 </div>
@@ -40,10 +40,10 @@
                     <table class="table  table-bordered">
                         <thead class="thead-light">
                             <tr>
-                                <th  class="text-center" scope="col">Descripcion</th>
-                                <th class="text-center"  scope="col">Codigo</th>
-                                <th  class="text-center" scope="col">Cantidad</th>
-                                <th  class="text-center" scope="col">Quitar</th>
+                                <th class="text-center" scope="col">Descripcion</th>
+                                <th class="text-center" scope="col">Codigo</th>
+                                <th class="text-center" scope="col">Cantidad</th>
+                                <th class="text-center" scope="col">Quitar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,9 +51,9 @@
                             @for (int i = 0; i < 2; i++)
                             {
                                 <tr>
-                                    <th  class="text-center">Decripcion @i</th>
-                                    <td  class="text-center">  @i</td>
-                                    <td  class="text-center">  @i</td>
+                                    <th class="text-center">Decripcion @i</th>
+                                    <td class="text-center">  @i</td>
+                                    <td class="text-center">  @i</td>
                                     <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar'" type="button" class="btn btn-info">Quitar</button></td>
                                 </tr>
                             }

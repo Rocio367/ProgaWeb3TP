@@ -19,23 +19,10 @@ namespace ProgaWeb3TP.Controllers
             _servicioArticulo = servicioArticulo;
         }
 
-        // GET: ArticuloController
-        public ActionResult Lista(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
-        {
-            ListaAticulosVM model = new ListaAticulosVM();
-            model.numero = numero;
-            model.nombre = nombre;
-            model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
-            model.nombres = this._servicioArticulo.ObtenerDescripciones();
-            model.numeros = this._servicioArticulo.ObtenerCodigos();
 
-            ViewBag.page = page;
 
-            return View(model);
-        }
-
-        public ActionResult Filtrar(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+    
+        public ActionResult Lista(string nombre, string numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
             model.numero = numero;
