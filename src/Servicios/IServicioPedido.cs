@@ -18,6 +18,8 @@ namespace Servicios
         List<PedidoDTO> ObtenerPedidosSinFiltro();
         List<PedidoDTO> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados, Boolean ult_meses);
         List<ClienteDTO> ObtenerClientes();
+        List<ClienteDTO> ObtenerClientesFiltro();
+
         List<EstadoPedidoDTO> ObtenerEstados();
     }
 }

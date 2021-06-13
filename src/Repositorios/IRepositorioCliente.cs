@@ -6,7 +6,7 @@ namespace Repositorios
     public interface IRepositorioCliente
     {
         void Guardar(Cliente cliente);
-        List<Cliente> ObtenerClientes();
+        List<Cliente> ObtenerClientes(); 
         Cliente ObtenerCliente(int id);
     }
 }

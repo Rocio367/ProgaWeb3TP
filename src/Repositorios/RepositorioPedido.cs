@@ -51,9 +51,25 @@ namespace ProgaWeb3TP.src.Repositorios
             return pedido.NroPedido;
         }
 
+        public List<Cliente> ObtenerClientesFiltro()
+        {
+       
+            return _context.Clientes.ToList();
+        }
+
         public List<Cliente> ObtenerClientes()
         {
-            return _context.Clientes.ToList();
+            List<Cliente> resultados = new List<Cliente>();
+            List<Cliente> resultadosBD = _context.Clientes.Include(e => e.Pedidos).Where(e => e.FechaBorrado == null).ToList();
+            resultadosBD.ForEach(e =>
+            {
+                if (e.Pedidos.Where(d => d.IdEstado == 1).ToList().Count() <= 1)
+                {
+                    resultados.Add(e);
+                }
+            });
+
+            return resultados;
         }
 
         List<EstadoPedido> IRepositorioPedido.ObtenerEstados()

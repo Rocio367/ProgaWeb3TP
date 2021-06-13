@@ -42,7 +42,7 @@ namespace ProgaWeb3TP.Controllers
 
             }
             model.estados = this._servicioPedido.ObtenerEstados();
-            model.clientes = this._servicioPedido.ObtenerClientes();
+            model.clientes = this._servicioPedido.ObtenerClientesFiltro();
 
             ViewBag.page = page;
 
@@ -71,7 +71,7 @@ namespace ProgaWeb3TP.Controllers
         }
 
         [HttpPost]
-        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad ) {
+        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad, string view ) {
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
@@ -84,7 +84,7 @@ namespace ProgaWeb3TP.Controllers
 
             if (cantidad > 0 )
             {
-           
+               
                 ArticuloDTO art = _servicioArticulo.ObtenerArticulo(articuloId);
                 PedidoArticuloDTO pedidoArt = new PedidoArticuloDTO();
                 pedidoArt.articulo = art;
@@ -92,11 +92,22 @@ namespace ProgaWeb3TP.Controllers
                 if (PedidoArticulos.Count() == 0)
                 {
                     pedidoArt.Id = 1;
+                    PedidoArticulos.Add(pedidoArt);
+
                 }
                 else {
-                    pedidoArt.Id = PedidoArticulos.Max(d => d.Id) + 1;
+                    PedidoArticuloDTO artExistente = PedidoArticulos.Where(d => d.articulo.Id == articuloId).FirstOrDefault() ;
+                    if (artExistente == null)
+                    {
+                        pedidoArt.Id = PedidoArticulos.Max(d => d.Id) + 1;
+                        PedidoArticulos.Add(pedidoArt);
+
+                    }
+                    else {
+                        artExistente.cantidad = artExistente.cantidad + cantidad;
+                    }
+
                 }
-                PedidoArticulos.Add(pedidoArt);
                 SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
               
                 } else {
@@ -107,8 +118,13 @@ namespace ProgaWeb3TP.Controllers
 
           
             model.pedido.PedidoArticulos = PedidoArticulos;
-
-            return Redirect("Editar/" + idPedido);
+            if (view == "Crear") {
+                return View("Crear", model);
+             }
+            else {
+                return Redirect("Editar/" + idPedido);
+            }
+          
         }
 
 

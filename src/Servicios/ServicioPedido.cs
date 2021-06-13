@@ -83,7 +83,18 @@ namespace Servicios
                 }
             ).ToList();
         }
+        public List<ClienteDTO> ObtenerClientesFiltro() {
+            List<Cliente> clientes = _repositorioPedido.ObtenerClientesFiltro();
+            return clientes.Select(cli =>
+                new ClienteDTO
+                {
+                    IdCliente = cli.IdCliente,
+                    Nombre = cli.Nombre,
 
+
+                }
+            ).ToList();
+        }
         public List<EstadoPedidoDTO> ObtenerEstados()
         {
             List<EstadoPedido> estados = _repositorioPedido.ObtenerEstados();

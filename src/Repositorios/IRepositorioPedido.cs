@@ -15,7 +15,8 @@ namespace ProgaWeb3TP.src.Repositorios
         int cambiarEstado(int idPedido, int idEstado);
         List<Pedido> ObtenerPedidosSinFiltro();
         List<Pedido> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados,Boolean ult_meses);
-        List<Cliente> ObtenerClientes();
-        List<EstadoPedido> ObtenerEstados();
+        List<Cliente> ObtenerClientes(); 
+        List<Cliente> ObtenerClientesFiltro(); 
+         List<EstadoPedido> ObtenerEstados();
     }
 }

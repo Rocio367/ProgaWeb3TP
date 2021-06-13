@@ -48,6 +48,8 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-5">
+                        <input type="hidden" name="view" value="Editar" />
+
                         <label for="exampleFormControlSelect1">Descripcion o codigo:</label>
                         <select name="articuloId" class="custom-select" id="exampleFormControlSelect1">
                             @foreach (DTOs.ArticuloDTO a in @Model.Articulos)
