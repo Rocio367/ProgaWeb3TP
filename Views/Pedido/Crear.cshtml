@@ -1,86 +1,149 @@
-﻿
+﻿@model CrearPedidoVM
+
 @{
+
 }
 <div class="container">
     <div id="crear-row" class="row justify-content-center align-items-center">
         <div id="crear-column" class="col-md-10">
-          
-              
-                        <h4 class="card-title mb-4 mt-1 ">Nuevo Pedido</h4>
-                        <form>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="exampleFormControlSelect1">Cliente:</label>
-                                    <select class="custom-select" id="exampleFormControlSelect1">
-                                        @for (int i = 0; i < 6; i++)
-                                        {
-                                            <option>Cliente @i</option>
-                                        }
-                                    </select>
-                                </div> <!-- form-group// -->
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="exampleFormControlSelect1">Descripcion o codigo:</label>
-                                    <select class="custom-select" id="exampleFormControlSelect1">
-                                        <option>??</option>
-                                    </select>
-                                </div> <!-- form-group// -->
-                                <div class="form-group col-md-4">
-                                    <label>Cantidad:</label>
-                                    <input type="number" class="form-control" placeholder="2">
-                                </div> <!-- form-group// -->
-                                <div class="form-group col-md-4 ">
 
-                                    <button class="btn btn-primary " id="add-btn"> Agregar</button>
 
-                                </div> <!-- form-group// -->
-                            </div>
-                            <div class="form-row">
-                                <table class="table  table-bordered">
-                                    <thead class="thead-light">
+            <h4 class="card-title mb-4 mt-1 ">Nuevo Pedido</h4>
+            <form method="POST" action="/Pedido/Crear">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlSelect1">Cliente:</label>
+                    <select class="custom-select" asp-for="pedido.idCliente" value="@Model.pedido.idCliente">
+                        @foreach (DTOs.ClienteDTO cli in @Model.Clientes)
+                        {
+                            <option value="@cli.IdCliente"> @cli.Nombre</option>
+                        }
+                    </select>
+                        <span class="text-danger" asp-validation-for="pedido.idCliente"></span>
+                    </div> <!-- form-group// -->
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="exampleFormControlSelect1">Descripcion o codigo:</label>
+                        <select name="articuloId" class="custom-select" id="exampleFormControlSelect1">
+                            @foreach (DTOs.ArticuloDTO a in @Model.Articulos)
+                            {
+                                <option value="@a.Id"> @a.Descripcion</option>
+                            }
+                        </select>
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-4">
+                        <label>Cantidad:</label>
+                        <input name="cantidad" type="number" value="0" class="form-control" placeholder="2">
+                    </div> <!-- form-group// -->
+                    <div class="form-group col-md-4 ">
+                        <input type="submit" value="Agregar" formaction="AgregarArticulo" id="btn-agregar" class="btn btn-primary" />
+
+
+                    </div> <!-- form-group// -->
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 text-center">
+                        <label>Articulos cargados en el pedido</label>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    @if (@Model.pedido.PedidoArticulos.Count() > 0)
+                    {
+                        <div class="col-md-12 text-center">
+
+                            <table class="table  table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" scope="col">Descripcion</th>
+                                        <th class="text-center" scope="col">Codigo</th>
+                                        <th class="text-center" scope="col">Cantidad </th>
+                                        <th class="text-center" scope="col">Ver</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (DTOs.PedidoArticuloDTO art in @Model.pedido.PedidoArticulos)
+                                    {
                                         <tr>
-                                            <th scope="col">Descripcion</th>
-                                            <th scope="col">Codigo</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Ver</th>
+                                            <th class="text-center" scope="row">@art.articulo.Descripcion</th>
+                                            <td class="text-center">@art.articulo.Codigo</td>
+                                            <td class="text-center">@art.cantidad</td>
+                                            <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@art.Id">Eliminar</button> </td>
+                                            @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
+
+                                            <!-- Button to Open the Modal -->
+                                            <!-- The Modal -->
+                                            <div class="modal fade" id="eliminarId-@art.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Eliminar?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            Está seguro que desea eliminar el articulo @art.articulo.Codigo @art.articulo.Descripcion del pedido?
+                                                        </div>
+
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="idEliminar" value="@art.Id"  />
+
+                                                            <input type="submit" value="Eliminar" formaction="EliminarArticulo" class="btn btn-danger" />
+
+                                                       
+                                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @for (int i = 0; i < 2; i++)
-                                        {
-                                            <tr>
-                                                <th>Decripcion @i</th>
-                                                <td>  @i</td>
-                                                <td>  @i</td>
-                                                <td> <a class="text-center" href="/Pedido/Detalle/@i">Ver</a></td>
-                                            </tr>
-                                        }
+                                    }
 
 
 
 
-                                    </tbody>
-                                </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12 text-center">
+
+                            <div class="alert alert-warning text-center role="alert">
+                                Este pedido aun no tiene articulos cargados
                             </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Comentario:</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                            </div>
-                           
-                           
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Comentario:</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="pedido.Comentarios" value="@Model.pedido.Comentarios" rows="3"></textarea>
+                    <span class="text-danger" asp-validation-for="pedido.Comentarios"></span>
+                </div>
 
-                       
-                            <div class="form-group ">
-                                <button class="btn btn-primary">Guardar  </button>
-                                <button class="btn btn-primary ">Guardar y Crear Otro  </button>
-                                <button class="btn btn-secondary ">Cancelar  </button>
 
-                            </div> <!-- form-group// -->
 
-                        </form>
-            
+
+                <div class="form-group ">
+                    <input type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" />
+                    <input type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" />
+                    <input type="submit" value="Cancelar" formaction="Cancelar" class="btn btn-secondary" />
+
+                </div> <!-- form-group// -->
+
+            </form>
+
         </div>
     </div>
 </div>
+
+
