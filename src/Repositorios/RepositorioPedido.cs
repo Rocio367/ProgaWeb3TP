@@ -15,10 +15,20 @@ namespace ProgaWeb3TP.src.Repositorios
             _context = new _20211CTPContext();
 
         }
+        public int cambiarEstado(int idPedido, int idEstado)
+        {
+            Pedido ped = _context.Pedidos.Find(idPedido);
+            ped.IdEstado = idEstado;
+            ped.FechaModificacion = DateTime.Now;
+            _context.SaveChanges();
+            return ped.NroPedido;
+        }
+
         public int Editar(Pedido pedido)
         {
             Pedido ped = _context.Pedidos.Find(pedido.IdPedido);
-            ped = pedido;
+            ped.PedidoArticulos = pedido.PedidoArticulos;
+            ped.Comentarios = pedido.Comentarios;
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
             return ped.NroPedido;
@@ -53,7 +63,7 @@ namespace ProgaWeb3TP.src.Repositorios
 
         public Pedido ObtenerPedido(int id)
         {
-            return _context.Pedidos.Find(id);
+            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.PedidoArticulos).Include(e => e.IdEstadoNavigation).Where(a => a.IdPedido == id).FirstOrDefault(); 
         }
 
         public List<Pedido> ObtenerPedidosSinFiltro()

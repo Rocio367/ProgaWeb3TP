@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using ProgaWeb3TP.src.Entidades;
 using ProgaWeb3TP.src.Repositorios;
+using Repositorios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace Servicios
     public class ServicioPedido : IServicioPedido
     {
         private IRepositorioPedido _repositorioPedido;
-        public ServicioPedido(IRepositorioPedido repositorioPedido)
+        private IServicioArticulo _servicioArticulo;
+        public ServicioPedido(IRepositorioPedido repositorioPedido, IServicioArticulo servicioArticulo)
         {
             _repositorioPedido = repositorioPedido;
+            _servicioArticulo = servicioArticulo;
         }
         public int Editar(PedidoDTO pedido)
         {
@@ -43,7 +46,9 @@ namespace Servicios
         {
             _repositorioPedido.Eliminar(id);
         }
-
+        public int cambiarEstado(int idPedido, int idEstado) {
+            return _repositorioPedido.cambiarEstado(idPedido,idEstado);
+        }
         public int Guardar(PedidoDTO pedido)
         {
         
@@ -104,7 +109,32 @@ namespace Servicios
                 IdEstado = ped.IdEstado,
                 FechaCreacion = ped.FechaCreacion,
                 FechaModificacion = ped.FechaModificacion,
+                NroPedido = ped.NroPedido,
+                Comentarios=ped.Comentarios,
+                IdClienteNavigation = new ClienteDTO
+                {
+                    IdCliente = ped.IdClienteNavigation.IdCliente,
+                    Nombre = ped.IdClienteNavigation.Nombre
+                },
+                IdEstadoNavigation = new EstadoPedidoDTO
+                {
+                    IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
+                    Descripcion = ped.IdEstadoNavigation.Descripcion
+                },
+               
             };
+            pedidoDTO.PedidoArticulos = new List<PedidoArticuloDTO>();
+            int index = 0;
+            ped.PedidoArticulos.ToList().ForEach(d =>
+            {
+                pedidoDTO.PedidoArticulos.Add(new PedidoArticuloDTO
+                {
+                    Id=index,
+                    articulo = _servicioArticulo.ObtenerArticulo(d.IdArticulo),
+                    cantidad = d.Cantidad
+                });
+                index ++;
+            });
             return pedidoDTO;
         }
 

@@ -51,7 +51,7 @@ namespace ProgaWeb3TP.Controllers
 
 
         [HttpPost]
-        public ActionResult EliminarArticulo(CrearPedidoVM model, int idEliminar)
+        public ActionResult EliminarArticulo(CrearPedidoVM model, int idPedido, int idEliminar)
         {
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
@@ -64,14 +64,14 @@ namespace ProgaWeb3TP.Controllers
 
             PedidoArticuloDTO aEliminar= PedidoArticulos.Find(d => d.Id== idEliminar);
             PedidoArticulos.Remove(aEliminar);
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
             model.pedido.PedidoArticulos = PedidoArticulos;
 
-            return View("Crear", model);
+            return Redirect("Editar/"+ idPedido);
         }
 
         [HttpPost]
-        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId,int cantidad ) {
+        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad ) {
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
@@ -97,7 +97,7 @@ namespace ProgaWeb3TP.Controllers
                     pedidoArt.Id = PedidoArticulos.Max(d => d.Id) + 1;
                 }
                 PedidoArticulos.Add(pedidoArt);
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
               
                 } else {
                
@@ -107,8 +107,8 @@ namespace ProgaWeb3TP.Controllers
 
           
             model.pedido.PedidoArticulos = PedidoArticulos;
-           
-            return View("Crear",model);
+
+            return Redirect("Editar/" + idPedido);
         }
 
 
@@ -184,14 +184,21 @@ namespace ProgaWeb3TP.Controllers
          
         }
 
-
+        [HttpGet]
         public ActionResult Editar(int id)
         {
             CrearPedidoVM model = new CrearPedidoVM();
             model.pedido = _servicioPedido.ObtenerPedido(id);
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", model.pedido.PedidoArticulos);
+
+            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") == null)
+            {
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
+            }
+            else {
+                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+            }
 
             return View(model);
         }
@@ -236,6 +243,19 @@ namespace ProgaWeb3TP.Controllers
             CrearNotificacionExitosa("El Pedido fue eliminado correctamente");
             return RedirectToAction("Lista", "Pedido");
         }
+
+        public ActionResult Cerrar(int id)
+        {
+            this._servicioPedido.cambiarEstado(id,2);
+            CrearNotificacionExitosa("El Pedido fue actualizado como 'Cerrado'");
+            return RedirectToAction("Lista", "Pedido");
+        }
+        public ActionResult Entregado(int id)
+        {
+            this._servicioPedido.cambiarEstado(id, 3);
+            CrearNotificacionExitosa("El Pedido fue actualizado como 'Entregado'");
+            return RedirectToAction("Lista", "Pedido");
+        }
         [HttpPost]
         // [ValidateAntiForgeryToken]
         public ActionResult Cancelar()
@@ -249,10 +269,7 @@ namespace ProgaWeb3TP.Controllers
                 return View();
             }
         }
-        public ActionResult Editar()
-        {
-            return View();
-        }
+      
        
 
         // POST: PedidoController1/Create

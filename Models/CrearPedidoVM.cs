@@ -12,5 +12,6 @@ namespace ProgaWeb3TP.Models
         public List<ClienteDTO> Clientes { get; set; }
         public List<ArticuloDTO> Articulos { get; set; }
 
+
     }
 }
