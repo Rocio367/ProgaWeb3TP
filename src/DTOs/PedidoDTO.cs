@@ -24,6 +24,7 @@ namespace DTOs
         public virtual ClienteDTO IdClienteNavigation { get; set; }
         public virtual EstadoPedidoDTO IdEstadoNavigation { get; set; }
         public virtual List<PedidoArticuloDTO> PedidoArticulos { get; set; }
+        public virtual UsuarioDTO ModificadoPorNavigation { get; set; }
 
     }
 }

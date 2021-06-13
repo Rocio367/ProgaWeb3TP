@@ -9,6 +9,8 @@
 
             <h4 class="card-title mb-4 mt-1 ">Editar Pedido</h4>
             <form method="POST" action="/Pedido/Editar">
+                <input type="hidden" name="view" value="Editar" />
+
                 <input type="hidden" asp-for="@Model.pedido.IdPedido" value="@Model.pedido.IdPedido" />
 
                 <div class="form-row">
@@ -22,14 +24,16 @@
                         <label for="exampleFormControlSelect1">
                             Ultima Modificacion:
                         </label>
-                        @if (@Model.pedido.FechaModificacion != null)
+                        @if (Model.pedido.FechaModificacion != null)
                         {
-                            @Model.pedido.FechaModificacion
+                            <span>
+                                @Model.pedido.FechaModificacion (@Model.pedido.ModificadoPorNavigation.Nombre, @Model.pedido.ModificadoPorNavigation.Apellido)
+                            </span>
                         }
                         else
                         {
-                            <span for="exampleFormControlSelect1">
-                                Sin modificaiones
+                            <span>
+                                Sin Modificaciones
                             </span>
                         }
 
@@ -48,8 +52,6 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <input type="hidden" name="view" value="Editar" />
-
                         <label for="exampleFormControlSelect1">Descripcion o codigo:</label>
                         <select name="articuloId" class="custom-select" id="exampleFormControlSelect1">
                             @foreach (DTOs.ArticuloDTO a in @Model.Articulos)
@@ -63,7 +65,7 @@
                         <input name="cantidad" type="number" value="0" class="form-control" placeholder="2">
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-2 ">
-                        <input type="submit" value="Agregar" formaction="/Pedido/AgregarArticulo" id="btn-agregar" class="btn btn-primary" />
+                        <input type="submit" value="Agregar" formaction="AgregarArticulo" id="btn-agregar" class="btn btn-primary" />
 
 
                     </div> <!-- form-group// -->

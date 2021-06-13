@@ -132,7 +132,13 @@ namespace Servicios
                     IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
                     Descripcion = ped.IdEstadoNavigation.Descripcion
                 },
-               
+                ModificadoPorNavigation = (ped.ModificadoPor != null) ? new UsuarioDTO
+                {
+                    IdUsuario = ped.ModificadoPorNavigation.IdUsuario,
+                    Nombre = ped.ModificadoPorNavigation.Nombre,
+                    Apellido = ped.ModificadoPorNavigation.Apellido
+                } : new UsuarioDTO(),
+
             };
             pedidoDTO.PedidoArticulos = new List<PedidoArticuloDTO>();
             int index = 0;
@@ -159,7 +165,7 @@ namespace Servicios
                     idCliente=ped.IdCliente,
                     IdEstado = ped.IdEstado,
                     FechaCreacion = ped.FechaCreacion,
-                    FechaModificacion = (ped.FechaModificacion == null) ? ped.FechaCreacion : ped.FechaModificacion,
+                    FechaModificacion = ped.FechaModificacion,
                     NroPedido = ped.NroPedido,
                     IdClienteNavigation = new ClienteDTO
                     {
@@ -171,6 +177,13 @@ namespace Servicios
                         IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
                         Descripcion = ped.IdEstadoNavigation.Descripcion
                     },
+
+                    ModificadoPorNavigation = (ped.ModificadoPor!= null)? new UsuarioDTO
+                    {
+                        IdUsuario = ped.ModificadoPorNavigation.IdUsuario,
+                        Nombre = ped.ModificadoPorNavigation.Nombre,
+                        Apellido = ped.ModificadoPorNavigation.Apellido
+                    } : new UsuarioDTO(),
                 }
             ).ToList();
         }
@@ -194,8 +207,14 @@ namespace Servicios
                         IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
                         Descripcion = ped.IdEstadoNavigation.Descripcion
                     },
-                    FechaModificacion = (ped.FechaModificacion == null) ? ped.FechaCreacion : ped.FechaModificacion,
+                    FechaModificacion = ped.FechaModificacion,
                     NroPedido = ped.NroPedido,
+                    ModificadoPorNavigation = (ped.ModificadoPor != null) ? new UsuarioDTO
+                    {
+                        IdUsuario = ped.ModificadoPorNavigation.IdUsuario,
+                        Nombre = ped.ModificadoPorNavigation.Nombre,
+                        Apellido = ped.ModificadoPorNavigation.Apellido
+                    } : new UsuarioDTO(),
                 }
             ).ToList();
         }

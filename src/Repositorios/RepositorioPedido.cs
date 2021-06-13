@@ -18,17 +18,23 @@ namespace ProgaWeb3TP.src.Repositorios
         public int cambiarEstado(int idPedido, int idEstado)
         {
             Pedido ped = _context.Pedidos.Find(idPedido);
+            //cambiar el modificadoPor por el id del usaurio actual
             ped.IdEstado = idEstado;
+            ped.ModificadoPor = 1;
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
             return ped.NroPedido;
         }
 
         public int Editar(Pedido pedido)
-        {
+        {            
+            //cambiar el modificadoPor por el id del usaurio actual
+
             Pedido ped = _context.Pedidos.Find(pedido.IdPedido);
             ped.PedidoArticulos = pedido.PedidoArticulos;
             ped.Comentarios = pedido.Comentarios;
+            ped.ModificadoPor = 1;
+
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
             return ped.NroPedido;
@@ -79,14 +85,14 @@ namespace ProgaWeb3TP.src.Repositorios
 
         public Pedido ObtenerPedido(int id)
         {
-            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.PedidoArticulos).Include(e => e.IdEstadoNavigation).Where(a => a.IdPedido == id).FirstOrDefault(); 
+            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.PedidoArticulos).Include(e => e.IdEstadoNavigation).Where(a => a.IdPedido == id).FirstOrDefault(); 
         }
 
         public List<Pedido> ObtenerPedidosSinFiltro()
         {
             DateTime now = DateTime.Now;
             //falta filtro de ult mdificacion
-            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.IdEstadoNavigation).Where(a => a.FechaBorrado == null && now.Month - a.FechaCreacion.Month <= 2).ToList();
+            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).Where(a => a.FechaBorrado == null && now.Month - a.FechaCreacion.Month <= 2).ToList();
 
         }
 
@@ -94,7 +100,7 @@ namespace ProgaWeb3TP.src.Repositorios
         {
              DateTime now  = DateTime.Now;
 
-            List<Pedido>  todos=_context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.IdEstadoNavigation).ToList();
+            List<Pedido>  todos=_context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).ToList();
             List <Pedido> resultadosFiltro= new List<Pedido>();
             resultadosFiltro = todos;
             if (id_estado != 0 || id_cliente != 0) {

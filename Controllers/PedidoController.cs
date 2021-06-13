@@ -27,6 +27,7 @@ namespace ProgaWeb3TP.Controllers
         public ActionResult Lista(int estado,int id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1)
         {
             ListaPedidoVM model = new ListaPedidoVM();
+
             model.id_estado =estado;
             model.id_cliente = id_cliente;
             model.eliminados = eliminados;
