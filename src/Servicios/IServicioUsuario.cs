@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DTOs;
-using System.Collections.Generic;
+using ProgaWeb3TP.src.Entidades;
+
 namespace Servicios
 {
     public interface IServicioUsuario
@@ -12,7 +9,7 @@ namespace Servicios
         List<UsuarioDTO> ObtenerUsuarios();
         void Guardar(UsuarioDTO usuarioDTO);
         UsuarioDTO ObtenerUsuario(int id);
-        void Editar(int id, UsuarioDTO usuarioDTO);
-        void Eliminar(int id);
+        void Editar(Usuario usuario);
+        void Eliminar(Usuario usuario);
     }
 }
