@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DTOs;
 
 namespace Repositorios
 {
@@ -17,17 +18,36 @@ namespace Repositorios
         }
         public void Guardar(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _contexto.Usuarios.Add(usuario);
+            _contexto.SaveChanges();
         }
 
         public Usuario ObtenerUsuario(int id)
         {
-            throw new NotImplementedException();
+            return _contexto.Usuarios.Find(id);
+        }
+        public void EditarUsuario(Usuario usuario)
+        {
+            Usuario actual = _contexto.Usuarios.Find(usuario.IdUsuario);
+            actual.Nombre = usuario.Nombre;
+            actual.Apellido = usuario.Apellido;
+            actual.Email = usuario.Email;
+            actual.Password= usuario.Password;
+            actual.FechaNacimiento = usuario.FechaNacimiento;
+            actual.FechaModificacion = DateTime.Now;
+
+            _contexto.SaveChanges();
         }
 
         public List<Usuario> ObtenerUsuarios()
         {
             return _contexto.Usuarios.ToList();
+        }
+        public void EliminarUsuario(Usuario usuario)
+        {
+            Usuario actual = _contexto.Usuarios.Find(usuario.IdUsuario);
+            actual.FechaBorrado = DateTime.Now;
+            _contexto.SaveChanges();
         }
     }
 }

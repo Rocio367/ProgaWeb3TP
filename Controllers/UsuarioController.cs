@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using ProgaWeb3TP.src.Entidades;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -49,6 +50,7 @@ namespace ProgaWeb3TP.Controllers
 
         public ActionResult Ver(int id)
         {
+            System.Console.WriteLine("accion ver");
             UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
             return View("Editar", usuario);
         }
@@ -59,13 +61,36 @@ namespace ProgaWeb3TP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(UsuarioDTO usuarioDTO)
+        public IActionResult Editar(Usuario usuarioDTO)
         {
+            
             IActionResult vista = null;
             if(ModelState.IsValid)
             {
-                int id = usuarioDTO.IdUsuario;
-                _servicioUsuario.Editar(id, usuarioDTO);
+                _servicioUsuario.Editar(usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+            }
+            else
+            {
+                vista = View("Editar", usuarioDTO);
+            }
+            return vista;
+        }
+
+        public ActionResult Eliminar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Eliminar(Usuario usuarioDTO)
+        {
+
+            IActionResult vista = null;
+            if (ModelState.IsValid)
+            {
+                _servicioUsuario.Eliminar(usuarioDTO);
                 vista = RedirectToAction("Lista", "Usuario");
             }
             else
@@ -77,8 +102,6 @@ namespace ProgaWeb3TP.Controllers
 
 
 
-
- 
         // POST: UsuarioController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -97,6 +120,7 @@ namespace ProgaWeb3TP.Controllers
         // GET: UsuarioController1/Edit/5
         public ActionResult Edit(int id)
         {
+            System.Console.WriteLine("editar feo");
             return View();
         }
 
