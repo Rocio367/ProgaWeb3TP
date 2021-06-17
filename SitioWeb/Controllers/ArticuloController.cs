@@ -18,30 +18,52 @@ namespace GestorDePedidos.Controllers
         }
 
         // GET: ArticuloController
-        public ActionResult Lista(string? nombre, string? numero,Boolean eliminados=true, int? page=1)
+        public ActionResult Lista(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero,eliminados).ToPagedList(page.Value, 10);
+            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 
             ViewBag.page = page;
             return View(model);
         }
-      
+
+        public ActionResult Filtrar(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+        {
+            ListaAticulosVM model = new ListaAticulosVM();
+            model.numero = numero;
+            model.nombre = nombre;
+            model.eliminados = eliminados;
+            if (string.IsNullOrEmpty(nombre) && string.IsNullOrEmpty(numero) && eliminados)
+            {
+                model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
+
+            }
+            else {
+                model.articulos = this._servicioArticulo.ObtenerArticulosConFiltro(nombre, numero, eliminados).ToPagedList(page.Value, 10);
+
+            }
+            model.nombres = this._servicioArticulo.ObtenerDescripciones();
+            model.numeros = this._servicioArticulo.ObtenerCodigos();
+
+            ViewBag.page = page;
+
+            return View("Lista",model);
+        }
+
         public ActionResult Crear()
         {
-            TempData["mensaje"] = "";
 
-            return View();
+            return View(new ArticuloDTO());
         }
         public ActionResult Eliminar(int id)
         {
             this._servicioArticulo.Eliminar(id);
-            TempData["mensaje"] = "El articulo fue eliminado correctamente";
+            CrearNotificacionExitosa("El articulo fue eliminado correctamente");
             return RedirectToAction("Lista", "Articulo");
         }
         [HttpPost]
@@ -52,14 +74,14 @@ namespace GestorDePedidos.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Guardar(art);
-                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
+                    CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
 
                     return RedirectToAction("Lista", "Articulo" );
 
                 }
                 else
                 {
-                    TempData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo articulo");
                 }
                 return View(art);
             }
@@ -78,14 +100,18 @@ namespace GestorDePedidos.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Guardar(art);
-                    ViewData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue creado con éxito";
-                    art = null;
+                    CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
+                    art.Descripcion = null;
+                    art.Codigo = null;
+                    return View("Crear", art);
+
                 }
                 else
                 {
-                    ViewData["mensaje"] = "Complete corectamente el formulario para crear un nuevo articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo articulo");
+                    return View("Crear", art);
+
                 }
-                return View("Crear", art);
             }
             catch
             {
@@ -119,13 +145,13 @@ namespace GestorDePedidos.Controllers
                 if (ModelState.IsValid)
                 {
                     this._servicioArticulo.Editar(art);
-                    TempData["mensaje"] = "Articulo " + art.Codigo + " " + art.Descripcion + " fue modificado con éxito";
+                    CrearNotificacionExitosa("Articulo  fue editado con correctamente");
                     return RedirectToAction("Lista", "Articulo");
 
                 }
                 else
                 {
-                    TempData["mensaje"] = "Complete corectamente el formulario para modificar el articulo";
+                    CrearNotificacionDeError("Complete corectamente el formulario para crear un editar el articulo");
                 }
                 return View(art);
             }

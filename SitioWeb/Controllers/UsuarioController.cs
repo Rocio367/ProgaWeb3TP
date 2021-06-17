@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using GestorDePedidos.Entidades;
 
 namespace GestorDePedidos.Controllers
 {
@@ -49,6 +50,7 @@ namespace GestorDePedidos.Controllers
 
         public ActionResult Ver(int id)
         {
+            System.Console.WriteLine("accion ver");
             UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
             return View("Editar", usuario);
         }
@@ -59,13 +61,12 @@ namespace GestorDePedidos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(UsuarioDTO usuarioDTO)
+        public IActionResult Editar(Usuario usuarioDTO)
         {
             IActionResult vista = null;
             if(ModelState.IsValid)
             {
-                int id = usuarioDTO.IdUsuario;
-                _servicioUsuario.Editar(id, usuarioDTO);
+                _servicioUsuario.Editar(usuarioDTO);
                 vista = RedirectToAction("Lista", "Usuario");
             }
             else
@@ -75,6 +76,28 @@ namespace GestorDePedidos.Controllers
             return vista;
         }
 
+        public ActionResult Eliminar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Eliminar(Usuario usuarioDTO)
+        {
+
+            IActionResult vista = null;
+            if (ModelState.IsValid)
+            {
+                _servicioUsuario.Eliminar(usuarioDTO);
+                vista = RedirectToAction("Lista", "Usuario");
+            }
+            else
+            {
+                vista = View("Editar", usuarioDTO);
+            }
+            return vista;
+        }
 
 
 

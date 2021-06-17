@@ -22,16 +22,25 @@ namespace SitioWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".MiAPP.Session";
+                
+            });
+
             services.AddControllersWithViews();
             services.AddDbContext<_20211CTPContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
 
             services.AddScoped<IServicioArticulo, ServicioArticulo>();
-            services.AddScoped<IRepositorioArticulo, RepositorioArticuloEnMemoria>();
+            services.AddScoped<IRepositorioArticulo, RepositorioArticuloEF>();
             services.AddScoped<IServicioCliente, ServicioCliente>();
             services.AddScoped<IServicioUsuario, ServicioUsuario>();
             services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();
             services.AddScoped<IRepositorioUsuario, RepositorioUsuarioEnMemoria>();
+            services.AddScoped<IServicioPedido, ServicioPedido>();
+            services.AddScoped<IRepositorioPedido, RepositorioPedido>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
