@@ -1,4 +1,10 @@
-﻿@model IEnumerable<DTOs.ClienteDTO>
+﻿@{
+    var page = (int)@ViewBag.NumeroPaginaActual;
+    var pageNext = page + 1;
+    var pageLast = page - 1;
+    var tope = ViewBag.Pagina.PageCount + 1;
+}
+
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-12">
@@ -53,7 +59,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (DTOs.ClienteDTO cliente in Model)
+                    @foreach (DTOs.ClienteDTO cliente in ViewBag.Pagina)
                     {
                         <tr>
                             <th class="text-center" scope="row">@cliente.Nombre</th>
@@ -73,11 +79,14 @@
             <nav aria-label="Page navigation example  ">
 
                 <ul class="pagination  justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i>Anterior</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Cliente", new { numeroPagina = (@pageLast==0)?1 : @pageLast })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+
+                    @for (int index = 1; index <= ViewBag.Pagina.PageCount; index++)
+                    {
+                        <li class="page-item" role="link" onclick="window.location='/Cliente/Lista?numeroPagina=@index'"><a class="page-link" href="#">@index</a></li>
+
+                    }
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Cliente", new { numeroPagina = (@pageNext== @tope)? ViewBag.Pagina.PageCount : @pageNext   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
                 </ul>
             </nav>
         </div>

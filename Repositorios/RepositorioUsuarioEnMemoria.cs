@@ -22,6 +22,16 @@ namespace Repositorios
             _usuarios.Add(u1);
         }
 
+        public void EditarUsuario(Usuario usuario)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void EliminarUsuario(Usuario usuario)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Guardar(Usuario usuario)
         {
             usuario.IdUsuario = usuario.IdUsuario= _proximoNumeroDeUsuario;

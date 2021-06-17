@@ -96,6 +96,14 @@ namespace Repositorios
             return _articulos.Find(a => a.IdArticulo == id);
         }
 
+        public List<Articulo> ObtenerArticulosSinFiltro()
+        {
+            throw new NotImplementedException();
+        }
 
+        public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, bool eliminados)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

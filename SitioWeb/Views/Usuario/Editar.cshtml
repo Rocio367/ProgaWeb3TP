@@ -35,12 +35,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Rol:</label>
-                        @*<select class="custom-select" id="exampleFormControlSelect1">
+                        <select class="custom-select" id="exampleFormControlSelect1">
             <option>Admin</option>
             <option>Estandar</option>
         </select>
-                        *@
-                        @Html.DropDownListFor(model => model.EsAdmin, new SelectList(new string[] { "Admin", "Estandar"}, Model.EsAdmin))
+                        @*
+                        @Html.DropDownListFor(model => model.EsAdmin, new SelectList(new Boolean[] { true, false }, Model.EsAdmin))
+                            *@
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-6">
                         <label>Fecha Nacimiento:</label>
@@ -55,7 +56,7 @@
 
 
                 <div class="form-group ">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <input type="submit" value="Guardar"  class="btn btn-primary" />
 
                     @Html.ActionLink("Cancelar", "Lista", "Usuario", null, new { @class = "btn btn-secondary text-white" })
                     <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>
@@ -76,10 +77,16 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <span class="modal-text">¿Esta seguro que desea eliminar al usuario {nombre usuario}?</span>
-            </div>
+                
+                    <span class="modal-text">¿Esta seguro que desea eliminar al usuario @Model.Nombre?</span>
+                </div>
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Si</button>
+                @using (Html.BeginForm("Eliminar", "Usuario", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.IdUsuario)
+                    <input type="submit" value="SI" class="btn btn-primary">
+                }
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
             </div>
