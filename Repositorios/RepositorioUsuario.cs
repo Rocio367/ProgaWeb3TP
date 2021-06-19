@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Repositorios
 {
@@ -46,5 +48,31 @@ namespace Repositorios
             actual.FechaBorrado = DateTime.Now;
             _contexto.SaveChanges();
         }
+
+        public bool ValidarLogin(Usuario usuario)
+        {
+            List<Usuario> listUsuario = _contexto.Usuarios.ToList();
+            Usuario user = listUsuario.Find(x => x.Email == usuario.Email && x.Password == usuario.Password);
+            if (user != null)
+                return true;
+            return false;
+
+        }
+
+
+        public void EditarHora(string email)
+        {
+            List<Usuario> listUsuario = _contexto.Usuarios.ToList();
+            Usuario user = listUsuario.Find(x => x.Email == email);
+            if (user != null)
+            {
+                user.FechaUltLogin = DateTime.Now;
+
+                _contexto.SaveChanges();
+            }
+        }
+
+
+
     }
 }
