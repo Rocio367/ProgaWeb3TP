@@ -74,7 +74,7 @@
 
             </div>
             <div class="modal-footer text-center">
-                @using (Html.BeginForm("Eliminar", "Cliente", FormMethod.Post))
+                @using (Html.BeginForm("Delete", "Cliente", FormMethod.Post))
                 {
                     @Html.HiddenFor(model => model.IdCliente)
                 <input type="submit" value="Si" class="btn btn-primary" />

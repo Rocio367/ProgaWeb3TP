@@ -9,6 +9,6 @@ namespace Servicios
         List<ClienteDTO> ObtenerClientes();
         ClienteDTO ObtenerCliente(int id);
         void Editar(int id, ClienteDTO clienteDTO);
-        void Eliminar(int id);
+        ClienteDTO Eliminar(int id);
     }
 }
