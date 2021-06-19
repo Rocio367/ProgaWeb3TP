@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using GestorDePedidos.Entidades;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace Repositorios
 {
@@ -10,5 +14,7 @@ namespace Repositorios
         List<Usuario> ObtenerUsuarios();
         Usuario ObtenerUsuario(int id);
         void EliminarUsuario(Usuario usuario);
+        bool ValidarLogin(Usuario usuario);
+        void EditarHora(string email);
     }
 }

@@ -22,6 +22,11 @@ namespace Repositorios
             _usuarios.Add(u1);
         }
 
+        public void EditarHora(string email)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void EditarUsuario(Usuario usuario)
         {
             throw new System.NotImplementedException();
@@ -50,5 +55,9 @@ namespace Repositorios
             return _usuarios;
         }
 
+        public bool ValidarLogin(Usuario usuario)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

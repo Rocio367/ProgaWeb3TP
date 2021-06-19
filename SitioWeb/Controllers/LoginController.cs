@@ -4,24 +4,99 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTOs;
+using Servicios;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDePedidos.Controllers
 {
     public class LoginController : BaseController
     {
+        private IServicioLogin _servicioLogin;
+        private IServicioUsuario _servicioUsuario;
+
         // GET: LoginController
+        [AllowAnonymous]
         public ActionResult login()
         {
-            return View();
+            return View(new UsuarioDTO());
         }
         [HttpPost]
-        public ActionResult login(string user,string pass)
+        public ActionResult login(UsuarioDTO user)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool resul = _servicioLogin.ValidarLogin(user);
+                    if (resul)
+                    {
+                        return View("~/Views/Pedido/Lista.cshtml");
+                    }
+                    else
+                    {
+                        CrearNotificacionExitosa("el usuario y contraseña  son invalidos");
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View("~/Views/Pedido/Lista.cshtml");
+            }
+        
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(UsuarioDTO user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool resul = _servicioUsuario.ValidarLogin(user);
+                    if (resul)
+                    {
+                        this._servicioUsuario.EditarHora(user.Email);
+
+                        return View("~/Views/Pedido/Lista.cshtml");
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessageLogin = "el usuario y/o contraseña  son invalidos";
+                        return View("~/Views/Login/Login.cshtml", user);
+                    }
+
+                }
+                else
+                {
+                    ViewBag.ErrorMessageLogin = "Ingrese usuario y/o contraseña.";
+                    return View("~/Views/Login/Login.cshtml", user);
+                }
+            }
+            catch
+            {
+                return View("~/Views/Pedido/Lista.cshtml");
+            }
         }
 
 
-     
+        public ActionResult Logout()
+        {
+            // eliminar datos de session
+            //control.eliminarSession();
+            return View("~/Views/Login/Login.cshtml", new UsuarioDTO());
+        }
+
+
+
+
         // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
