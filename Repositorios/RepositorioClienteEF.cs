@@ -30,5 +30,9 @@ namespace Repositorios
         {
             return _contexto.Clientes.ToList();
         }
+        public void Actualizar()
+        {
+            _contexto.SaveChanges();
+        }
     }
 }
