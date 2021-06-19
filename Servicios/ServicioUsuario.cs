@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Servicios
 {
     public class ServicioUsuario : IServicioUsuario
@@ -65,5 +66,21 @@ namespace Servicios
         {
             _repositorioUsuario.EliminarUsuario(usuario);
         }
+
+        public bool ValidarLogin(UsuarioDTO usuarioDTO)
+        {
+            Usuario usuario = new Usuario
+            {
+                Password = usuarioDTO.Password,
+                Email = usuarioDTO.Email
+            };
+
+            return _repositorioUsuario.ValidarLogin(usuario);
+        }
+        public void EditarHora(string email)
+        {
+            _repositorioUsuario.EditarHora(email);
+        }
+
     }
 }

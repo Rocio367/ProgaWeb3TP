@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestorDePedidos.Controllers
 {
@@ -16,6 +17,7 @@ namespace GestorDePedidos.Controllers
         {
             _servicioUsuario = servicioUsuario;
         }
+
 
         // GET: UsuarioController1
 

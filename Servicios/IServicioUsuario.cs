@@ -11,5 +11,8 @@ namespace Servicios
         UsuarioDTO ObtenerUsuario(int id);
         void Editar(Usuario usuario);
         void Eliminar(Usuario usuario);
+        bool ValidarLogin(UsuarioDTO usuarioDTO);
+        void EditarHora(string Email);
+
     }
 }
