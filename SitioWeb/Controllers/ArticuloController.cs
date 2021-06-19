@@ -17,23 +17,23 @@ namespace GestorDePedidos.Controllers
             _servicioArticulo = servicioArticulo;
         }
 
-        // GET: ArticuloController
-        public ActionResult Lista(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+
+
+
+        public ActionResult Lista()
         {
             ListaAticulosVM model = new ListaAticulosVM();
-            model.numero = numero;
-            model.nombre = nombre;
-            model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
+        
+            model.eliminados = true;
+            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(1, 10);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 
-            ViewBag.page = page;
+            ViewBag.page = 1;
 
-            return View(model);
+            return View("Lista", model);
         }
-
-        public ActionResult Filtrar(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+        public ActionResult Filtrar(string nombre, string numero, Boolean eliminados, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
             model.numero = numero;
@@ -44,7 +44,8 @@ namespace GestorDePedidos.Controllers
                 model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
 
             }
-            else {
+            else
+            {
                 model.articulos = this._servicioArticulo.ObtenerArticulosConFiltro(nombre, numero, eliminados).ToPagedList(page.Value, 10);
 
             }
@@ -53,7 +54,7 @@ namespace GestorDePedidos.Controllers
 
             ViewBag.page = page;
 
-            return View("Lista",model);
+            return View("Lista", model);
         }
 
         public ActionResult Crear()
@@ -77,7 +78,7 @@ namespace GestorDePedidos.Controllers
                     this._servicioArticulo.Guardar(art);
                     CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
 
-                    return RedirectToAction("Lista", "Articulo" );
+                    return RedirectToAction("Lista", "Articulo");
 
                 }
                 else

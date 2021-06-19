@@ -34,7 +34,7 @@ namespace SitioWeb
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
 
             services.AddScoped<IServicioArticulo, ServicioArticulo>();
-            services.AddScoped<IRepositorioArticulo, RepositorioArticuloEF>();
+            services.AddScoped<IRepositorioArticulo, RepositorioArticulo>();
             services.AddScoped<IServicioCliente, ServicioCliente>();
             services.AddScoped<IServicioUsuario, ServicioUsuario>();
             services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();

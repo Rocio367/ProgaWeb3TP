@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace Repositorios
 {
-    public class RepositorioArticuloEF : IRepositorioArticulo
+    public class RepositorioArticulo : IRepositorioArticulo
     {
         _20211CTPContext _context;
-        public RepositorioArticuloEF()
+        public RepositorioArticulo()
         {
             _context = new _20211CTPContext();
 
@@ -41,31 +41,36 @@ namespace Repositorios
         }
         public List<Articulo> ObtenerArticulosSinFiltro()
         {
-            return _context.Articulos.Where(a =>a.FechaBorrado == null).ToList();
+            return _context.Articulos.Where(a => a.FechaBorrado == null).ToList();
         }
 
         public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
         {
-          
-                if (eliminados == true)
-                {
-                    return _context.Articulos.Where(a =>( a.Descripcion == nombre || a.Codigo == number) && a.FechaBorrado == null).ToList();
+            List<Articulo> todos = _context.Articulos.ToList();
+            List<Articulo> resultadosFiltro = new List<Articulo>();
+            resultadosFiltro = todos;
 
+            if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(number))
+            {
+                resultadosFiltro = todos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+            }
+            if (eliminados)
+            {
+                if (resultadosFiltro.Count() == 0)
+                {
+                    resultadosFiltro = todos.Where(e => e.FechaBorrado == null).ToList();
                 }
                 else
                 {
-                if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(number))
-                {
-                    return _context.Articulos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
+                    resultadosFiltro = resultadosFiltro.Where(e => e.FechaBorrado == null).ToList();
                 }
-                else {
-                    return _context.Articulos.ToList();
 
-                }
             }
-            
-           
-            
+
+            return resultadosFiltro;
+
+
+
         }
         public List<string> ObtenerDescripciones()
         {
@@ -88,6 +93,7 @@ namespace Repositorios
 
             return _context.Articulos.Find(id);
         }
+
 
 
     }
