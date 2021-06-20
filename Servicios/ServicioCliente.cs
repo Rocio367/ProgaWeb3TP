@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
 using Repositorios;
+using Repositorios.Filtros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,37 @@ namespace Servicios
             cliente.FechaBorrado = DateTime.Now;
             _repositorioCliente.Actualizar();
             return ConvertirEnDTO(cliente);
+        }
+
+        public List<ClienteDTO> ObtenerClientesPorFiltro(string nombre, int? numero, bool excluirEliminados)
+        {
+            FiltroCompuestoDeClientes filtro = new FiltroCompuestoDeClientes();
+            if (excluirEliminados == true)
+            {
+                filtro.Agregar(new FiltroPorDadoDeBaja());
+            }
+
+            if (!string.IsNullOrWhiteSpace(nombre))
+            {
+                filtro.Agregar(new FiltroPorNombreCliente(nombre));
+            }
+
+            if (numero != null)
+            {
+                filtro.Agregar(new FiltroPorNumeroCliente(numero.Value));
+            }
+
+            List<Cliente> clientes = null;
+            if (filtro.TieneFiltros())
+            {
+                clientes = _repositorioCliente.ObtenerClientePorFiltro(filtro);
+            }
+            else
+            {
+                clientes = _repositorioCliente.ObtenerClientes();
+            }
+
+            return clientes.Select(cliente => ConvertirEnDTO(cliente)).ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros;
 using System.Collections.Generic;
 
 namespace Repositorios
@@ -9,5 +10,6 @@ namespace Repositorios
         List<Cliente> ObtenerClientes();
         Cliente ObtenerCliente(int id);
         void Actualizar();
+        public List<Cliente> ObtenerClientePorFiltro(IFiltroCliente filtro);
     }
 }

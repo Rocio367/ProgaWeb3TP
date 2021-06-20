@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros;
 using System.Collections.Generic;
 
 namespace Repositorios
@@ -34,13 +35,17 @@ namespace Repositorios
             return _clientes.Find(cliente => cliente.IdCliente.Equals(id));
         }
 
-    public List<Cliente> ObtenerClientes()
+        public List<Cliente> ObtenerClientes()
         {
             return _clientes;
         }
-    public void Actualizar()
+        public void Actualizar()
         {
             
+        }
+        public List<Cliente> ObtenerClientePorFiltro(IFiltroCliente filtro)
+        {
+            return _clientes;
         }
     }
 }

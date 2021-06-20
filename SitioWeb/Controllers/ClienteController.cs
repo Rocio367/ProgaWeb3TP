@@ -1,8 +1,10 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Modelos;
 using PagedList;
 using Servicios;
+using SitioWeb.Models;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +12,8 @@ namespace GestorDePedidos.Controllers
 {
     public class ClienteController : BaseController
     {
+        private readonly int CLIENTES_POR_PAGINA = 5;
+
         private IServicioCliente _servicioCliente;
 
         public ClienteController(IServicioCliente servicioCliente)
@@ -17,15 +21,19 @@ namespace GestorDePedidos.Controllers
             _servicioCliente = servicioCliente;
         }
 
-        public ActionResult Lista(int? numeroPagina)
+        public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados)
         {
-            List<ClienteDTO> clientes = _servicioCliente.ObtenerClientes();
+            FiltroCliente filtro = new FiltroCliente
+            {
+                Nombre = nombre,
+                Numero = numero,
+                ExcluirEliminados = excluirEliminados
+            };
+
+            List<ClienteDTO> clientes = _servicioCliente.ObtenerClientesPorFiltro(nombre, numero, excluirEliminados);
             int paginaPedida = numeroPagina ?? 1;
-            var pagina = clientes.ToPagedList(paginaPedida, 3);
             
-            ViewBag.Pagina = pagina;
-            ViewBag.NumeroPaginaActual = paginaPedida;
-            return View();
+            return ListarClientes(filtro, clientes, paginaPedida);
         }
 
         public ActionResult Crear()
@@ -147,5 +155,18 @@ namespace GestorDePedidos.Controllers
             return vista;
         }
         
+        private IActionResult ListarClientes(FiltroCliente filtro, List<ClienteDTO> clientes, int paginaPedida)
+        {
+            var pagina = clientes.ToPagedList(paginaPedida, CLIENTES_POR_PAGINA);
+
+            ListadoDeClientes modelo = new ListadoDeClientes
+            {
+                Filtro = filtro,
+                Clientes = pagina,
+                NumeroPaginaActual = paginaPedida
+            };
+
+            return View("Lista", modelo);
+        }
     }
 }
