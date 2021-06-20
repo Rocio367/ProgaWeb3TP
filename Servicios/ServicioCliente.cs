@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
 using Repositorios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,17 +69,12 @@ namespace Servicios
             }
         }
 
-        public void Eliminar(int id)
+        public ClienteDTO Eliminar(int id)
         {
-            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
-            foreach (Cliente cliente in clientes)
-            {
-                if (id == cliente.IdCliente)
-                {
-                    clientes.Remove(cliente);
-                    break; //una vez encontrado el cliente sale del ciclo ..caso contrario vuelve a buscar y tira error por que la lista fue modificada
-                }
-            }
+            Cliente cliente = _repositorioCliente.ObtenerCliente(id);
+            cliente.FechaBorrado = DateTime.Now;
+            _repositorioCliente.Actualizar();
+            return ConvertirEnDTO(cliente);
         }
     }
 }

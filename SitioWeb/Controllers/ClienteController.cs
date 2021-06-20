@@ -117,25 +117,15 @@ namespace GestorDePedidos.Controllers
             }
         }
 
-        // GET: ClienteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ClienteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(ClienteDTO clienteDTO)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _servicioCliente.Eliminar(clienteDTO.IdCliente);
+            IActionResult vista = null;
+            CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha eliminado correctamente");
+            vista = RedirectToAction("Lista", "Cliente");
+            return vista;
         }
         // POST: ClienteController/Editar/idCliente a editar
         [HttpPost]
@@ -156,15 +146,6 @@ namespace GestorDePedidos.Controllers
             }
             return vista;
         }
-        public IActionResult Eliminar(ClienteDTO clienteDTO)
-        {
-                IActionResult vista = null;
-                int id = clienteDTO.IdCliente;
-                _servicioCliente.Eliminar(id);
-                vista = RedirectToAction("Lista", "Cliente");
-            
-            
-            return vista;
-        }
+        
     }
 }
