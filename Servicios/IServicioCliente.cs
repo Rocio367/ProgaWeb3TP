@@ -10,5 +10,6 @@ namespace Servicios
         ClienteDTO ObtenerCliente(int id);
         void Editar(int id, ClienteDTO clienteDTO);
         ClienteDTO Eliminar(int id);
+        public List<ClienteDTO> ObtenerClientesPorFiltro(string? Nombre, int? Numero, bool ExcluirEliminados);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,11 @@ namespace Repositorios
         public void Actualizar()
         {
             _contexto.SaveChanges();
+        }
+        public List<Cliente> ObtenerClientePorFiltro(IFiltroCliente filtro)
+        {
+            var resultado = _contexto.Clientes.Where(filtro.Evaluar).Select(cliente => cliente);
+            return resultado.ToList();
         }
     }
 }
