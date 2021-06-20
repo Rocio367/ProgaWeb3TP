@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repositorios
 {
-    class RepositorioUsuario : IRepositorioUsuario
+    public class RepositorioUsuario : IRepositorioUsuario
     {
 
         private _20211CTPContext _contexto;
