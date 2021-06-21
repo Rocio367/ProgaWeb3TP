@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repositorios
 {
-    class RepositorioUsuario : IRepositorioUsuario
+    public class RepositorioUsuario : IRepositorioUsuario
     {
 
         private _20211CTPContext _contexto;
@@ -29,6 +29,7 @@ namespace Repositorios
         {
             Usuario actual = _contexto.Usuarios.Find(usuario.IdUsuario);
             actual.Nombre = usuario.Nombre;
+            actual.EsAdmin = usuario.EsAdmin;
             actual.Apellido = usuario.Apellido;
             actual.Email = usuario.Email;
             actual.Password = usuario.Password;

@@ -38,7 +38,7 @@ namespace SitioWeb
             services.AddScoped<IServicioCliente, ServicioCliente>();
             services.AddScoped<IServicioUsuario, ServicioUsuario>();
             services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();
-            services.AddScoped<IRepositorioUsuario, RepositorioUsuarioEnMemoria>();
+            services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
             services.AddScoped<IServicioPedido, ServicioPedido>();
             services.AddScoped<IRepositorioPedido, RepositorioPedido>();
         }
