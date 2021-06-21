@@ -29,6 +29,7 @@ namespace Repositorios
         {
             Usuario actual = _contexto.Usuarios.Find(usuario.IdUsuario);
             actual.Nombre = usuario.Nombre;
+            actual.EsAdmin = usuario.EsAdmin;
             actual.Apellido = usuario.Apellido;
             actual.Email = usuario.Email;
             actual.Password = usuario.Password;

@@ -33,19 +33,28 @@
                 </div>
 
                 <div class="form-row">
+
+                    @{
+                        var listado = new List<SelectListItem>() {
+                        new SelectListItem()
+                        {
+                            Text = "Admin",
+                            Value= "true",
+                        },
+                          new SelectListItem()
+                        {
+                            Text = "Estandar",
+                            Value= "false",
+                        }
+                        };
+                    }
                     <div class="form-group col-md-6">
                         <label>Rol:</label>
-                        <select class="custom-select" id="exampleFormControlSelect1">
-            <option>Admin</option>
-            <option>Estandar</option>
-        </select>
-                        @*
-                        @Html.DropDownListFor(model => model.EsAdmin, new SelectList(new Boolean[] { true, false }, Model.EsAdmin))
-                            *@
-                    </div> <!-- form-group// -->
+                        @Html.DropDownListFor(model => model.EsAdmin, listado, new { @class = "custom-select" })
+                    </div>
+
                     <div class="form-group col-md-6">
                         <label>Fecha Nacimiento:</label>
-                        @*<input type="Date" class="form-control" placeholder="">*@
                         @Html.EditorFor(model => model.FechaNacimiento, new { @type = "date" })
                     </div> <!-- form-group// -->
 
@@ -53,10 +62,8 @@
 
 
 
-
-
                 <div class="form-group ">
-                    <input type="submit" value="Guardar"  class="btn btn-primary" />
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
 
                     @Html.ActionLink("Cancelar", "Lista", "Usuario", null, new { @class = "btn btn-secondary text-white" })
                     <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>

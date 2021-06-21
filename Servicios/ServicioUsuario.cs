@@ -44,6 +44,7 @@ namespace Servicios
             {
                 Nombre = usuarioDTO.Nombre,
                 Email = usuarioDTO.Email,
+                EsAdmin= usuarioDTO.EsAdmin,
                 Apellido = usuarioDTO.Apellido,
                 Password = usuarioDTO.Password,
                 FechaNacimiento = usuarioDTO.FechaNacimiento,
