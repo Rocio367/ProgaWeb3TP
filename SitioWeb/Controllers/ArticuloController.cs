@@ -1,12 +1,15 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
 using Servicios;
-using SitioWeb.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using PagedList;
+using SitioWeb.Models;
+using GestorDePedidos.Controllers;
 
-namespace GestorDePedidos.Controllers
+namespace ProgaWeb3TP.Controllers
 {
     public class ArticuloController : BaseController
     {
@@ -17,23 +20,10 @@ namespace GestorDePedidos.Controllers
             _servicioArticulo = servicioArticulo;
         }
 
-        // GET: ArticuloController
-        public ActionResult Lista(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
-        {
-            ListaAticulosVM model = new ListaAticulosVM();
-            model.numero = numero;
-            model.nombre = nombre;
-            model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
-            model.nombres = this._servicioArticulo.ObtenerDescripciones();
-            model.numeros = this._servicioArticulo.ObtenerCodigos();
 
-            ViewBag.page = page;
 
-            return View(model);
-        }
-
-        public ActionResult Filtrar(string? nombre, string? numero, Boolean eliminados = true, int? page = 1)
+    
+        public ActionResult Lista(string nombre, string numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
             model.numero = numero;

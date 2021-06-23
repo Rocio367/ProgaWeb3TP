@@ -21,8 +21,10 @@ namespace DTOs
         public string Comentarios { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
-
+        public virtual ClienteDTO IdClienteNavigation { get; set; }
+        public virtual EstadoPedidoDTO IdEstadoNavigation { get; set; }
         public virtual List<PedidoArticuloDTO> PedidoArticulos { get; set; }
+        public virtual UsuarioDTO ModificadoPorNavigation { get; set; }
 
     }
 }

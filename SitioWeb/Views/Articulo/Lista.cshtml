@@ -1,6 +1,5 @@
 ﻿
 
-
 @using PagedList.Mvc;
 
 @model SitioWeb.Models.ListaAticulosVM
@@ -21,13 +20,13 @@
 
         </div>
     </div>
-    <form action="/Articulo/Filtrar" method="get">
+    <form action="/Articulo/Lista" method="get">
 
         <div class="row justify-content-center align-items-center">
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Nombre Articulo:</label>
-                    <select class="custom-select" type="text" asp-for="nombre">
+                    <select class="custom-select" type="text" asp-for="nombre"  value="@Model.nombre">
                         <option value="">Sin filtro</option>
 
                         @foreach (string nombre in @Model.nombres)
@@ -40,7 +39,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Numero:</label>
-                    <select class="custom-select" asp-for="numero">
+                    <select class="custom-select" asp-for="numero"  value="@Model.numero">
                         <option value="">Sin filtro</option>
 
                         @foreach (string numero in @Model.numeros)
@@ -55,14 +54,14 @@
             <div class="col-md-2">
 
                 <div class="form-check mt-3">
-                    <input type="checkbox" class="form-check-input" asp-for="eliminados">
+                    <input type="checkbox" class="form-check-input"  asp-for="eliminados">
                     <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
                 </div>
             </div>
             <div class="col-md-1">
 
                 <div class="form-check mt-3">
-                    <input type="submit" value="Filtrar" formaction="Filtrar" class="btn btn-primary" />
+                    <input type="submit" value="Filtrar" formaction="Lista" class="btn btn-primary" />
 
                 </div>
             </div>
@@ -170,26 +169,5 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <span class="model-text">¿Esta seguro que desea eliminar el artículo{nombre artículo}?</span>
-            </div>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Si</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <partial name="_ValidationScriptsPartial" />

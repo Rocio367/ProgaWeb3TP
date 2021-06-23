@@ -1,101 +1,191 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using PagedList.Mvc;
+
+@model SitioWeb.Models.ListaPedidoVM
 @{
+    var page = (int)@ViewBag.page;
+    var pageNext = page + 1;
+    var pageLast = page - 1;
+    var tope = @Model.pedidos.PageCount + 1;
 }
+
 <div class="container">
-  
     <div class="row justify-content-center align-items-center">
+
         <div class="col-md-12">
-    
-            <button role="link"  onclick="window.location='/Pedido/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Pedido  </button>
+
+            <button role="link" onclick="window.location='/Pedido/Crear'" class="btn btn-primary float-right mt-2 mb-2"> Nuevo Pedido  </button>
 
         </div>
     </div>
-    <div class="row justify-content-center align-items-center">
-            <div class="col-md-4">
+    <form action="/Articulo/Lista" method="get">
+
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Cliente</label>
-                    <select class="custom-select" id="exampleFormControlSelect1">
-                        @for (int i = 0; i < 6; i++)
+                    <label for="exampleFormControlSelect1">Cliente:</label>
+                    <select class="custom-select" type="text" asp-for="id_cliente"  value="@Model.id_cliente">
+                        <option value="">Sin filtro</option>
+
+                        @foreach (DTOs.ClienteDTO cli in @Model.clientes)
                         {
-                            <option>Cliente @i</option>
+                            <option value="@cli.IdCliente"> @cli.Nombre</option>
                         }
-                    </select>
-                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Estado</label>
-                    <select class="custom-select" id="exampleFormControlSelect1">
-
-                        <option>Finalizado</option>
-                        <option>En proceso</option>
-                        <option>Supendido</option>
-
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Estado</label>
+                    <select class="custom-select" type="text" asp-for="id_estado" value="@Model.id_estado">
+                        <option value="">Sin filtro</option>
+
+                        @foreach (DTOs.EstadoPedidoDTO ped in @Model.estados)
+                        {
+                            <option value="@ped.IdEstadoPedido"> @ped.Descripcion</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <input type="checkbox" class="form-check-input"  asp-for="solo_ultimos_dos_meses">
                     <label class="form-check-label" for="exampleCheck1">Solo últimos 2 meses:</label>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <input type="checkbox" class="form-check-input"  asp-for="eliminados">
                     <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
                 </div>
             </div>
+            <div class="col-md-1">
 
-</div>
+                <div class="form-check mt-3">
+                    <input type="submit" value="Filtrar" formaction="Lista" class="btn btn-primary" />
+
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
     <div class="row justify-content-center align-items-center">
-        <div class="col-md-12">
-            <table class="table  table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th class="text-center" scope="col">Pedido</th>
-                        <th class="text-center" scope="col">Estado</th>
-                        <th class="text-center" scope="col">Ult Modificacion</th>
-                        <th class="text-center" scope="col">Ver</th>
-                    </tr>
-                </thead>
-                <tbody>
+        @if (@Model.pedidos.Count() > 0)
+        {
+            <div class="col-md-12">
+                <table class="table  table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-center" scope="col">Pedido</th>
+                            <th class="text-center" scope="col">Estado</th>
+                            <th class="text-center" scope="col">Ult Modificacion</th>
+                            <th class="text-center" scope="col">Ver</th>
+                            <th class="text-center" scope="col">Eliminar</th>
 
-                    @for (int i = 0; i < 6; i++)
-                    {
-                    <tr>
-                        <th class="text-center" scope="row">pedido @i</th>
-                        <td class="text-center">estado  @i</td>
-                        <td class="text-center">fecha  @i</td>
-                        <td class="text-center"><button role="link"  onclick="window.location='/Pedido/Editar'"  type="button" class="btn btn-info">Ver</button></td>
-                    </tr>
-                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DTOs.PedidoDTO ped in @Model.pedidos)
+                        {
+                        <tr>
+
+                            <th class="text-center" scope="row"> @ped.IdClienteNavigation.Nombre - @ped.NroPedido</th>
+                            <td class="text-center">@ped.IdEstadoNavigation.Descripcion</td>
+                            <td class="text-center">
+
+                                @if (ped.FechaModificacion != null)
+                                {
+                                    <span>
+                                        @ped.FechaModificacion (@ped.ModificadoPorNavigation.Nombre, @ped.ModificadoPorNavigation.Apellido)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                       Sin Modificaciones
+                                    </span>
+                                }
+
+                            </td>
+                                        <td class="text-center"><button role="link" onclick="window.location = '/Pedido/Editar/@ped.IdPedido'" class="btn btn-info">Ver</button>
+</td>
+                                <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@ped.IdPedido">Eliminar</button> </td>
+                                @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
+
+                                <!-- Button to Open the Modal -->
+                                <!-- The Modal -->
+                                <div class="modal fade" id="eliminarId-@ped.IdPedido">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Eliminar?</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                Está seguro que desea eliminar el articulo  @ped.idCliente -  @ped.NroPedido ?
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button role="link" onclick="window.location = '/Pedido/Eliminar/@ped.IdPedido'" class="btn btn-danger">ELIMINAR</button>
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        }
 
 
-                      
+
 
                     </tbody>
-            </table>
+                </table>
 
-           
-        </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 text-center">
+
+                <div class="alert alert-warning text-center role="alert">
+                    Aun no hay pedidos cargados
+                </div>
+            </div>
+        }
+
     </div>
-    <div class="row justify-content-center align-items-center">
-        <div class="col-md-12 text-center">
-            <nav aria-label="Page navigation example  ">
-                
-                <ul class="pagination  justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i>Anterior</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Siguiente<i class="bi bi-chevron-right"></i></a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    @Model.pedidos.PageCount
+    @if (@Model.pedidos.Count() > 0)
+    {
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center">
+                <nav aria-label="Page navigation example  ">
+
+
+                    <ul class="pagination  justify-content-center">
+                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageLast==0)?1 : @pageLast })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+
+                        @for (int index = 1; index <= @Model.pedidos.PageCount; index++)
+                        {
+                            <li class="page-item" role="link" onclick="window.location='/Pedido/Lista?page=@index'"><a class="page-link" href="#">@index</a></li>
+
+                        }
+                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageNext== @tope)? @Model.pedidos.PageCount : @pageNext   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>}
 </div>
 
 
 
- 
+    <partial name="_ValidationScriptsPartial" />
+

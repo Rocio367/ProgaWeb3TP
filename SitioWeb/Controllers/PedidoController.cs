@@ -2,13 +2,17 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SitioWeb.Models;
+using Modelos;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Servicios;
+using System.Threading.Tasks;
+using PagedList;
+using GestorDePedidos.Controllers;
 using SitioWeb.Session;
 
-namespace GestorDePedidos.Controllers
+namespace ProgaWeb3TP.Controllers
 {
     public class PedidoController : BaseController
     {
@@ -20,24 +24,36 @@ namespace GestorDePedidos.Controllers
             _servicioPedido = servicioPedido;
             _servicioArticulo = servicioArticulo;
         }
-        public ActionResult Lista()
+    
+        public ActionResult Lista(int estado,int id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1)
         {
-            return View();
-        }
-        public ActionResult Crear()
-        {
-            CrearPedidoVM model = new CrearPedidoVM();
-            model.pedido = new PedidoDTO();
-            model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
-            model.Clientes=_servicioPedido.ObtenerClientes();
-            model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+            ListaPedidoVM model = new ListaPedidoVM();
 
-            return View(model);
+            model.id_estado =estado;
+            model.id_cliente = id_cliente;
+            model.eliminados = eliminados;
+            model.solo_ultimos_dos_meses = solo_ultimos_dos_meses;
+            if (id_cliente==0 && estado==0 && eliminados && solo_ultimos_dos_meses)
+            {
+                model.pedidos = this._servicioPedido.ObtenerPedidosSinFiltro().ToPagedList(1, 10);
+
+            }
+            else
+            {
+                model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(model.id_cliente,model.id_estado, eliminados, solo_ultimos_dos_meses).ToPagedList(page, 10);
+
+            }
+            model.estados = this._servicioPedido.ObtenerEstados();
+            model.clientes = this._servicioPedido.ObtenerClientesFiltro();
+
+            ViewBag.page = page;
+
+            return View("Lista", model);
         }
+
 
         [HttpPost]
-        public ActionResult EliminarArticulo(CrearPedidoVM model, int idEliminar)
+        public ActionResult EliminarArticulo(CrearPedidoVM model, int idPedido, int idEliminar)
         {
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
@@ -50,14 +66,14 @@ namespace GestorDePedidos.Controllers
 
             PedidoArticuloDTO aEliminar= PedidoArticulos.Find(d => d.Id== idEliminar);
             PedidoArticulos.Remove(aEliminar);
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
             model.pedido.PedidoArticulos = PedidoArticulos;
 
-            return View("Crear", model);
+            return Redirect("Editar/"+ idPedido);
         }
 
         [HttpPost]
-        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId,int cantidad ) {
+        public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad, string view ) {
             model.Clientes = _servicioPedido.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
@@ -70,7 +86,7 @@ namespace GestorDePedidos.Controllers
 
             if (cantidad > 0 )
             {
-           
+               
                 ArticuloDTO art = _servicioArticulo.ObtenerArticulo(articuloId);
                 PedidoArticuloDTO pedidoArt = new PedidoArticuloDTO();
                 pedidoArt.articulo = art;
@@ -78,12 +94,23 @@ namespace GestorDePedidos.Controllers
                 if (PedidoArticulos.Count() == 0)
                 {
                     pedidoArt.Id = 1;
+                    PedidoArticulos.Add(pedidoArt);
+
                 }
                 else {
-                    pedidoArt.Id = PedidoArticulos.Max(d => d.Id) + 1;
+                    PedidoArticuloDTO artExistente = PedidoArticulos.Where(d => d.articulo.Id == articuloId).FirstOrDefault() ;
+                    if (artExistente == null)
+                    {
+                        pedidoArt.Id = PedidoArticulos.Max(d => d.Id) + 1;
+                        PedidoArticulos.Add(pedidoArt);
+
+                    }
+                    else {
+                        artExistente.cantidad = artExistente.cantidad + cantidad;
+                    }
+
                 }
-                PedidoArticulos.Add(pedidoArt);
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
               
                 } else {
                
@@ -93,8 +120,26 @@ namespace GestorDePedidos.Controllers
 
           
             model.pedido.PedidoArticulos = PedidoArticulos;
-           
-            return View("Crear",model);
+            if (view == "Crear") {
+                return View("Crear", model);
+             }
+            else {
+                return Redirect("Editar/" + idPedido);
+            }
+          
+        }
+
+
+        public ActionResult Crear()
+        {
+            CrearPedidoVM model = new CrearPedidoVM();
+            model.pedido = new PedidoDTO();
+            model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
+            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
+            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+
+            return View(model);
         }
         [HttpPost]
 
@@ -157,6 +202,78 @@ namespace GestorDePedidos.Controllers
          
         }
 
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            CrearPedidoVM model = new CrearPedidoVM();
+            model.pedido = _servicioPedido.ObtenerPedido(id);
+            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
+
+            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") == null)
+            {
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
+            }
+            else {
+                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+            }
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+
+        public ActionResult Editar(CrearPedidoVM model)
+        {
+            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
+            model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
+
+            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+            {
+                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+            }
+            if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
+            {
+                int nroPedido = this._servicioPedido.Editar(model.pedido);
+                CrearNotificacionExitosa("Pedido " + nroPedido + " fue editado  correctamente");
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+                return RedirectToAction("Lista", "Pedido");
+
+            }
+            else
+            {
+
+                CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
+                return View(model);
+
+            }
+
+
+        }
+
+
+
+        public ActionResult Eliminar(int id)
+        {
+            this._servicioPedido.Eliminar(id);
+            CrearNotificacionExitosa("El Pedido fue eliminado correctamente");
+            return RedirectToAction("Lista", "Pedido");
+        }
+
+        public ActionResult Cerrar(int id)
+        {
+            this._servicioPedido.cambiarEstado(id,2);
+            CrearNotificacionExitosa("El Pedido fue actualizado como 'Cerrado'");
+            return RedirectToAction("Lista", "Pedido");
+        }
+        public ActionResult Entregado(int id)
+        {
+            this._servicioPedido.cambiarEstado(id, 3);
+            CrearNotificacionExitosa("El Pedido fue actualizado como 'Entregado'");
+            return RedirectToAction("Lista", "Pedido");
+        }
         [HttpPost]
         // [ValidateAntiForgeryToken]
         public ActionResult Cancelar()
@@ -170,10 +287,7 @@ namespace GestorDePedidos.Controllers
                 return View();
             }
         }
-        public ActionResult Editar()
-        {
-            return View();
-        }
+      
        
 
         // POST: PedidoController1/Create

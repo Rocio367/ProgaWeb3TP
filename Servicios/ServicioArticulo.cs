@@ -1,9 +1,11 @@
 ﻿using System;
 using Repositorios;
-using DTOs;
-
+using Servicios;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DTOs;
 using GestorDePedidos.Entidades;
 
 namespace Servicios
@@ -56,9 +58,9 @@ namespace Servicios
             ).ToList();
         }
         public List<ArticuloDTO> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
-        {
+        {   
             List<Articulo> articulos = _repositorioArticulo.ObtenerArticulosConFiltro(nombre, number, eliminados);
-
+             
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {
