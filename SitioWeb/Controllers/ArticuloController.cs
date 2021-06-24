@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PagedList;
-using SitioWeb.Models;
+using ProgaWeb3TP.Models;
 using GestorDePedidos.Controllers;
+using SitioWeb.Models;
 
 namespace ProgaWeb3TP.Controllers
 {

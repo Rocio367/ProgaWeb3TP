@@ -1,7 +1,7 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SitioWeb.Models;
+using ProgaWeb3TP.Models;
 using Modelos;
 using Servicios;
 using System;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PagedList;
 using GestorDePedidos.Controllers;
+using SitioWeb.Models;
 using SitioWeb.Session;
 
 namespace ProgaWeb3TP.Controllers

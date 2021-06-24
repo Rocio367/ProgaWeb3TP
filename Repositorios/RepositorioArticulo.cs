@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Repositorios
 {
-    class RepositorioArticulo : IRepositorioArticulo
+   public class RepositorioArticulo : IRepositorioArticulo
     {
         _20211CTPContext _context;
         public RepositorioArticulo()
