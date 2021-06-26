@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
 using Repositorios;
+using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,7 +157,33 @@ namespace Servicios
 
         public List<PedidoDTO> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, bool eliminados, Boolean ult_meses)
         {
-            List<Pedido> pedidos = _repositorioPedido.ObtenerPedidosConFiltro(id_cliente,id_estado,eliminados,ult_meses);
+            FiltroCompuestoDePedido filtro = new FiltroCompuestoDePedido();
+            if (eliminados == true)
+            {
+                filtro.Agregar(new FiltroDadoDeBajaPedido());
+            }
+            if (ult_meses == true)
+            {
+                filtro.Agregar(new FiltroDosUltimosMeses());
+            }
+            if (id_cliente!= null)
+            {
+                filtro.Agregar(new FiltroPorIdClinte(id_cliente));
+            }
+            if (id_estado != null && id_estado >= 0)
+            {
+                filtro.Agregar(new FiltroPorIdEstado(id_estado));
+            }
+
+            List<Pedido> pedidos = null;
+            if (filtro.TieneFiltros())
+            {
+                pedidos = _repositorioPedido.ObtenerPedidosConFiltro(filtro);
+            }
+            else
+            {
+                pedidos = _repositorioPedido.ObtenerPedidosSinFiltro();
+            }
             return pedidos.Select(ped =>
                 new PedidoDTO
                 { 

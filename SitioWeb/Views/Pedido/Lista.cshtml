@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Estado</label>
                     <select class="custom-select" type="text" asp-for="id_estado" value="@Model.id_estado">
-                        <option value="">Sin filtro</option>
+                        <option value="-1" >Sin filtro</option>
 
                         @foreach (DTOs.EstadoPedidoDTO ped in @Model.estados)
                         {
@@ -161,7 +161,6 @@
         }
 
     </div>
-    @Model.pedidos.PageCount
     @if (@Model.pedidos.Count() > 0)
     {
         <div class="row justify-content-center align-items-center">

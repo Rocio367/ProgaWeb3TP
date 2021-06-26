@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Repositorios
         Pedido ObtenerPedido(int id);
         int cambiarEstado(int idPedido, int idEstado);
         List<Pedido> ObtenerPedidosSinFiltro();
-        List<Pedido> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados,Boolean ult_meses);
+        List<Pedido> ObtenerPedidosConFiltro(IFiltrosPedido filtro);
         List<Cliente> ObtenerClientes(); 
         List<Cliente> ObtenerClientesFiltro(); 
          List<EstadoPedido> ObtenerEstados();

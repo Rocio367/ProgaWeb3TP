@@ -26,24 +26,18 @@ namespace ProgaWeb3TP.Controllers
             _servicioArticulo = servicioArticulo;
         }
     
-        public ActionResult Lista(int estado,int id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1)
+        public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, string? id_estado = "Sin Filtro")
         {
             ListaPedidoVM model = new ListaPedidoVM();
 
-            model.id_estado =estado;
+            int?  id_estado_int = Int32.TryParse(id_estado, out int resultEstado) ? resultEstado : 1;
+
+            model.id_estado = id_estado_int;
             model.id_cliente = id_cliente;
             model.eliminados = eliminados;
             model.solo_ultimos_dos_meses = solo_ultimos_dos_meses;
-            if (id_cliente==0 && estado==0 && eliminados && solo_ultimos_dos_meses)
-            {
-                model.pedidos = this._servicioPedido.ObtenerPedidosSinFiltro().ToPagedList(1, 10);
+            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado_int, eliminados, solo_ultimos_dos_meses).ToPagedList(page, 10);
 
-            }
-            else
-            {
-                model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(model.id_cliente,model.id_estado, eliminados, solo_ultimos_dos_meses).ToPagedList(page, 10);
-
-            }
             model.estados = this._servicioPedido.ObtenerEstados();
             model.clientes = this._servicioPedido.ObtenerClientesFiltro();
 

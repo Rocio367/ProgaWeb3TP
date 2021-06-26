@@ -1,5 +1,6 @@
 ﻿using GestorDePedidos.Entidades;
 using Microsoft.EntityFrameworkCore;
+using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,49 +92,14 @@ namespace Repositorios
         public List<Pedido> ObtenerPedidosSinFiltro()
         {
             DateTime now = DateTime.Now;
-            //falta filtro de ult mdificacion
-            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).Where(a => a.FechaBorrado == null && now.Month - a.FechaCreacion.Month <= 2).ToList();
+            return _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).ToList();
 
         }
 
-        public List<Pedido> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados=true, Boolean ult_meses = true)
+        public List<Pedido> ObtenerPedidosConFiltro(IFiltrosPedido  filtro)
         {
-             DateTime now  = DateTime.Now;
-
-            List<Pedido>  todos=_context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).ToList();
-            List <Pedido> resultadosFiltro= new List<Pedido>();
-            resultadosFiltro = todos;
-            if (id_estado != 0 || id_cliente != 0) {
-                resultadosFiltro = todos.Where(e => e.IdEstado == id_estado || e.IdCliente == id_cliente).ToList(); ;
-            }
-           
-            if (eliminados)
-            {
-                if (resultadosFiltro.Count() == 0)
-                {
-                    resultadosFiltro = todos.Where(e => e.FechaBorrado == null).ToList();
-                }
-                else {
-                    resultadosFiltro = resultadosFiltro.Where(e => e.FechaBorrado == null).ToList();
-                }
-
-            }
-
-            if (ult_meses)
-            {
-                if (resultadosFiltro.Count() == 0)
-                {
-
-                   resultadosFiltro = todos.Where(e =>now.Month - e.FechaCreacion.Month <= 1).ToList();
-                }
-                else
-                {
-                    resultadosFiltro = resultadosFiltro.Where(e => now.Month - e.FechaCreacion.Month <= 1).ToList();
-                }
-
-            }
-
-            return resultadosFiltro;
+            var resultado = _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).Where(filtro.Evaluar).Select(articulo => articulo);
+            return resultado.ToList();
         }
     }
 }
