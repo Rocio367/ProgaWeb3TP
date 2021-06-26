@@ -1,5 +1,6 @@
 ﻿using GestorDePedidos.Entidades;
 using Microsoft.EntityFrameworkCore;
+using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
@@ -100,6 +101,78 @@ namespace Repositorios
         {
             var resultado = _context.Pedidos.Include(e => e.IdClienteNavigation).Include(e => e.ModificadoPorNavigation).Include(e => e.IdEstadoNavigation).Where(filtro.Evaluar).Select(articulo => articulo);
             return resultado.ToList();
+        }
+
+
+
+
+
+
+        // para API REST
+
+        public PedidoResponse BuscarPedidoApi(PedidoRequest body) {
+            List<Pedido> pedidos = _context.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
+
+            PedidoResponse respuesta = new PedidoResponse();
+            respuesta.Count = pedidos.Count;
+            respuesta.Items = pedidos.Select(p =>
+            {
+                return new PedidoDatos
+                {
+                    IdPedido = p.IdPedido,
+                    IdCliente = p.IdCliente,
+                    Estado = p.IdEstadoNavigation.Descripcion,
+                    FechaModificacion = p.FechaModificacion,
+                    ModificadoPor = new UsuarioDatos
+                    {
+                        IdUsuario = p.ModificadoPorNavigation.IdUsuario,
+                        Email = p.ModificadoPorNavigation.Email,
+                        Nombre = p.ModificadoPorNavigation.Nombre,
+                        Apellido = p.ModificadoPorNavigation.Apellido,
+                        FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
+                    },
+                      Articulos = this.obtenerArticulosPedidoDatos(p)
+
+                };
+            });
+
+            return respuesta;
+        }
+
+
+
+
+        public IEnumerable<ArticuloPedidoDatos> obtenerArticulosPedidoDatos(Pedido pedido)
+        {
+            IEnumerable<ArticuloPedidoDatos> articulos = pedido.PedidoArticulos.ToList().Select(a =>
+            {
+                var art = this.obtenerArticuloDatos(a.IdArticulo);
+                return new ArticuloPedidoDatos
+                {
+                    IdArticulo = art.IdArticulo,
+                    Codigo = art.Codigo,
+                    Descripcion = art.Descripcion,
+                    Cantidad = a.Cantidad
+                };
+
+            });
+            return articulos;
+        }
+
+        public ArticuloDatos obtenerArticuloDatos(int id)
+        {
+            var articulo = _context.Articulos.Where(a => a.IdArticulo == id).FirstOrDefault();
+
+
+            return new ArticuloDatos
+            {
+                IdArticulo = articulo.IdArticulo,
+                Codigo = articulo.Codigo,
+                Descripcion = articulo.Descripcion,
+
+
+            };
+
         }
     }
 }

@@ -6,7 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
+using Repositorios;
+using Servicios;
 
 namespace ApiRest
 {
@@ -30,6 +31,14 @@ namespace ApiRest
             });
             services.AddDbContext<_20211CTPContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
+            services.AddScoped<IServicioArticulo, ServicioArticulo>();
+            services.AddScoped<IRepositorioArticulo, RepositorioArticulo>();
+            services.AddScoped<IServicioCliente, ServicioCliente>();
+            services.AddScoped<IServicioUsuario, ServicioUsuario>();
+            services.AddScoped<IRepositorioCliente, RepositorioClienteEF>();
+            services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+            services.AddScoped<IServicioPedido, ServicioPedido>();
+            services.AddScoped<IRepositorioPedido, RepositorioPedido>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

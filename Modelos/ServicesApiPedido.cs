@@ -1,5 +1,5 @@
-﻿using ApiRest.Modelo;
-using GestorDePedidos.Entidades;
+﻿using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

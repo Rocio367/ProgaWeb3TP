@@ -1,5 +1,6 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using Repositorios;
 using Repositorios.Filtros.FiltrosPedido;
 using System;
@@ -248,7 +249,34 @@ namespace Servicios
            
 
         }
+        ///services para API REST
 
-     
+        public PedidoResponse BuscarPedidoApi(PedidoRequest body)
+        {
+            return _repositorioPedido.BuscarPedidoApi(body);
+        }
+
+        public MensajeResponse GuardarPedidoApi(GuardarPedidoRequest body) {
+            MensajeResponse msg = new MensajeResponse();
+            Pedido ped = new Pedido
+            {
+                IdCliente = body.IdCliente,
+                ModificadoPor=body.ModificadoPor.IdUsuario,
+                //IdPedido=body.IdPedido
+
+            };
+
+            body.Articulos.ForEach(d =>
+            {
+                ped.PedidoArticulos.Add(new PedidoArticulo
+                {
+                    IdArticulo = d.IdArticulo,
+                    Cantidad = d.Cantidad
+                });
+            });
+            int idPedido=_repositorioPedido.Guardar(ped);
+            msg.Mensaje = "Pedido " + idPedido + " guardado con éxito";
+            return msg;
+        }
     }
 }

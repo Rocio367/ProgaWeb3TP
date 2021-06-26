@@ -1,4 +1,5 @@
 ﻿using DTOs;
+using Modelos.ModelosApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,9 @@ namespace Servicios
         List<ClienteDTO> ObtenerClientesFiltro();
 
         List<EstadoPedidoDTO> ObtenerEstados();
+
+        PedidoResponse BuscarPedidoApi(PedidoRequest body);
+        MensajeResponse GuardarPedidoApi(GuardarPedidoRequest body);
+
     }
 }

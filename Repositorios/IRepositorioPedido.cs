@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,8 @@ namespace Repositorios
         List<Cliente> ObtenerClientes(); 
         List<Cliente> ObtenerClientesFiltro(); 
          List<EstadoPedido> ObtenerEstados();
+
+        PedidoResponse BuscarPedidoApi(PedidoRequest body);
+
     }
 }

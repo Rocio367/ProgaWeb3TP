@@ -1,8 +1,8 @@
 ﻿using API.Controllers;
-using ApiRest.Modelo;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Modelos.ModelosApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
