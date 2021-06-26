@@ -1,5 +1,6 @@
 ﻿
 using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Repositorios
         Articulo ObtenerArticulo(int id);
 
         List<Articulo> ObtenerArticulosSinFiltro();
-        List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados);
+        List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro);
         List<string> ObtenerDescripciones();
         List<string> ObtenerCodigos();
     }

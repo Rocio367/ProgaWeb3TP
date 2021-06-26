@@ -12,7 +12,7 @@ namespace Servicios
         void Guardar(ArticuloDTO ArticuloDTO);
         void Editar(ArticuloDTO ArticuloDTO);
         void Eliminar(int id);
-        List<ArticuloDTO> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados);
+        List<ArticuloDTO> ObtenerArticulos(string nombre, string number, Boolean eliminados);
         List<ArticuloDTO> ObtenerArticulosSinFiltro();
         ArticuloDTO ObtenerArticulo(int id);
         List<string> ObtenerDescripciones();

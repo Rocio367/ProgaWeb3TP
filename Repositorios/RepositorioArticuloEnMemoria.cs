@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,6 +103,11 @@ namespace Repositorios
         }
 
         public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, bool eliminados)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro)
         {
             throw new NotImplementedException();
         }

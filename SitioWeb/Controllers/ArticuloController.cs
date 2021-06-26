@@ -30,15 +30,7 @@ namespace ProgaWeb3TP.Controllers
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            if (string.IsNullOrEmpty(nombre) && string.IsNullOrEmpty(numero) && eliminados)
-            {
-                model.articulos = this._servicioArticulo.ObtenerArticulosSinFiltro().ToPagedList(page.Value, 10);
-
-            }
-            else {
-                model.articulos = this._servicioArticulo.ObtenerArticulosConFiltro(nombre, numero, eliminados).ToPagedList(page.Value, 10);
-
-            }
+            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).ToPagedList(page.Value, 10);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 

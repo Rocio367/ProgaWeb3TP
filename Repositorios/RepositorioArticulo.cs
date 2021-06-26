@@ -1,5 +1,6 @@
 ﻿
 using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,36 +42,15 @@ namespace Repositorios
         }
         public List<Articulo> ObtenerArticulosSinFiltro()
         {
-            return _context.Articulos.Where(a =>a.FechaBorrado == null).ToList();
+            return _context.Articulos.ToList();
         }
 
-        public List<Articulo> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
+        public List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro)
         {
-            List<Articulo> todos = _context.Articulos.ToList();
-            List<Articulo> resultadosFiltro = new List<Articulo>();
-            resultadosFiltro = todos;
+            var resultado = _context.Articulos.Where(filtro.Evaluar).Select(articulo => articulo);
+            return resultado.ToList();
 
-            if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(number))
-            {
-                resultadosFiltro = todos.Where(a => a.Descripcion == nombre || a.Codigo == number).ToList();
-            }
-            if (eliminados)
-            {
-                if (resultadosFiltro.Count() == 0)
-                {
-                    resultadosFiltro = todos.Where(e => e.FechaBorrado == null).ToList();
-                }
-                else
-                {
-                    resultadosFiltro = resultadosFiltro.Where(e => e.FechaBorrado == null).ToList();
-                }
 
-            }
-
-            return resultadosFiltro;
-            
-           
-            
         }
         public List<string> ObtenerDescripciones()
         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DTOs;
 using GestorDePedidos.Entidades;
-
+using Repositorios.Filtros.FiltrosArticulo;
 namespace Servicios
 {
     public class ServicioArticulo : IServicioArticulo
@@ -57,10 +57,32 @@ namespace Servicios
                 }
             ).ToList();
         }
-        public List<ArticuloDTO> ObtenerArticulosConFiltro(string nombre, string number, Boolean eliminados)
-        {   
-            List<Articulo> articulos = _repositorioArticulo.ObtenerArticulosConFiltro(nombre, number, eliminados);
-             
+        public List<ArticuloDTO> ObtenerArticulos(string nombre, string numero, Boolean eliminados)
+        {
+            FiltroCompuestoDeArticulo filtro = new FiltroCompuestoDeArticulo();
+            if (eliminados == true)
+            {
+                filtro.Agregar(new FiltroDadoDeBajaArticulo());
+            }
+
+            if (!string.IsNullOrWhiteSpace(nombre))
+            {
+                filtro.Agregar(new FiltroPorNombreArticulo(nombre));
+            }
+            if (!string.IsNullOrWhiteSpace(numero))
+            {
+                filtro.Agregar(new FiltroPorNumeroArticulo(numero));
+            }
+
+            List<Articulo> articulos = null;
+            if (filtro.TieneFiltros())
+            {
+                articulos = _repositorioArticulo.ObtenerArticulosConFiltro(filtro);
+            }
+            else
+            {
+                articulos = _repositorioArticulo.ObtenerArticulosSinFiltro();
+            }
             return articulos.Select(articulo =>
                 new ArticuloDTO
                 {
