@@ -1,5 +1,6 @@
 ﻿
 using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,24 @@ namespace Repositorios
             return _context.Articulos.Find(id);
         }
 
+        //API REST
+        public ArticuloResponse ObtenerArticulosConFiltroApi(FiltroRequest filtro) {
+            var articulos = _context.Articulos.Where(a => a.Descripcion.Contains(filtro.Filtro)).ToList();
 
+            ArticuloResponse respuesta = new ArticuloResponse();
+            respuesta.Count = articulos.Count;
+            respuesta.Items = articulos.Select(a =>
+            {
+                return new ArticuloDatos
+                {
+                    IdArticulo = a.IdArticulo,
+                    Codigo = a.Codigo,
+                    Descripcion = a.Descripcion,
+
+                };
+            });
+
+            return respuesta;
+        }
     }
 }

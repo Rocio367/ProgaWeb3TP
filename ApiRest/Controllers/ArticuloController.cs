@@ -3,6 +3,7 @@ using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Modelos.ModelosApi;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,54 +15,23 @@ namespace ApiRest.Controllers
     public class ArticuloController : ControllerBase
     {
 
-        private _20211CTPContext _contexto;
+        private IServicioArticulo _servicioArticulo;
 
-        public ArticuloController(_20211CTPContext context)
+        public ArticuloController(IServicioArticulo servicioArticulo)
         {
-            _contexto = context;
+            _servicioArticulo = servicioArticulo;
         }
 
         [HttpGet("productos")]
         public ArticuloResponse Get()
         {
-            var articulos = _contexto.Articulos.ToList();
-
-            ArticuloResponse respuesta = new ArticuloResponse();
-            respuesta.Count = articulos.Count;
-            respuesta.Items = articulos.Select(a =>
-            {
-                return new ArticuloDatos
-                {
-                    IdArticulo = a.IdArticulo,
-                    Codigo = a.Codigo,
-                    Descripcion = a.Descripcion,
-
-                  
-                };
-            });
-
-            return respuesta;
+            return _servicioArticulo.ObtenerArticulosApi();
         }
 
         [HttpPost("productos/filtrar")]
         public ArticuloResponse Filter(FiltroRequest filtro)
         {
-            var articulos = _contexto.Articulos.Where(a => a.Descripcion.Contains(filtro.Filtro)).ToList();
-
-            ArticuloResponse respuesta = new ArticuloResponse();
-            respuesta.Count = articulos.Count;
-            respuesta.Items = articulos.Select(a =>
-            {
-                return new ArticuloDatos
-                {
-                    IdArticulo = a.IdArticulo,
-                    Codigo = a.Codigo,
-                    Descripcion = a.Descripcion,
-
-                };
-            });
-
-            return respuesta;
+            return _servicioArticulo.FiltrarArticulosApi(filtro);
         }
     }
 }

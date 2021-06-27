@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,11 @@ namespace Repositorios
         }
 
         public List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ArticuloResponse ObtenerArticulosConFiltroApi(FiltroRequest filtro)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelos.ModelosApi;
 
 namespace Servicios
 {
@@ -17,5 +18,10 @@ namespace Servicios
         ArticuloDTO ObtenerArticulo(int id);
         List<string> ObtenerDescripciones();
         List<string> ObtenerCodigos();
+
+         ArticuloResponse ObtenerArticulosApi();
+
+         ArticuloResponse FiltrarArticulosApi(FiltroRequest filtro);
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using GestorDePedidos.Entidades;
+using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,8 @@ namespace Repositorios
         List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro);
         List<string> ObtenerDescripciones();
         List<string> ObtenerCodigos();
+
+        ArticuloResponse ObtenerArticulosConFiltroApi(FiltroRequest filtro);
+
     }
-    }
+}

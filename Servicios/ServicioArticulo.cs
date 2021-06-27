@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using DTOs;
 using GestorDePedidos.Entidades;
 using Repositorios.Filtros.FiltrosArticulo;
+using Modelos.ModelosApi;
+
 namespace Servicios
 {
     public class ServicioArticulo : IServicioArticulo
@@ -114,6 +116,30 @@ namespace Servicios
             return articuloDTO;
         }
 
+        //API REST
+        public ArticuloResponse ObtenerArticulosApi()
+        {
+            var articulos = _repositorioArticulo.ObtenerArticulosSinFiltro();
 
+            ArticuloResponse respuesta = new ArticuloResponse();
+            respuesta.Count = articulos.Count;
+            respuesta.Items = articulos.Select(a =>
+            {
+                return new ArticuloDatos
+                {
+                    IdArticulo = a.IdArticulo,
+                    Codigo = a.Codigo,
+                    Descripcion = a.Descripcion,
+
+
+                };
+            });
+
+            return respuesta;
+        }
+
+        public ArticuloResponse FiltrarArticulosApi(FiltroRequest filtro) {
+            return _repositorioArticulo.ObtenerArticulosConFiltroApi(filtro);
+        }
     }
 }
