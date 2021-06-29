@@ -22,14 +22,14 @@ namespace ApiRest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiRest", Version = "v1" });
             });
             services.AddDbContext<_20211CTPContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
+            options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

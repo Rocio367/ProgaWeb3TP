@@ -11,17 +11,18 @@ using System.Threading.Tasks;
 namespace ApiRest.Controllers
 {
     [ApiController]
-    public class ArticuloController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class ProductosController : ControllerBase
     {
 
         private _20211CTPContext _contexto;
 
-        public ArticuloController(_20211CTPContext context)
+        public ProductosController(_20211CTPContext context)
         {
             _contexto = context;
         }
 
-        [HttpGet("productos")]
+        [HttpGet]
         public ArticuloResponse Get()
         {
             var articulos = _contexto.Articulos.ToList();
@@ -43,7 +44,7 @@ namespace ApiRest.Controllers
             return respuesta;
         }
 
-        [HttpPost("productos/filtrar")]
+        [HttpPost("filtrar")]
         public ArticuloResponse Filter(FiltroRequest filtro)
         {
             var articulos = _contexto.Articulos.Where(a => a.Descripcion.Contains(filtro.Filtro)).ToList();

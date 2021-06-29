@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 namespace ApiRest.Controllers
 {
     [ApiController]
-
-    public class PedidoController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class PedidosController : ControllerBase
     {
         private _20211CTPContext _contexto;
         private  ServicesApiPedido _servicesApiPedido; 
 
-        public PedidoController(_20211CTPContext context)
+        public PedidosController(_20211CTPContext context)
         {
             _contexto = context;
         }
-        [HttpPost("pedidos/buscar")]
+        [HttpPost("buscar")]
         public PedidoResponse Filter(PedidoRequest body)
         {
             List<Pedido> pedidos = _contexto.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).Where(a => a.IdCliente== body.IdCliente && a.IdEstado== body.IdEstado).ToList();
