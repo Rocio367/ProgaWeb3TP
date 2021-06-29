@@ -9,16 +9,17 @@ using System.Linq;
 namespace API.Controllers
 {
     [ApiController]
-    public class ClienteController : ApiController
+    [Route("api/v1/[controller]")]
+    public class ClientesController : ControllerBase
     {
         private _20211CTPContext _contexto;
 
-        public ClienteController(_20211CTPContext context)
+        public ClientesController(_20211CTPContext context)
         {
             _contexto = context;
         }
 
-        [HttpGet("clientes")]
+        [HttpGet]
         public ClienteResponse Obtener()
         {
             List<Cliente> clientes = _contexto.Clientes.ToList();
@@ -26,7 +27,7 @@ namespace API.Controllers
             return ResponderConClientes(clientes);
         }
 
-        [HttpPost("clientes/filtrar")]
+        [HttpPost("filtrar")]
         public ClienteResponse Filtrar(FiltroClienteRequest filtro)
         {
             List<Cliente> clientes = _contexto.Clientes
