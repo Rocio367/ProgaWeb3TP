@@ -1,6 +1,9 @@
 ﻿using API.Modelo;
+using ApiRest.Modelo;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace API.Controllers
@@ -18,8 +21,23 @@ namespace API.Controllers
         [HttpGet("clientes")]
         public ClienteResponse Obtener()
         {
-            var clientes = _contexto.Clientes.ToList();
-            
+            List<Cliente> clientes = _contexto.Clientes.ToList();
+
+            return ResponderConClientes(clientes);
+        }
+
+        [HttpPost("clientes/filtrar")]
+        public ClienteResponse Filtrar(FiltroClienteRequest filtro)
+        {
+            List<Cliente> clientes = _contexto.Clientes
+                                            .Where(c => EF.Functions.Like(c.Nombre, $"%{filtro.Filtro}%"))
+                                            .ToList();
+
+            return ResponderConClientes(clientes);
+        }
+
+        private ClienteResponse ResponderConClientes(List<Cliente> clientes)
+        {
             ClienteResponse respuesta = new ClienteResponse();
             respuesta.Count = clientes.Count;
             respuesta.Items = clientes.Select(c =>
