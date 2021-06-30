@@ -13,17 +13,22 @@ using Servicios;
 namespace ApiRest.Controllers
 {
     [ApiController]
-
-    public class PedidoController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class PedidosController : ControllerBase
     {
         private IServicioPedido _servicioPedido;
 
+
         public PedidoController(IServicioPedido servicioPedido)
+
         {
             _servicioPedido = servicioPedido;
         }
+
         [HttpPost("pedidos/buscar")]
-        public PedidoResponse Buscar(PedidoRequest body)
+  
+        public PedidoResponse Filter(PedidoRequest body)
+
         {
             return _servicioPedido.BuscarPedidoApi(body);
         }

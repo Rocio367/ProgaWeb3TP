@@ -3,8 +3,8 @@
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/v1")]
-    public abstract class ApiController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class HealthCheckController : ControllerBase
     {
        [HttpGet("ping")]
        public string Ping()

@@ -12,23 +12,26 @@ using System.Threading.Tasks;
 namespace ApiRest.Controllers
 {
     [ApiController]
-    public class ArticuloController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class ProductosController : ControllerBase
     {
 
         private IServicioArticulo _servicioArticulo;
 
+
         public ArticuloController(IServicioArticulo servicioArticulo)
+
         {
             _servicioArticulo = servicioArticulo;
         }
 
-        [HttpGet("productos")]
+        [HttpGet]
         public ArticuloResponse Get()
         {
             return _servicioArticulo.ObtenerArticulosApi();
         }
 
-        [HttpPost("productos/filtrar")]
+        [HttpPost("filtrar")]
         public ArticuloResponse Filter(FiltroRequest filtro)
         {
             return _servicioArticulo.FiltrarArticulosApi(filtro);

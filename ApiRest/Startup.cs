@@ -1,13 +1,18 @@
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositorios;
 using Servicios;
+
+using System.Text;
+
 
 namespace ApiRest
 {
@@ -20,16 +25,35 @@ namespace ApiRest
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            byte[] secretKey = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("SecretKey"));
+            services.AddAuthentication(opciones =>
+            {
+                opciones.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opciones.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
+            }).AddJwtBearer(jwtBearer =>
+            {
+                jwtBearer.RequireHttpsMetadata = false;
+                jwtBearer.SaveToken = true;
+                jwtBearer.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiRest", Version = "v1" });
             });
             services.AddDbContext<_20211CTPContext>(options =>
+
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
             services.AddScoped<IServicioArticulo, ServicioArticulo>();
             services.AddScoped<IRepositorioArticulo, RepositorioArticulo>();
@@ -39,9 +63,9 @@ namespace ApiRest
             services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
             services.AddScoped<IServicioPedido, ServicioPedido>();
             services.AddScoped<IRepositorioPedido, RepositorioPedido>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -55,6 +79,7 @@ namespace ApiRest
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
