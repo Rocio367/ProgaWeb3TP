@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Modelos;
+using Modelos.ModelosApi;
 using PagedList;
 using Servicios;
 using SitioWeb.Models;

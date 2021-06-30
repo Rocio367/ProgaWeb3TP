@@ -1,5 +1,6 @@
 ﻿using DTOs;
 using Modelos;
+using Modelos.ModelosApi;
 using PagedList;
 using System.Collections.Generic;
 

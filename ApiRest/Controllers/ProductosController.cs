@@ -19,7 +19,7 @@ namespace ApiRest.Controllers
         private IServicioArticulo _servicioArticulo;
 
 
-        public ArticuloController(IServicioArticulo servicioArticulo)
+        public ProductosController(IServicioArticulo servicioArticulo)
 
         {
             _servicioArticulo = servicioArticulo;

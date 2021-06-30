@@ -45,6 +45,7 @@ namespace Repositorios
         public void Eliminar(int id)
         {
             Pedido ped = _context.Pedidos.Find(id);
+            ped.IdEstado = 2;
             ped.FechaBorrado = DateTime.Now;
             _context.SaveChanges();
         }
@@ -111,7 +112,7 @@ namespace Repositorios
         // para API REST
 
         public PedidoResponse BuscarPedidoApi(PedidoRequest body) {
-            List<Pedido> pedidos = _context.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
+            List<Pedido> pedidos = _context.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).ThenInclude(a => a.IdArticuloNavigation).Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
 
             PedidoResponse respuesta = new PedidoResponse();
             respuesta.Count = pedidos.Count;
@@ -146,7 +147,7 @@ namespace Repositorios
         {
             IEnumerable<ArticuloPedidoDatos> articulos = pedido.PedidoArticulos.ToList().Select(a =>
             {
-                var art = this.obtenerArticuloDatos(a.IdArticulo);
+                var art = a.IdArticuloNavigation;
                 return new ArticuloPedidoDatos
                 {
                     IdArticulo = art.IdArticulo,
