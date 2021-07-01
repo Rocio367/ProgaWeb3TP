@@ -121,6 +121,7 @@ namespace Servicios
                 IdEstado = ped.IdEstado,
                 FechaCreacion = ped.FechaCreacion,
                 FechaModificacion = ped.FechaModificacion,
+                FechaBorrado = ped.FechaBorrado,
                 NroPedido = ped.NroPedido,
                 Comentarios=ped.Comentarios,
                 IdClienteNavigation = new ClienteDTO
@@ -193,6 +194,8 @@ namespace Servicios
                     IdEstado = ped.IdEstado,
                     FechaCreacion = ped.FechaCreacion,
                     FechaModificacion = ped.FechaModificacion,
+                    FechaBorrado = ped.FechaBorrado,
+
                     NroPedido = ped.NroPedido,
                     IdClienteNavigation = new ClienteDTO
                     {
@@ -234,6 +237,8 @@ namespace Servicios
                         IdEstadoPedido = ped.IdEstadoNavigation.IdEstadoPedido,
                         Descripcion = ped.IdEstadoNavigation.Descripcion
                     },
+                    FechaBorrado = ped.FechaBorrado,
+
                     FechaModificacion = ped.FechaModificacion,
                     NroPedido = ped.NroPedido,
                     ModificadoPorNavigation = (ped.ModificadoPor != null) ? new UsuarioDTO

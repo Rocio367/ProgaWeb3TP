@@ -32,7 +32,7 @@ namespace Repositorios
         {            
             //cambiar el modificadoPor por el id del usaurio actual
 
-            Pedido ped = _context.Pedidos.Find(pedido.IdPedido);
+            Pedido ped = _context.Pedidos.Where(d => d.IdPedido == pedido.IdPedido).Include(d => d.PedidoArticulos).FirstOrDefault();
             ped.PedidoArticulos = pedido.PedidoArticulos;
             ped.Comentarios = pedido.Comentarios;
             ped.ModificadoPor = 1;
@@ -112,30 +112,35 @@ namespace Repositorios
         // para API REST
 
         public PedidoResponse BuscarPedidoApi(PedidoRequest body) {
-            List<Pedido> pedidos = _context.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).ThenInclude(a => a.IdArticuloNavigation).Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
-
+            List<Pedido> pedidos = _context.Pedidos.Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
             PedidoResponse respuesta = new PedidoResponse();
+            respuesta.Items = new List<PedidoDatos>();
             respuesta.Count = pedidos.Count;
-            respuesta.Items = pedidos.Select(p =>
-            {
-                return new PedidoDatos
-                {
-                    IdPedido = p.IdPedido,
-                    IdCliente = p.IdCliente,
-                    Estado = p.IdEstadoNavigation.Descripcion,
-                    FechaModificacion = p.FechaModificacion,
-                    ModificadoPor = new UsuarioDatos
-                    {
-                        IdUsuario = p.ModificadoPorNavigation.IdUsuario,
-                        Email = p.ModificadoPorNavigation.Email,
-                        Nombre = p.ModificadoPorNavigation.Nombre,
-                        Apellido = p.ModificadoPorNavigation.Apellido,
-                        FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
-                    },
-                      Articulos = this.obtenerArticulosPedidoDatos(p)
+            if (pedidos!= null) {
 
-                };
-            });
+               pedidos.ForEach(p =>
+                {
+                    PedidoDatos ped = new PedidoDatos()
+                    {
+                        IdPedido = p.IdPedido,
+                        IdCliente = p.IdCliente,
+                        Estado = p.IdEstadoNavigation.Descripcion,
+                        FechaModificacion = p.FechaModificacion,
+                        ModificadoPor = new UsuarioDatos
+                        {
+                            IdUsuario = p.ModificadoPorNavigation.IdUsuario,
+                            Email = p.ModificadoPorNavigation.Email,
+                            Nombre = p.ModificadoPorNavigation.Nombre,
+                            Apellido = p.ModificadoPorNavigation.Apellido,
+                            FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
+                        },
+                        Articulos = this.obtenerArticulosPedidoDatos(p)
+                    };
+                    respuesta.Items.Add(ped);
+
+                });
+            }
+          
 
             return respuesta;
         }

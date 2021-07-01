@@ -91,7 +91,19 @@
                     <th class="text-center" scope="row">@art.Descripcion</th>
                     <td class="text-center">@art.Codigo</td>
                     <td class="text-center"><button role="link" onclick="window.location = '/Articulo/Editar/@art.Id'" class="btn btn-info">Ver</button></td>
-                    <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@art.Id">Eliminar</button> </td>
+                    <td class="text-center">
+                        @if (art.FechaBorrado == null)
+                        {
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@art.Id">Eliminar</button>
+
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-danger" data-toggle="modal" disabled data-target="#eliminarId-@art.Id">Eliminar</button>
+
+                        }
+
+                    </td>
                     @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
 
                     <!-- Button to Open the Modal -->
@@ -151,14 +163,14 @@
 
 
             <ul class="pagination  justify-content-center">
-                <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageLast==0)?1 : @pageLast })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+                <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageLast==0)?1 : @pageLast,nombre = @Model.nombre,numero = @Model.numero,eliminados = @Model.eliminados })><i class="bi bi-chevron-left"></i>Anterior</a></li>
 
                 @for (int index = 1; index <= @Model.articulos.PageCount; index++)
                 {
-                    <li class="page-item" role="link" onclick="window.location='/Articulo/Lista?page=@index'"><a class="page-link" href="#">@index</a></li>
+                    <li class="page-item" role="link" onclick="window.location='/Articulo/Lista?page=@index&nombre=@Model.nombre&numero=@Model.numero&eliminados=@Model.eliminados'"><a class="page-link" href="#">@index</a></li>
 
                 }
-                <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageNext== @tope)? @Model.articulos.PageCount : @pageNext   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Articulo", new { page = (@pageNext== @tope)? @Model.articulos.PageCount : @pageNext ,nombre = @Model.nombre,numero = @Model.numero,eliminados = @Model.eliminados  })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
             </ul>
         </nav>
 

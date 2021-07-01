@@ -8,6 +8,6 @@ namespace Modelos.ModelosApi
     public class PedidoResponse
     {
         public int Count { get; set; }
-        public IEnumerable<PedidoDatos> Items { get; set; }
+        public List<PedidoDatos> Items { get; set; }
     }
 }

@@ -49,11 +49,11 @@
             </div>
             <div class="col-md-3">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  asp-for="solo_ultimos_dos_meses">
+                    <input type="checkbox" class="form-check-input"   value="@Model.solo_ultimos_dos_meses" asp-for="solo_ultimos_dos_meses">
                     <label class="form-check-label" for="exampleCheck1">Solo últimos 2 meses:</label>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  asp-for="eliminados">
+                    <input type="checkbox" class="form-check-input"  value="@Model.eliminados" asp-for="eliminados">
                     <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
                 </div>
             </div>
@@ -109,7 +109,19 @@
                             </td>
                                         <td class="text-center"><button role="link" onclick="window.location = '/Pedido/Editar/@ped.IdPedido'" class="btn btn-info">Ver</button>
 </td>
-                                <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@ped.IdPedido">Eliminar</button> </td>
+                                        <td class="text-center">
+
+                                            @if (ped.FechaBorrado == null)
+                                            {
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
+
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" disabled data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
+
+                                            }
+                                        </td>
                                 @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
 
                                 <!-- Button to Open the Modal -->
@@ -169,14 +181,14 @@
 
 
                     <ul class="pagination  justify-content-center">
-                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageLast==0)?1 : @pageLast })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageLast==0)?1 : @pageLast,id_cliente = @Model.id_cliente,id_estado = @Model.id_estado,eliminados = @Model.eliminados,solo_ultimos_dos_meses = @Model.solo_ultimos_dos_meses  })><i class="bi bi-chevron-left"></i>Anterior</a></li>
 
                         @for (int index = 1; index <= @Model.pedidos.PageCount; index++)
                         {
-                            <li class="page-item" role="link" onclick="window.location='/Pedido/Lista?page=@index'"><a class="page-link" href="#">@index</a></li>
+                            <li class="page-item" role="link" onclick="window.location='/Pedido/Lista?page=@index&id_cliente=@Model.id_cliente&id_estado=@Model.id_estado&eliminados=@Model.eliminados&solo_ultimos_dos_meses=@Model.solo_ultimos_dos_meses '"><a class="page-link" href="#">@index</a></li>
 
                         }
-                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageNext== @tope)? @Model.pedidos.PageCount : @pageNext   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                        <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Pedido", new { page = (@pageNext== @tope)? @Model.pedidos.PageCount : @pageNext ,id_cliente = @Model.id_cliente,id_estado = @Model.id_estado,eliminados = @Model.eliminados,solo_ultimos_dos_meses = @Model.solo_ultimos_dos_meses   })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
                     </ul>
                 </nav>
 

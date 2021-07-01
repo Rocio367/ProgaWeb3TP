@@ -8,7 +8,7 @@
 
 
             <h4 class="card-title mb-4 mt-1 ">Editar Pedido</h4>
-            <form method="POST" action="/Pedido/Editar">
+            <form method="POST" >
                 <input type="hidden" name="view" value="Editar" />
 
                 <input type="hidden" asp-for="@Model.pedido.IdPedido" value="@Model.pedido.IdPedido" />
@@ -65,7 +65,7 @@
                         <input name="cantidad" type="number" value="0" class="form-control" placeholder="2">
                     </div> <!-- form-group// -->
                     <div class="form-group col-md-2 ">
-                        <input type="submit" value="Agregar" formaction="AgregarArticulo" id="btn-agregar" class="btn btn-primary" />
+                        <input type="submit" value="Agregar" formaction="/Pedido/AgregarArticulo" id="btn-agregar" class="btn btn-primary" />
 
 
                     </div> <!-- form-group// -->

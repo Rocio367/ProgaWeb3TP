@@ -37,6 +37,7 @@ namespace Servicios
                 Codigo = ArticuloDTO.Codigo,
                 Descripcion = ArticuloDTO.Descripcion,
 
+
             };
             _repositorioArticulo.Editar(aticulo);
         }
@@ -55,6 +56,8 @@ namespace Servicios
                     Id = articulo.IdArticulo,
                     Codigo = articulo.Codigo,
                     Descripcion = articulo.Descripcion,
+                    FechaBorrado = articulo.FechaBorrado,
+
 
                 }
             ).ToList();
@@ -91,6 +94,7 @@ namespace Servicios
                     Id = articulo.IdArticulo,
                     Codigo = articulo.Codigo,
                     Descripcion = articulo.Descripcion,
+                    FechaBorrado = articulo.FechaBorrado,
 
                 }
             ).ToList();
@@ -111,7 +115,8 @@ namespace Servicios
             {
                 Id = articulo.IdArticulo,
                 Codigo = articulo.Codigo,
-                Descripcion = articulo.Descripcion
+                Descripcion = articulo.Descripcion,
+
             };
             return articuloDTO;
         }

@@ -25,14 +25,14 @@ namespace ApiRest.Controllers
             _servicioPedido = servicioPedido;
         }
 
-        [HttpPost("pedidos/buscar")]
+        [HttpPost("buscar")]
   
         public PedidoResponse Filter(PedidoRequest body)
 
         {
             return _servicioPedido.BuscarPedidoApi(body);
         }
-        [HttpPost("pedidos/guardar")]
+        [HttpPost("guardar")]
         public MensajeResponse Guardar(GuardarPedidoRequest body)
         {
             return _servicioPedido.GuardarPedidoApi(body);
