@@ -110,41 +110,28 @@ namespace Repositorios
 
 
         // para API REST
+        public PedidoResponse BuscarPedidoApi(PedidoRequest body)
+        {
+            List<Pedido> pedidos = _context.Pedidos.Include(a => a.IdEstadoNavigation).Include(a => a.ModificadoPorNavigation).Include(a => a.PedidoArticulos).ThenInclude(a => a.IdArticuloNavigation).Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
 
-        public PedidoResponse BuscarPedidoApi(PedidoRequest body) {
-            List<Pedido> pedidos = _context.Pedidos.Where(a => a.IdCliente == body.IdCliente && a.IdEstado == body.IdEstado).ToList();
             PedidoResponse respuesta = new PedidoResponse();
-            respuesta.Items = new List<PedidoDatos>();
             respuesta.Count = pedidos.Count;
-            if (pedidos!= null) {
-
-               pedidos.ForEach(p =>
+            respuesta.Items = pedidos.Select(p =>
+            {
+                return new PedidoDatos
                 {
-                    PedidoDatos ped = new PedidoDatos()
-                    {
-                        IdPedido = p.IdPedido,
-                        IdCliente = p.IdCliente,
-                        Estado = p.IdEstadoNavigation.Descripcion,
-                        FechaModificacion = p.FechaModificacion,
-                        ModificadoPor = new UsuarioDatos
-                        {
-                            IdUsuario = p.ModificadoPorNavigation.IdUsuario,
-                            Email = p.ModificadoPorNavigation.Email,
-                            Nombre = p.ModificadoPorNavigation.Nombre,
-                            Apellido = p.ModificadoPorNavigation.Apellido,
-                            FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
-                        },
-                        Articulos = this.obtenerArticulosPedidoDatos(p)
-                    };
-                    respuesta.Items.Add(ped);
+                    IdPedido = p.IdPedido,
+                    IdCliente = p.IdCliente,
+                    Estado = p.IdEstadoNavigation.Descripcion,
+                    FechaModificacion = p.FechaModificacion,
+                    ModificadoPor = (p.ModificadoPorNavigation!=null) ? this.obtenerUsuarioDatos(p): null,
+                    Articulos = this.obtenerArticulosPedidoDatos(p)
 
-                });
-            }
-          
+                };
+            }).ToList();
 
             return respuesta;
         }
-
 
 
 
@@ -165,20 +152,26 @@ namespace Repositorios
             return articulos;
         }
 
-        public ArticuloDatos obtenerArticuloDatos(int id)
+
+
+
+        public UsuarioDatos obtenerUsuarioDatos(Pedido p)
         {
-            var articulo = _context.Articulos.Where(a => a.IdArticulo == id).FirstOrDefault();
+            return  new UsuarioDatos
+                {
+                    IdUsuario = p.ModificadoPorNavigation.IdUsuario,
+                    Email = p.ModificadoPorNavigation.Email,
+                    Nombre = p.ModificadoPorNavigation.Nombre,
+                    Apellido = p.ModificadoPorNavigation.Apellido,
+                    FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
 
-
-            return new ArticuloDatos
-            {
-                IdArticulo = articulo.IdArticulo,
-                Codigo = articulo.Codigo,
-                Descripcion = articulo.Descripcion,
-
-
-            };
-
+                };
+            
         }
     }
+
+  
+       
+    
 }
+
