@@ -16,7 +16,7 @@ namespace Repositorios.Filtros.FiltrosArticulo
         }
         public bool Evaluar(Articulo articulo)
         {
-            return articulo.Descripcion == _nombre;
+            return articulo.Descripcion.Contains(_nombre,System.StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }

@@ -15,18 +15,35 @@
 
         </div>
     </div>
+   </div>
     <form action ="/Cliente/Lista" method="get">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="filtroNombreCliente"> Nombre Cliente:</label>
-                    <input type="text" class="form-control" name="Nombre" id="filtroNombreCliente" placeholder="Nombre Cliente" value="@Model.Filtro.Nombre"/>
+                    <select class="custom-select js-example-basic" type="text" name="Nombre" id="filtroNombreCliente" value="@Model.Filtro.Nombre">
+
+                        <option value="">Sin filtro</option>
+
+                        @foreach (DTOs.ClienteDTO cli in @Model.ClientesFiltro)
+                        {
+                            <option value="@cli.Nombre">@cli.Nombre</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="filtroNumeroCliente"> Numero:</label>
-                    <input type="text" class="form-control" name="Numero" id="filtroNumeroCliente" placeholder="Numero Cliente" value="@Model.Filtro.Numero" />
+                    <label for="filtroNumeroCliente js-example-basic"> Numero:</label>
+                    <select class="custom-select js-example-basic" type="text" name="Numero" id="filtroNumeroCliente" placeholder="Numero Cliente" value="@Model.Filtro.Numero">
+
+                        <option value="">Sin filtro</option>
+
+                        @foreach (DTOs.ClienteDTO cli in @Model.ClientesFiltro)
+                        {
+                            <option value="@cli.Numero">@cli.Numero</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="col-md-3">

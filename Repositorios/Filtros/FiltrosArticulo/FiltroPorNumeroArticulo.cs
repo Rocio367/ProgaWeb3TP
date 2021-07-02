@@ -16,7 +16,7 @@ namespace Repositorios.Filtros.FiltrosArticulo
         }
         public bool Evaluar(Articulo articulo)
         {
-            return articulo.Codigo == _numero;
+            return articulo.Codigo.Contains(_numero);
         }
     }
 }

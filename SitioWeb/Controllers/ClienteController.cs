@@ -164,7 +164,8 @@ namespace GestorDePedidos.Controllers
             {
                 Filtro = filtro,
                 Clientes = pagina,
-                NumeroPaginaActual = paginaPedida
+                NumeroPaginaActual = paginaPedida,
+                ClientesFiltro = _servicioCliente.ObtenerClientes()
             };
 
             return View("Lista", modelo);

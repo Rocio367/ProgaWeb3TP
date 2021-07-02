@@ -16,7 +16,7 @@ namespace Repositorios.Filtros
         }
         public bool Evaluar(Cliente cliente)
         {
-            return cliente.Nombre == _nombre;
+            return cliente.Nombre.Contains(_nombre, System.StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }

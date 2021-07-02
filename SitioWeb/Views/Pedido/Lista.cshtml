@@ -24,7 +24,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Cliente:</label>
-                    <select class="custom-select" type="text" asp-for="id_cliente"  value="@Model.id_cliente">
+                    <select class="custom-select js-example-basic"  type="text" asp-for="id_cliente" value="@Model.id_cliente">
                         <option value="">Sin filtro</option>
 
                         @foreach (DTOs.ClienteDTO cli in @Model.clientes)
@@ -37,8 +37,8 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Estado</label>
-                    <select class="custom-select" type="text" asp-for="id_estado" value="@Model.id_estado">
-                        <option value="-1" >Sin filtro</option>
+                    <select class="custom-select js-example-basic"  type="text" asp-for="id_estado" value="@Model.id_estado">
+                        <option value="-1">Sin filtro</option>
 
                         @foreach (DTOs.EstadoPedidoDTO ped in @Model.estados)
                         {
@@ -49,11 +49,11 @@
             </div>
             <div class="col-md-3">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input"   value="@Model.solo_ultimos_dos_meses" asp-for="solo_ultimos_dos_meses">
+                    <input type="checkbox" class="form-check-input" value="@Model.solo_ultimos_dos_meses" asp-for="solo_ultimos_dos_meses">
                     <label class="form-check-label" for="exampleCheck1">Solo últimos 2 meses:</label>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  value="@Model.eliminados" asp-for="eliminados">
+                    <input type="checkbox" class="form-check-input" value="@Model.eliminados" asp-for="eliminados">
                     <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
                 </div>
             </div>
@@ -87,41 +87,42 @@
                     <tbody>
                         @foreach (DTOs.PedidoDTO ped in @Model.pedidos)
                         {
-                        <tr>
+                            <tr>
 
-                            <th class="text-center" scope="row"> @ped.IdClienteNavigation.Nombre - @ped.NroPedido</th>
-                            <td class="text-center">@ped.IdEstadoNavigation.Descripcion</td>
-                            <td class="text-center">
+                                <th class="text-center" scope="row"> @ped.IdClienteNavigation.Nombre - @ped.NroPedido</th>
+                                <td class="text-center">@ped.IdEstadoNavigation.Descripcion</td>
+                                <td class="text-center">
 
-                                @if (ped.FechaModificacion != null)
-                                {
-                                    <span>
-                                        @ped.FechaModificacion (@ped.ModificadoPorNavigation.Nombre, @ped.ModificadoPorNavigation.Apellido)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                       Sin Modificaciones
-                                    </span>
-                                }
+                                    @if (ped.FechaModificacion != null)
+                                    {
+                                        <span>
+                                            @ped.FechaModificacion (@ped.ModificadoPorNavigation.Nombre, @ped.ModificadoPorNavigation.Apellido)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            Sin Modificaciones
+                                        </span>
+                                    }
 
-                            </td>
-                                        <td class="text-center"><button role="link" onclick="window.location = '/Pedido/Editar/@ped.IdPedido'" class="btn btn-info">Ver</button>
-</td>
-                                        <td class="text-center">
+                                </td>
+                                <td class="text-center">
+                                    <button role="link" onclick="window.location = '/Pedido/Editar/@ped.IdPedido'" class="btn btn-info">Ver</button>
+                                </td>
+                                <td class="text-center">
 
-                                            @if (ped.FechaBorrado == null)
-                                            {
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
+                                    @if (ped.FechaBorrado == null)
+                                    {
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
 
-                                            }
-                                            else
-                                            {
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" disabled data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" disabled data-target="#eliminarId-@ped.IdPedido">Eliminar</button>
 
-                                            }
-                                        </td>
+                                    }
+                                </td>
                                 @*<button role="link" onclick="window.location = '/Articulo/Eliminar/@art.Id'" class="btn btn-danger">Eliminar</button>*@
 
                                 <!-- Button to Open the Modal -->
@@ -198,5 +199,5 @@
 
 
 
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 

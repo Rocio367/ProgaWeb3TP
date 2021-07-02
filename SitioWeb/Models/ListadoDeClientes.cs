@@ -11,5 +11,7 @@ namespace SitioWeb.Models
         public FiltroCliente Filtro {get; set;}
         public IPagedList<ClienteDTO> Clientes { get; set; }
         public int NumeroPaginaActual { get; set; }
+        public List<ClienteDTO> ClientesFiltro { set; get; }
+
     }
 }

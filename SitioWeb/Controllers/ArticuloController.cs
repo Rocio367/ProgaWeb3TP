@@ -13,7 +13,7 @@ using SitioWeb.Models;
 namespace ProgaWeb3TP.Controllers
 {
     public class ArticuloController : BaseController
-    { //
+    { 
         private IServicioArticulo _servicioArticulo;
 
         public ArticuloController(IServicioArticulo servicioArticulo)

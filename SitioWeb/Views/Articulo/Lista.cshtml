@@ -26,7 +26,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Nombre Articulo:</label>
-                    <select class="custom-select" type="text" asp-for="nombre"  value="@Model.nombre">
+                    <select class="custom-select js-example-basic" type="text" asp-for="nombre"  value="@Model.nombre">
                         <option value="">Sin filtro</option>
 
                         @foreach (string nombre in @Model.nombres)
@@ -39,7 +39,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Numero:</label>
-                    <select class="custom-select" asp-for="numero"  value="@Model.numero">
+                    <select class="custom-select js-example-basic" asp-for="numero"  value="@Model.numero">
                         <option value="">Sin filtro</option>
 
                         @foreach (string numero in @Model.numeros)
