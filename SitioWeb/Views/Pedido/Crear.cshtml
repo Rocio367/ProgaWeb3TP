@@ -13,7 +13,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="exampleFormControlSelect1">Cliente:</label>
-                    <select class="custom-select" asp-for="pedido.idCliente" value="@Model.pedido.idCliente">
+                    <select class="custom-select js-example-basic" asp-for="pedido.idCliente" value="@Model.pedido.idCliente">
                         @foreach (DTOs.ClienteDTO cli in @Model.Clientes)
                         {
                             <option value="@cli.IdCliente"> @cli.Nombre</option>
