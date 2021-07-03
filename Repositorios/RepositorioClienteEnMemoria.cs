@@ -47,5 +47,10 @@ namespace Repositorios
         {
             return _clientes;
         }
+
+        public List<Cliente> ObtenerClientesParaFiltro()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

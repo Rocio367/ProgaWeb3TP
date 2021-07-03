@@ -119,5 +119,21 @@ namespace Servicios
                 return false;
             }
         }
+
+        public List<ClienteDTO> ObtenerClientesParaFiltro()
+        {
+                List<Cliente> clientes = _repositorioCliente.ObtenerClientesParaFiltro();
+                return clientes.Select(cli =>
+                    new ClienteDTO
+                    {
+                        IdCliente = cli.IdCliente,
+                        Nombre = cli.Nombre,
+
+
+                    }
+                ).ToList();
+            
+
+        }
     }
 }

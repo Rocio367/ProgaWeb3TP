@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Microsoft.EntityFrameworkCore;
 using Repositorios.Filtros;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,22 @@ namespace Repositorios
         {
             var resultado = _contexto.Clientes.Where(filtro.Evaluar).Select(cliente => cliente);
             return resultado.ToList();
+        }
+
+        public List<Cliente> ObtenerClientesParaFiltro()
+        {
+
+            List<Cliente> resultados = new List<Cliente>();
+            List<Cliente> resultadosBD = _contexto.Clientes.Include(e => e.Pedidos).Where(e => e.FechaBorrado == null).ToList();
+            resultadosBD.ForEach(e =>
+            {
+                if (e.Pedidos.Where(d => d.IdEstado == 1).ToList().Count() <= 1)
+                {
+                    resultados.Add(e);
+                }
+            });
+
+            return resultados;
         }
     }
 }

@@ -13,5 +13,7 @@ namespace Servicios
         ClienteDTO Eliminar(int id);
         Boolean ExisteCliente(int id);
         public List<ClienteDTO> ObtenerClientesPorFiltro(string? Nombre, int? Numero, bool ExcluirEliminados);
+
+        List<ClienteDTO> ObtenerClientesParaFiltro();
     }
 }

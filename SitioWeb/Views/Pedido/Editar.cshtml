@@ -8,10 +8,12 @@
 
 
             <h4 class="card-title mb-4 mt-1 ">Editar Pedido</h4>
-            <form method="POST" >
+            <form method="POST">
                 <input type="hidden" name="view" value="Editar" />
 
                 <input type="hidden" asp-for="@Model.pedido.IdPedido" value="@Model.pedido.IdPedido" />
+                <input type="hidden" asp-for="@Model.pedido.IdClienteNavigation.Nombre" value="@Model.pedido.IdClienteNavigation.Nombre" />
+                <input type="hidden" asp-for="@Model.pedido.IdEstadoNavigation.Descripcion" value="@Model.pedido.IdEstadoNavigation.Descripcion" />
 
                 <div class="form-row">
                     <div class="form-group col-md-6">

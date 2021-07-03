@@ -11,5 +11,8 @@ namespace Repositorios
         Cliente ObtenerCliente(int id);
         void Actualizar();
         public List<Cliente> ObtenerClientePorFiltro(IFiltroCliente filtro);
+
+        public List<Cliente> ObtenerClientesParaFiltro();
+
     }
 }

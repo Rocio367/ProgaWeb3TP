@@ -19,13 +19,15 @@ namespace ProgaWeb3TP.Controllers
     {
         private IServicioPedido _servicioPedido;
         private IServicioArticulo _servicioArticulo;
+        private IServicioCliente _servicioCliente;
 
-        public PedidoController(IServicioPedido servicioPedido, IServicioArticulo servicioArticulo)
+        public PedidoController(IServicioPedido servicioPedido, IServicioCliente servicioCliente, IServicioArticulo servicioArticulo)
         {
             _servicioPedido = servicioPedido;
             _servicioArticulo = servicioArticulo;
+            _servicioCliente = servicioCliente;
         }
-    
+
         public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, string? id_estado = "Sin Filtro")
         {
             ListaPedidoVM model = new ListaPedidoVM();
@@ -39,7 +41,7 @@ namespace ProgaWeb3TP.Controllers
             model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado_int, eliminados, solo_ultimos_dos_meses).ToPagedList(page, 10);
 
             model.estados = this._servicioPedido.ObtenerEstados();
-            model.clientes = this._servicioPedido.ObtenerClientesFiltro();
+            model.clientes = _servicioCliente.ObtenerClientes();
 
             ViewBag.page = page;
 
@@ -50,7 +52,7 @@ namespace ProgaWeb3TP.Controllers
         [HttpPost]
         public ActionResult EliminarArticulo(CrearPedidoVM model, int idPedido, int idEliminar)
         {
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -69,7 +71,7 @@ namespace ProgaWeb3TP.Controllers
 
         [HttpPost]
         public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad, string view ) {
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -130,7 +132,7 @@ namespace ProgaWeb3TP.Controllers
             CrearPedidoVM model = new CrearPedidoVM();
             model.pedido = new PedidoDTO();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
 
@@ -139,7 +141,7 @@ namespace ProgaWeb3TP.Controllers
         [HttpPost]
 
         public ActionResult Crear(CrearPedidoVM model){
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -170,7 +172,7 @@ namespace ProgaWeb3TP.Controllers
         // [ValidateAntiForgeryToken]
         public ActionResult GuardarYCrearOtro(CrearPedidoVM model)
         {
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -202,7 +204,7 @@ namespace ProgaWeb3TP.Controllers
         {
             CrearPedidoVM model = new CrearPedidoVM();
             model.pedido = _servicioPedido.ObtenerPedido(id);
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
 
             if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") == null)
@@ -221,7 +223,7 @@ namespace ProgaWeb3TP.Controllers
 
         public ActionResult Editar(CrearPedidoVM model)
         {
-            model.Clientes = _servicioPedido.ObtenerClientes();
+            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
