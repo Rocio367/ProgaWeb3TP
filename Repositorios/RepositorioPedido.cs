@@ -11,10 +11,10 @@ namespace Repositorios
 {
     public class RepositorioPedido : IRepositorioPedido
     {
-        _20211CTPContext _context;
-        public RepositorioPedido()
+        private _20211CTPContext _context;
+        public RepositorioPedido(_20211CTPContext contexto)
         {
-            _context = new _20211CTPContext();
+            _context = contexto;
 
         }
         public int cambiarEstado(int idPedido, int idEstado)
