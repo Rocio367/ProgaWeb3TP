@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosUsuarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,9 @@ namespace Repositorios
             }
         }
 
-
-
+        public List<Usuario> ObtenerUsuariosPorFiltro(IFiltroUsuario filtro)
+        {
+            var resultado = _contexto.Usuarios.Where
+        }
     }
 }

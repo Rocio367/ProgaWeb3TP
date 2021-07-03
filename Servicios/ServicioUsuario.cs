@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
 using Repositorios;
+using Repositorios.Filtros.FiltrosUsuarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,39 @@ namespace Servicios
             {
                 return false;
             }
+        }
+
+        public List<UsuarioDTO> ObtenerUsuariosPorFiltro(string nombre, string? email, bool ExcluirEliminados)
+        {
+            FiltroCompuestoDeUsuarios filtro = new FiltroCompuestoDeUsuarios();
+            if(ExcluirEliminados == true)
+            {
+                filtro.Agregar(new FiltroPorDadoDeBaja());
+            }
+            if(!string.IsNullOrWhiteSpace(nombre))
+            {
+                filtro.Agregar(new FiltroPorNombreUsuario(nombre));
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                filtro.Agregar(new FiltroPorNombreUsuario(email));
+            }
+            List<Usuario> usuarios= null;
+            if (filtro.TieneFiltros())
+            {
+                usuarios= _repositorioUsuario.ObtenerUsuariosPorFiltro(filtro);
+            }
+            else
+            {
+                usuarios= _repositorioUsuario.ObtenerUsuarios();
+            }
+
+            return usuarios.Select(usuario=> ConvertirEnDTO(usuario)).ToList();
+        }
+
+        public List<UsuarioDTO> ObtenerUsuariosParaFiltro()
+        {
+            throw new NotImplementedException();
         }
     }
 }

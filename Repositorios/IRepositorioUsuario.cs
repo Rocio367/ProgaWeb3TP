@@ -3,7 +3,7 @@ using GestorDePedidos.Entidades;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Repositorios.Filtros.FiltrosUsuarios;
 
 namespace Repositorios
 {
@@ -16,5 +16,7 @@ namespace Repositorios
         void EliminarUsuario(Usuario usuario);
         bool ValidarLogin(Usuario usuario);
         void EditarHora(string email);
+        List<Usuario> ObtenerUsuariosPorFiltro(FiltroCompuestoDeUsuarios filtro);
+        public List<Usuario> ObtenerUsuariosParaFiltro();
     }
 }

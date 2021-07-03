@@ -15,6 +15,9 @@ namespace Servicios
         void Eliminar(Usuario usuario);
         bool ValidarLogin(UsuarioDTO usuarioDTO);
         void EditarHora(string Email);
+        public List<UsuarioDTO> ObtenerUsuariosPorFiltro(string? Nombre, string? Email, bool ExcluirEliminados);
+
+        List<UsuarioDTO> ObtenerUsuariosParaFiltro();
 
     }
 }

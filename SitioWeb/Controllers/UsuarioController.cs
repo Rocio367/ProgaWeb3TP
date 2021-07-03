@@ -1,8 +1,11 @@
 ﻿using DTOs;
+using Modelos.ModelosApi;
 using Servicios;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using SitioWeb.Models;
+using PagedList;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +14,7 @@ namespace GestorDePedidos.Controllers
 {
     public class UsuarioController : BaseController
     {
+        private readonly int USUARIOS_POR_PAGINA = 5;
         private IServicioUsuario _servicioUsuario;
 
         public UsuarioController(IServicioUsuario servicioUsuario)
@@ -20,12 +24,33 @@ namespace GestorDePedidos.Controllers
 
 
         // GET: UsuarioController1
-
-        public ActionResult Lista()
+        public IActionResult Lista(int? numeroPagina, string nombre, string email, bool excluirEliminados)
         {
-            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuarios();
-            return View(usuarios);
+            FiltroUsuario filtro = new FiltroUsuario
+            {
+                Nombre = nombre,
+                Email = email,
+                ExcluirEliminados = excluirEliminados
+            };
+            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuariosPorFiltro(nombre, email, excluirEliminados);
+            int paginaPedida = numeroPagina ?? 1;
+            return ListarUsuarios(filto, usuarios, paginaPedida);
         }
+        private IActionResult ListarUsuarios(FiltroUsuario filtro, List<UsuarioDTO> usuarios, int paginaPedida)
+        {
+            var pagina = usuarios.ToPagedList(paginaPedida, USUARIOS_POR_PAGINA);
+
+            ListadoDeUsuarios modelo = new ListadoDeUsuarios
+            {
+                Filtro = filtro,
+                Usuarios = pagina,
+                NumeroPaginaActual = paginaPedida,
+                UsuariosFiltro = _servicioUsuario.Obtenerusuarios()
+            };
+
+            return View("Lista", modelo);
+        }
+
 
         public ActionResult Crear()
         {

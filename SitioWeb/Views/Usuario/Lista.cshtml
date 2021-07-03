@@ -14,10 +14,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Nombre Usuario:</label>
-                <select class="custom-select js-example-basic" id="exampleFormControlSelect1">
-                    @for (int i = 0; i < 6; i++)
+                <select class="custom-select js-example-basic" type="text" name="Nombre" id="filtroNombreCliente" value="@Model.Filtro.Nombre">
+
+                    <option value="">Sin filtro</option>
+
+                    @foreach (DTOs.UsuarioDTO usu in @Model.UsuariosFiltro)
                     {
-                        <option>Cliente @i</option>
+                        <option value="@usu.Nombre" selected=@(usu.Nombre.Equals(Model.Filtro.Nombre))>@usu.Nombre</option>
                     }
                 </select>
             </div>
