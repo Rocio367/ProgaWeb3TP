@@ -21,6 +21,7 @@ namespace Servicios
         List<ClienteDTO> ObtenerClientesFiltro();
 
         List<EstadoPedidoDTO> ObtenerEstados();
+        Boolean ExisteEstado(int id);
 
         PedidoResponse BuscarPedidoApi(PedidoRequest body);
         MensajeResponse GuardarPedidoApi(GuardarPedidoRequest body);

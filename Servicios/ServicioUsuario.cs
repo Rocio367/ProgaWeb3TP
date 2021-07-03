@@ -44,7 +44,7 @@ namespace Servicios
             {
                 Nombre = usuarioDTO.Nombre,
                 Email = usuarioDTO.Email,
-                EsAdmin= usuarioDTO.EsAdmin,
+                EsAdmin = usuarioDTO.EsAdmin,
                 Apellido = usuarioDTO.Apellido,
                 Password = usuarioDTO.Password,
                 FechaNacimiento = usuarioDTO.FechaNacimiento,
@@ -83,5 +83,16 @@ namespace Servicios
             _repositorioUsuario.EditarHora(email);
         }
 
+        public bool ExisteUsuario(int id)
+        {
+            if (_repositorioUsuario.ObtenerUsuario(id) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

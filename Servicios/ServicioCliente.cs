@@ -108,5 +108,16 @@ namespace Servicios
 
             return clientes.Select(cliente => ConvertirEnDTO(cliente)).ToList();
         }
+
+        public bool ExisteCliente(int id)
+        {
+            if (_repositorioCliente.ObtenerCliente(id) != null)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

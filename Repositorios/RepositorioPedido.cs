@@ -168,6 +168,18 @@ namespace Repositorios
                 };
             
         }
+
+        public bool ExisteEstado(int id)
+        {
+            if (_context.EstadoPedidos.Find(id) != null)
+            {
+                return true;
+            }
+            else {
+                return false;
+
+            }
+        }
     }
 
   

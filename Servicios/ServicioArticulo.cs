@@ -146,5 +146,28 @@ namespace Servicios
         public ArticuloResponse FiltrarArticulosApi(FiltroRequest filtro) {
             return _repositorioArticulo.ObtenerArticulosConFiltroApi(filtro);
         }
+
+        public bool ExisteArticulo(ArticuloDTO art)
+        {
+            return _repositorioArticulo.ExisteArticulo(art.Codigo, art.Descripcion);
+        }
+
+        public bool ExisteListaDeArticulo(List<ArticuloPedidoDatos> articulos)
+        {
+            int countErr = 0;
+            articulos.ForEach(a =>
+            {
+                if (!_repositorioArticulo.ExisteArticulo(a.IdArticulo, a.Codigo, a.Descripcion)) {
+                    countErr++;
+                }
+            });
+            if (countErr == 0)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

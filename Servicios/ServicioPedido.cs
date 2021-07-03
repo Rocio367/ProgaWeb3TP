@@ -284,7 +284,9 @@ namespace Servicios
             return msg;
         }
 
-
-      
+        public bool ExisteEstado(int id)
+        {
+            return _repositorioPedido.ExisteEstado(id);
+        }
     }
 }

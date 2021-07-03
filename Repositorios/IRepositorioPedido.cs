@@ -20,6 +20,7 @@ namespace Repositorios
         List<Cliente> ObtenerClientes(); 
         List<Cliente> ObtenerClientesFiltro(); 
          List<EstadoPedido> ObtenerEstados();
+        Boolean ExisteEstado(int id);
 
         PedidoResponse BuscarPedidoApi(PedidoRequest body);
 

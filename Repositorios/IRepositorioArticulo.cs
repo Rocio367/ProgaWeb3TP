@@ -21,6 +21,8 @@ namespace Repositorios
         List<Articulo> ObtenerArticulosConFiltro(IFiltroArticulo filtro);
         List<string> ObtenerDescripciones();
         List<string> ObtenerCodigos();
+        Boolean ExisteArticulo(int id, string codigo, string descripcion);
+        Boolean ExisteArticulo( string codigo, string descripcion);
 
         ArticuloResponse ObtenerArticulosConFiltroApi(FiltroRequest filtro);
 

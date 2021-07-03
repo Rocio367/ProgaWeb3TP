@@ -23,5 +23,8 @@ namespace Servicios
 
          ArticuloResponse FiltrarArticulosApi(FiltroRequest filtro);
 
+        Boolean ExisteArticulo(ArticuloDTO art);
+        Boolean ExisteListaDeArticulo(List<ArticuloPedidoDatos> articulos);
+
     }
 }

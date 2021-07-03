@@ -94,5 +94,28 @@ namespace Repositorios
 
             return respuesta;
         }
+
+        public bool ExisteArticulo(int id, string codigo, string descripcion)
+        {
+            if (_context.Articulos.Where(a => a.IdArticulo == id && a.Codigo == codigo && a.Descripcion == descripcion).FirstOrDefault() != null)
+            {
+                return true;
+            }
+            else {
+                return false;
+                    }
+        }
+
+        public bool ExisteArticulo(string codigo, string descripcion)
+        {
+            if (_context.Articulos.Where(a => a.Codigo == codigo && a.Descripcion == descripcion).FirstOrDefault() != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

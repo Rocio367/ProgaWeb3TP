@@ -117,5 +117,15 @@ namespace Repositorios
         {
             throw new NotImplementedException();
         }
+
+        public bool ExisteArticulo(int id, string codigo, string descripcion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExisteArticulo(string codigo, string descripcion)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

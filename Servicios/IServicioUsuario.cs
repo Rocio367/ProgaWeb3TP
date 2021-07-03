@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DTOs;
 using GestorDePedidos.Entidades;
 
@@ -9,6 +10,7 @@ namespace Servicios
         List<UsuarioDTO> ObtenerUsuarios();
         void Guardar(UsuarioDTO usuarioDTO);
         UsuarioDTO ObtenerUsuario(int id);
+        Boolean ExisteUsuario(int id);
         void Editar(Usuario usuario);
         void Eliminar(Usuario usuario);
         bool ValidarLogin(UsuarioDTO usuarioDTO);
