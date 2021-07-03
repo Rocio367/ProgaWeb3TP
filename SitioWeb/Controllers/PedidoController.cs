@@ -1,17 +1,15 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProgaWeb3TP.Models;
-using Modelos;
 using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using PagedList;
 using GestorDePedidos.Controllers;
 using SitioWeb.Models;
 using SitioWeb.Session;
+using Microsoft.Extensions.Configuration;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -20,12 +18,14 @@ namespace ProgaWeb3TP.Controllers
         private IServicioPedido _servicioPedido;
         private IServicioArticulo _servicioArticulo;
         private IServicioCliente _servicioCliente;
+        private int _elementosPorPagina;
 
-        public PedidoController(IServicioPedido servicioPedido, IServicioCliente servicioCliente, IServicioArticulo servicioArticulo)
+        public PedidoController(IServicioPedido servicioPedido, IServicioCliente servicioCliente, IServicioArticulo servicioArticulo, IConfiguration configuration)
         {
             _servicioPedido = servicioPedido;
             _servicioArticulo = servicioArticulo;
             _servicioCliente = servicioCliente;
+            _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
         public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, string? id_estado = "Sin Filtro")
@@ -38,7 +38,7 @@ namespace ProgaWeb3TP.Controllers
             model.id_cliente = id_cliente;
             model.eliminados = eliminados;
             model.solo_ultimos_dos_meses = solo_ultimos_dos_meses;
-            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado_int, eliminados, solo_ultimos_dos_meses).ToPagedList(page, 10);
+            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado_int, eliminados, solo_ultimos_dos_meses).ToPagedList(page, _elementosPorPagina);
 
             model.estados = this._servicioPedido.ObtenerEstados();
             model.clientes = _servicioCliente.ObtenerClientes();
@@ -114,7 +114,6 @@ namespace ProgaWeb3TP.Controllers
                 CrearNotificacionDeError("Debe seleccionar un aticulo y una cantidad mayor a 0");
 
             }
-
           
             model.pedido.PedidoArticulos = PedidoArticulos;
             if (view == "Crear") {
@@ -125,7 +124,6 @@ namespace ProgaWeb3TP.Controllers
             }
           
         }
-
 
         public ActionResult Crear()
         {
@@ -163,8 +161,7 @@ namespace ProgaWeb3TP.Controllers
                     CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
                     return View(model);
 
-                }
-           
+                }          
            
         }
 
@@ -189,14 +186,10 @@ namespace ProgaWeb3TP.Controllers
 
                 }
                 else
-                {
-             
+                {             
                     CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo pedido");
                     return View("Crear", model);
-
-                }
-            
-         
+                }         
         }
 
         [HttpGet]
@@ -211,13 +204,13 @@ namespace ProgaWeb3TP.Controllers
             {
                 SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
             }
+
             else {
                 model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
             }
 
             return View(model);
         }
-
 
         [HttpPost]
 
@@ -231,26 +224,21 @@ namespace ProgaWeb3TP.Controllers
             {
                 model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
             }
+
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
             {
                 int nroPedido = this._servicioPedido.Editar(model.pedido);
                 CrearNotificacionExitosa("Pedido " + nroPedido + " fue editado  correctamente");
                 SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
                 return RedirectToAction("Lista", "Pedido");
-
             }
+
             else
             {
-
                 CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
                 return View(model);
-
             }
-
-
         }
-
-
 
         public ActionResult Eliminar(int id)
         {
@@ -265,12 +253,14 @@ namespace ProgaWeb3TP.Controllers
             CrearNotificacionExitosa("El Pedido fue actualizado como 'Cerrado'");
             return RedirectToAction("Lista", "Pedido");
         }
+
         public ActionResult Entregado(int id)
         {
             this._servicioPedido.cambiarEstado(id, 3);
             CrearNotificacionExitosa("El Pedido fue actualizado como 'Entregado'");
             return RedirectToAction("Lista", "Pedido");
         }
+
         [HttpPost]
         // [ValidateAntiForgeryToken]
         public ActionResult Cancelar()
@@ -283,9 +273,7 @@ namespace ProgaWeb3TP.Controllers
             {
                 return View();
             }
-        }
-      
-       
+        }       
 
         // POST: PedidoController1/Create
         [HttpPost]

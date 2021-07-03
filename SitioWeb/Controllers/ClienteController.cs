@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Modelos;
 using Modelos.ModelosApi;
 using PagedList;
@@ -13,13 +14,14 @@ namespace GestorDePedidos.Controllers
 {
     public class ClienteController : BaseController
     {
-        private readonly int CLIENTES_POR_PAGINA = 5;
 
         private IServicioCliente _servicioCliente;
+        private int _elementosPorPagina;
 
-        public ClienteController(IServicioCliente servicioCliente)
+        public ClienteController(IServicioCliente servicioCliente, IConfiguration configuration)
         {
             _servicioCliente = servicioCliente;
+            _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
         public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados)
@@ -158,7 +160,7 @@ namespace GestorDePedidos.Controllers
         
         private IActionResult ListarClientes(FiltroCliente filtro, List<ClienteDTO> clientes, int paginaPedida)
         {
-            var pagina = clientes.ToPagedList(paginaPedida, CLIENTES_POR_PAGINA);
+            var pagina = clientes.ToPagedList(paginaPedida, _elementosPorPagina);
 
             ListadoDeClientes modelo = new ListadoDeClientes
             {
