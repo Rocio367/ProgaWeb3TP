@@ -9,28 +9,28 @@ using PagedList;
 using ProgaWeb3TP.Models;
 using GestorDePedidos.Controllers;
 using SitioWeb.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ProgaWeb3TP.Controllers
 {
     public class ArticuloController : BaseController
     { 
         private IServicioArticulo _servicioArticulo;
+        private int _elementosPorPagina;
 
-        public ArticuloController(IServicioArticulo servicioArticulo)
+        public ArticuloController(IServicioArticulo servicioArticulo, IConfiguration configuration)
         {
             _servicioArticulo = servicioArticulo;
+            _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
-
-
-    
         public ActionResult Lista(string nombre, string numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).ToPagedList(page.Value, 10);
+            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).ToPagedList(page.Value, _elementosPorPagina);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 
