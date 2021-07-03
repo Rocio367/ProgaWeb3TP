@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using SitioWeb.Models;
 using PagedList;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +15,14 @@ namespace GestorDePedidos.Controllers
 {
     public class UsuarioController : BaseController
     {
-        private readonly int USUARIOS_POR_PAGINA = 5;
         private IServicioUsuario _servicioUsuario;
+        private int _elementosPorPagina;
 
-        public UsuarioController(IServicioUsuario servicioUsuario)
+
+        public UsuarioController(IServicioUsuario servicioUsuario, IConfiguration configuration)
         {
             _servicioUsuario = servicioUsuario;
+            _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
 
@@ -34,18 +37,18 @@ namespace GestorDePedidos.Controllers
             };
             List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuariosPorFiltro(nombre, email, excluirEliminados);
             int paginaPedida = numeroPagina ?? 1;
-            return ListarUsuarios(filto, usuarios, paginaPedida);
+            return ListarUsuarios(filtro, usuarios, paginaPedida);
         }
         private IActionResult ListarUsuarios(FiltroUsuario filtro, List<UsuarioDTO> usuarios, int paginaPedida)
         {
-            var pagina = usuarios.ToPagedList(paginaPedida, USUARIOS_POR_PAGINA);
+            var pagina = usuarios.ToPagedList(paginaPedida, _elementosPorPagina);
 
             ListadoDeUsuarios modelo = new ListadoDeUsuarios
             {
                 Filtro = filtro,
                 Usuarios = pagina,
                 NumeroPaginaActual = paginaPedida,
-                UsuariosFiltro = _servicioUsuario.Obtenerusuarios()
+                UsuariosFiltro = _servicioUsuario.ObtenerUsuarios()
             };
 
             return View("Lista", modelo);

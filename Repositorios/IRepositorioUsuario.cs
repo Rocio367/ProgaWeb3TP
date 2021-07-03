@@ -16,7 +16,7 @@ namespace Repositorios
         void EliminarUsuario(Usuario usuario);
         bool ValidarLogin(Usuario usuario);
         void EditarHora(string email);
-        List<Usuario> ObtenerUsuariosPorFiltro(FiltroCompuestoDeUsuarios filtro);
+        List<Usuario> ObtenerUsuariosPorFiltro(IFiltroUsuario filtro);
         public List<Usuario> ObtenerUsuariosParaFiltro();
     }
 }

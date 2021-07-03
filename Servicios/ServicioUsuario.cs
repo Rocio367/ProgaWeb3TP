@@ -109,7 +109,7 @@ namespace Servicios
             }
             if (!string.IsNullOrWhiteSpace(email))
             {
-                filtro.Agregar(new FiltroPorNombreUsuario(email));
+                filtro.Agregar(new FiltroPorEmailUsuario(email));
             }
             List<Usuario> usuarios= null;
             if (filtro.TieneFiltros())
