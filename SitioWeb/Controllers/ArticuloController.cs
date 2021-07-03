@@ -55,12 +55,22 @@ namespace ProgaWeb3TP.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
-                    this._servicioArticulo.Guardar(art);
-                    CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
+                    if (!_servicioArticulo.ExisteArticulo(art))
+                    {
+                        this._servicioArticulo.Guardar(art);
+                        CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
 
-                    return RedirectToAction("Lista", "Articulo" );
+                        return RedirectToAction("Lista", "Articulo");
+                    }
+                    else {
+                        CrearNotificacionDeError("Ya existe un articulo con codigo: " + art.Codigo + " y descripcion: "+art.Descripcion);
+                        return View(art);
+
+                    }
+
 
                 }
                 else
@@ -83,11 +93,22 @@ namespace ProgaWeb3TP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    this._servicioArticulo.Guardar(art);
-                    CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
-                    art.Descripcion = null;
-                    art.Codigo = null;
-                    return View("Crear", art);
+
+                    if (!_servicioArticulo.ExisteArticulo(art))
+                    {
+                        this._servicioArticulo.Guardar(art);
+                        CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
+                        art.Descripcion = null;
+                        art.Codigo = null;
+                        return View("Crear", art);
+                    }
+                    else
+                    {
+                        CrearNotificacionDeError("Ya existe un articulo con codigo: " + art.Codigo + " y descripcion: " + art.Descripcion);
+                        return View("Crear",art);
+
+                    }
+                   
 
                 }
                 else
@@ -128,9 +149,17 @@ namespace ProgaWeb3TP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    this._servicioArticulo.Editar(art);
-                    CrearNotificacionExitosa("Articulo  fue editado con correctamente");
-                    return RedirectToAction("Lista", "Articulo");
+                    if (!_servicioArticulo.ExisteArticulo(art))
+                    {
+                        this._servicioArticulo.Editar(art);
+                        CrearNotificacionExitosa("Articulo  fue editado con correctamente");
+                        return RedirectToAction("Lista", "Articulo");
+                    }
+                    else {
+                        CrearNotificacionDeError("Ya existe un articulo con codigo: " + art.Codigo + " y descripcion: " + art.Descripcion);
+                        return View(art);
+                    }
+                       
 
                 }
                 else
