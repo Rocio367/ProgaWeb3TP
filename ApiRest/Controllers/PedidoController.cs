@@ -1,19 +1,14 @@
 ﻿using Modelos.ModelosApi;
-using ApiRest.Services;
-using GestorDePedidos.Entidades;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Servicios;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiRest.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class PedidosController : ControllerBase
     {
         private IServicioPedido _servicioPedido;
