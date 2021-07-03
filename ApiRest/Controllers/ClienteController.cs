@@ -1,6 +1,7 @@
 ﻿using API.Modelo;
 using ApiRest.Modelo;
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class ClientesController : ControllerBase
     {
         private _20211CTPContext _contexto;
