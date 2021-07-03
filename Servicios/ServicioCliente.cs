@@ -14,7 +14,7 @@ namespace Servicios
         public ServicioCliente(IRepositorioCliente repositorioCliente)
         {
             _repositorioCliente = repositorioCliente;
-        } 
+        }
         public void Guardar(ClienteDTO clienteDTO)
         {
             Cliente cliente = new Cliente
@@ -30,7 +30,7 @@ namespace Servicios
 
         public ClienteDTO ObtenerCliente(int id)
         {
-            Cliente cliente =  _repositorioCliente.ObtenerCliente(id);
+            Cliente cliente = _repositorioCliente.ObtenerCliente(id);
             return ConvertirEnDTO(cliente);
         }
 
@@ -43,7 +43,8 @@ namespace Servicios
         private static ClienteDTO ConvertirEnDTO(Cliente cliente)
         {
             return new ClienteDTO
-            {   IdCliente = cliente.IdCliente,
+            {
+                IdCliente = cliente.IdCliente,
                 Nombre = cliente.Nombre,
                 Numero = cliente.Numero,
                 Email = cliente.Email,
@@ -55,19 +56,16 @@ namespace Servicios
 
         public void Editar(int id, ClienteDTO clienteDTO)
         {
-            List<Cliente> clientes = _repositorioCliente.ObtenerClientes();
-            foreach (Cliente cliente in clientes)
-            {
-                if(id == cliente.IdCliente)
-                {
-                    cliente.Nombre = clienteDTO.Nombre;
-                    cliente.Numero = (int)clienteDTO.Numero;
-                    cliente.Email = clienteDTO.Email;
-                    cliente.Telefono = clienteDTO.Telefono;
-                    cliente.Direccion = clienteDTO.Direccion;
-                    cliente.Cuit = clienteDTO.Cuit;
-                }
-            }
+            Cliente cliente = _repositorioCliente.ObtenerCliente(id);
+
+            cliente.Nombre = clienteDTO.Nombre;
+            cliente.Numero = (int)clienteDTO.Numero;
+            cliente.Email = clienteDTO.Email;
+            cliente.Telefono = clienteDTO.Telefono;
+            cliente.Direccion = clienteDTO.Direccion;
+            cliente.Cuit = clienteDTO.Cuit;
+
+            _repositorioCliente.Actualizar();
         }
 
         public ClienteDTO Eliminar(int id)
