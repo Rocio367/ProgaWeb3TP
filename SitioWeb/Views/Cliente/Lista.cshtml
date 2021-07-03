@@ -27,7 +27,7 @@
 
                         @foreach (DTOs.ClienteDTO cli in @Model.ClientesFiltro)
                         {
-                            <option value="@cli.Nombre">@cli.Nombre</option>
+                            <option value="@cli.Nombre" selected=@(cli.Nombre.Equals(Model.Filtro.Nombre))>@cli.Nombre</option>
                         }
                     </select>
                 </div>
@@ -41,7 +41,8 @@
 
                         @foreach (DTOs.ClienteDTO cli in @Model.ClientesFiltro)
                         {
-                            <option value="@cli.Numero">@cli.Numero</option>
+                            
+                            <option value="@cli.Numero" selected=@(cli.Numero.Equals(Model.Filtro.Numero))>@cli.Numero</option>
                         }
                     </select>
                 </div>
