@@ -11,10 +11,10 @@ namespace Repositorios
 {
    public class RepositorioArticulo : IRepositorioArticulo
     {
-        _20211CTPContext _context;
-        public RepositorioArticulo()
+        private _20211CTPContext _context;
+        public RepositorioArticulo(_20211CTPContext contexto)
         {
-            _context = new _20211CTPContext();
+            _context = contexto;
 
         }
         public void Guardar(Articulo articulo)

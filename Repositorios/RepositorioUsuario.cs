@@ -1,4 +1,5 @@
 ﻿using GestorDePedidos.Entidades;
+using Repositorios.Filtros.FiltrosUsuarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,21 @@ namespace Repositorios
             }
         }
 
+        public List<Usuario> ObtenerUsuariosPorFiltro(IFiltroUsuario filtro)
+        {
+            var resultado = _contexto.Usuarios.Where(filtro.Evaluar).Select(usuario => usuario);
+            return resultado.ToList();
+        }
 
-
+        public List<Usuario> ObtenerUsuariosParaFiltro()
+        {
+            List<Usuario> resultados = new List<Usuario>();
+            List<Usuario> resultadosBD = _contexto.Usuarios.Where(e => e.FechaBorrado == null).ToList();
+            resultadosBD.ForEach(e =>
+            {
+                resultados.Add(e);
+            });
+            return resultados;
+        }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using DTOs;
+using Modelos.ModelosApi;
 using Servicios;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using SitioWeb.Models;
+using PagedList;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Identity;
@@ -12,20 +16,44 @@ namespace GestorDePedidos.Controllers
     public class UsuarioController : BaseController
     {
         private IServicioUsuario _servicioUsuario;
+        private int _elementosPorPagina;
 
-        public UsuarioController(IServicioUsuario servicioUsuario)
+
+        public UsuarioController(IServicioUsuario servicioUsuario, IConfiguration configuration)
         {
             _servicioUsuario = servicioUsuario;
+            _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
 
         // GET: UsuarioController1
-
-        public ActionResult Lista()
+        public IActionResult Lista(int? numeroPagina, string nombre, string email, bool excluirEliminados)
         {
-            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuarios();
-            return View(usuarios);
+            FiltroUsuario filtro = new FiltroUsuario
+            {
+                Nombre = nombre,
+                Email = email,
+                ExcluirEliminados = excluirEliminados
+            };
+            List<UsuarioDTO> usuarios = _servicioUsuario.ObtenerUsuariosPorFiltro(nombre, email, excluirEliminados);
+            int paginaPedida = numeroPagina ?? 1;
+            return ListarUsuarios(filtro, usuarios, paginaPedida);
         }
+        private IActionResult ListarUsuarios(FiltroUsuario filtro, List<UsuarioDTO> usuarios, int paginaPedida)
+        {
+            var pagina = usuarios.ToPagedList(paginaPedida, _elementosPorPagina);
+
+            ListadoDeUsuarios modelo = new ListadoDeUsuarios
+            {
+                Filtro = filtro,
+                Usuarios = pagina,
+                NumeroPaginaActual = paginaPedida,
+                UsuariosFiltro = _servicioUsuario.ObtenerUsuarios()
+            };
+
+            return View("Lista", modelo);
+        }
+
 
         public ActionResult Crear()
         {

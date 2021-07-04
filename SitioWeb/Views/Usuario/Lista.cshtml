@@ -1,4 +1,11 @@
-﻿@model IEnumerable<DTOs.UsuarioDTO>
+﻿@model SitioWeb.Models.ListadoDeUsuarios
+@{
+    var page = @Model.NumeroPaginaActual;
+    var pageNext = page + 1;
+    var pageLast = page - 1;
+    var total = @Model.Usuarios.PageCount;
+    var tope = total + 1;
+}            
 
 <div class="container">
 
@@ -10,39 +17,54 @@
 
         </div>
     </div>
+    </div>
+    <form action="/Usuario/Lista" method="get">
     <div class="row justify-content-center align-items-center">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Nombre Usuario:</label>
-                <select class="custom-select js-example-basic" id="exampleFormControlSelect1">
-                    @for (int i = 0; i < 6; i++)
+                <select class="custom-select js-example-basic" type="text" name="Nombre" id="filtroNombreUsuario" value="@Model.Filtro.Nombre">
+
+                    <option value="">Sin filtro</option>
+
+                    @foreach (DTOs.UsuarioDTO usu in @Model.UsuariosFiltro)
                     {
-                        <option>Cliente @i</option>
+                        <option value="@usu.Nombre" selected=@(usu.Nombre.Equals(Model.Filtro.Nombre))>@usu.Nombre</option>
                     }
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Email:</label>
-                <select class="custom-select js-example-basic" id="exampleFormControlSelect1">
+                <label for="filtroEmailCliente js-example-basic"> Email:</label>
+                <select class="custom-select js-example-basic" type="text" name="Email" id="filtroEmailCliente" placeholder="Email Usuario" value="@Model.Filtro.Email">
 
-                    <option>email1</option>
-                    <option>email2</option>
-                    <option>email3</option>
+                    <option value="">Sin filtro</option>
 
+                    @foreach (DTOs.UsuarioDTO usu in @Model.UsuariosFiltro)
+                    {
+
+                        <option value="@usu.Email" selected=@(usu.Email.Equals(Model.Filtro.Email))>@usu.Email</option>
+                    }
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
 
             <div class="form-check mt-3">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                @Html.CheckBox("ExcluirEliminados", Model.Filtro.ExcluirEliminados, new { @class = "form-check-input", @id = "exampleCheck1" })
                 <label class="form-check-label" for="exampleCheck1">Excluir Eliminados</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <input type="submit" class="btn btn-primary" value="Filtrar">
             </div>
         </div>
 
     </div>
+    </form>
+
     <div class="row justify-content-center align-items-center">
         <div class="col-md-12">
             <table class="table  table-bordered">
@@ -56,27 +78,17 @@
                 </thead>
                 <tbody>
 
-
-                    @*  @for (int i = 0; i < 6; i++)
-        {
-            <tr>
-                <th class="text-center" scope="row">Nombre @i</th>
-                <td class="text-center">estado  @i</td>
-                <td class="text-center">--</td>
-                <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar'" type="button" class="btn btn-info">Ver</button></td>
-            </tr>
-        }*@
-                    @foreach (DTOs.UsuarioDTO usuario in Model)
+                    @foreach (DTOs.UsuarioDTO usuario in Model.Usuarios)
                     {
-                    <tr>
-                        <th class="text-center" scope="row">@usuario.Nombre</th>
-                        <td class="text-center">@usuario.Email</td>
-                        <td class="text-center">---</td>
-                        @*  <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar-@usuario.IdUsuario'" type="button" class="btn btn-info">Ver</button></td>*@
-                        <td class="text-center">
-                            <a class="btn btn-primary" href="Ver/@usuario.IdUsuario" role="button">Ver</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th class="text-center" scope="row">@usuario.Nombre</th>
+                            <td class="text-center">@usuario.Email</td>
+                            <td class="text-center">---</td>
+                            @*  <td class="text-center"><button role="link" onclick="window.location='/Usuario/Editar-@usuario.IdUsuario'" type="button" class="btn btn-info">Ver</button></td>*@
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="Ver/@usuario.IdUsuario" role="button">Ver</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -89,13 +101,16 @@
             <nav aria-label="Page navigation example  ">
 
                 <ul class="pagination  justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i>Anterior</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Siguiente<i class="bi bi-chevron-right"></i></a></li>
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Usuario", new { numeroPagina = (@pageLast==0)?1 : @pageLast, nombre = Model.Filtro.Nombre, numero = Model.Filtro.Email, excluirEliminados = Model.Filtro.ExcluirEliminados })><i class="bi bi-chevron-left"></i>Anterior</a></li>
+
+                    @for (int index = 1; index <= @total; index++)
+                    {
+                        <li class="page-item @((index == Model.NumeroPaginaActual) ? "active" : "")" role="link" onclick="window.location.href = '/Cliente/Lista?numeroPagina=@index&nombre=@Model.Filtro.Nombre&numero=@Model.Filtro.Email&excluirEliminados=@Model.Filtro.ExcluirEliminados'"><a class="page-link" href="#">@index</a></li>
+
+                    }
+                    <li class="page-item"><a class="page-link" href=@Url.Action("Lista", "Usuario", new { numeroPagina = (@pageNext == @tope)? @total : @pageNext, nombre = Model.Filtro.Nombre, numero = Model.Filtro.Email, excluirEliminados = Model.Filtro.ExcluirEliminados })>Siguiente<i class="bi bi-chevron-right"></i></a></li>
                 </ul>
             </nav>
         </div>
     </div>
-</div>
+    </div>
