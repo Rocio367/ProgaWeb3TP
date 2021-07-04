@@ -8,7 +8,7 @@
 
 
             <h4 class="card-title mb-4 mt-1 ">Editar Pedido</h4>
-            <form method="POST">
+            <form method="POST" action="/Pedido/Editar">
                 <input type="hidden" name="view" value="Editar" />
 
                 <input type="hidden" asp-for="@Model.pedido.IdPedido" value="@Model.pedido.IdPedido" />
@@ -285,7 +285,7 @@
                                                 <div class="form-group ">
                                                     <input type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" />
                                                     <input type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" />
-                                                    <input type="submit" value="Cancelar" formaction="Cancelar" class="btn btn-secondary" />
+                                                    @Html.ActionLink("Cancelar", "Lista", "Pedido", null, new { @class = "btn btn-secondary text-white" })
 
                                                 </div> <!-- form-group// -->
 
@@ -312,7 +312,7 @@
 
                 <div class="form-group ">
                     <input type="submit" value="Guardar" formaction="Editar" class="btn btn-primary" />
-                    <input type="submit" value="Cancelar" formaction="Cancelar" class="btn btn-secondary" />
+                    <input type="submit" value="Cancelar" formaction="/Pedido/Cancelar" class="btn btn-secondary" />
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cerrarPedidoPedido-@Model.pedido.IdPedido">Cerrar</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EntregadoPedido-@Model.pedido.IdPedido">Entregado</button>
 

@@ -265,15 +265,9 @@ namespace ProgaWeb3TP.Controllers
         // [ValidateAntiForgeryToken]
         public ActionResult Cancelar()
         {
-            try
-            {
-                return RedirectToAction(nameof(Lista));
-            }
-            catch
-            {
-                return View();
-            }
-        }       
+            return RedirectToAction("Lista", "Pedido");
+
+        }
 
         // POST: PedidoController1/Create
         [HttpPost]

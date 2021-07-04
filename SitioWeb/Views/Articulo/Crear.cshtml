@@ -32,9 +32,11 @@
 
 
                 <div class="form-group ">
-                    <input type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" />
-                    <input type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" />
-                    <input type="submit" value="Cancelar" formaction="Cancelar" class="btn btn-secondary" />
+
+                    <button type="submit" value="Guardar" formaction="Crear" class="btn btn-primary" ">Guardar  </button>
+                    <button type="submit" value="Guardar y crear otro" formaction="GuardarYCrearOtro" class="btn btn-primary" ">Guardar y crear otro </button>
+                    @Html.ActionLink("Cancelar", "Lista", "Articulo", null, new { @class = "btn btn-secondary text-white" })
+
                 </div><!-- form-group// -->
 
             </form>
