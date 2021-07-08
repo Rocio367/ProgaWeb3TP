@@ -29,7 +29,8 @@ namespace ProgaWeb3TP.Controllers
         }
 
         public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, string? id_estado = "Sin Filtro")
-        {
+        {   
+
             ListaPedidoVM model = new ListaPedidoVM();
 
             int?  id_estado_int = Int32.TryParse(id_estado, out int resultEstado) ? resultEstado : 1;

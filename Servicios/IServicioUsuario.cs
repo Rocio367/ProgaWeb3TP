@@ -10,6 +10,7 @@ namespace Servicios
         List<UsuarioDTO> ObtenerUsuarios();
         void Guardar(UsuarioDTO usuarioDTO);
         UsuarioDTO ObtenerUsuario(int id);
+        UsuarioDTO ObtenerUsuarioPorMail(string mail);
         Boolean ExisteUsuario(int id);
         void Editar(Usuario usuario);
         void Eliminar(Usuario usuario);

@@ -26,6 +26,19 @@ namespace Repositorios
         {
             return _contexto.Usuarios.Find(id);
         }
+        public Usuario ObtenerUsuarioPorMail(string mail)
+        {
+            List<Usuario> listUsuario = _contexto.Usuarios.ToList();
+            Usuario user = listUsuario.Find(x => x.Email == mail);
+            if (user != null)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public void EditarUsuario(Usuario usuario)
         {
             Usuario actual = _contexto.Usuarios.Find(usuario.IdUsuario);
