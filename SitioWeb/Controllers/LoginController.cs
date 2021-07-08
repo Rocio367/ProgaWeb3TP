@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using DTOs;
 using Servicios;
 using Microsoft.AspNetCore.Authorization;
-
 namespace GestorDePedidos.Controllers
 {
     public class LoginController : BaseController

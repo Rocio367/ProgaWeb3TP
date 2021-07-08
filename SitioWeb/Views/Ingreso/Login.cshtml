@@ -1,6 +1,5 @@
 ﻿@model DTOs.UsuarioDTO
 @{
-    var returnUrl = @Context.Request.Query["returnurl"];
 }
 <div id="login">
     <h3 class="text-center text-white pt-5">Login</h3>
@@ -10,32 +9,24 @@
                 <div id="login-box" class="col-md-12">
                     <div class="card">
                         <article class="card-body">
-                            <h4 class="card-title mb-4 mt-1">Ingresar</h4>
-                            <form action="/Login/login" method="post">
-                                @Html.Hidden("returnUrl", returnUrl)
+                            <h4 class="card-title mb-4 mt-1">Ingreso sistema de pedido</h4>
+                           
+                            <form action="/Ingreso/loginUsuario" method="post">
                                 <div class="form-group">
                                     <label>E-mail</label>
-                                    <input name="Email" class="form-control" value="@Model.Email" placeholder="Email" type="email">
+                                    <input name="Email" class="form-control" value="@Model.Email" placeholder="Email" type="email" required>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div> <!-- form-group// -->
                                 <div class="form-group">
                                     <a class="float-right" href="#"></a>
                                     <label>Contraseña</label>
-                                    <input name="Password" class="form-control" value="@Model.Password" placeholder="******" type="password">
+                                    <input name="Password" class="form-control" value="@Model.Password" placeholder="******" type="password" required>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div> <!-- form-group// -->
                                 <div class="form-group">
-                                    <div class="checkbox">
-                                        <!-- <label> <input type="checkbox">Guadar cnt </label>-->
-                                    </div> <!-- checkbox .// -->
-                                </div> <!-- form-group// -->
-                                <div class="form-group">
-                                    <p>@ViewBag.ErrorMessageLogin</p>
+                                    <p style="color: red">@TempData["Mensaje"]</p>
                                     <button type="submit" class="btn btn-primary btn-block"> Confirmar  </button>
-
                                 </div> <!-- form-group// -->
-                                <a class="text-center" asp-controller="Registrarse" asp-action="Registrarse">Registrarse</a>
-
                             </form>
                         </article>
                     </div> <!-- card.// -->

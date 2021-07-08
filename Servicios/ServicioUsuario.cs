@@ -58,6 +58,11 @@ namespace Servicios
             Usuario usuario = _repositorioUsuario.ObtenerUsuario(id);
             return ConvertirEnDTO(usuario);
         }
+        public UsuarioDTO ObtenerUsuarioPorMail(string mail)
+        {
+            Usuario usuario = _repositorioUsuario.ObtenerUsuarioPorMail(mail);
+            return ConvertirEnDTO(usuario);
+        }
 
         public void Editar(Usuario usuario)
         {

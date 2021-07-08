@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 
 namespace GestorDePedidos.Controllers
-{
+{   
     public class ClienteController : BaseController
     {
 
@@ -22,10 +22,12 @@ namespace GestorDePedidos.Controllers
         {
             _servicioCliente = servicioCliente;
             _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
+            
         }
-
-        public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados)
+         
+    public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados)
         {
+            
             FiltroCliente filtro = new FiltroCliente
             {
                 Nombre = nombre,

@@ -13,6 +13,7 @@ namespace Repositorios
         void EditarUsuario(Usuario usuario);
         List<Usuario> ObtenerUsuarios();
         Usuario ObtenerUsuario(int id);
+        Usuario ObtenerUsuarioPorMail(string mail);
         void EliminarUsuario(Usuario usuario);
         bool ValidarLogin(Usuario usuario);
         void EditarHora(string email);

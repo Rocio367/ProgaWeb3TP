@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repositorios;
 using Servicios;
+using System;
 
 namespace SitioWeb
 {
@@ -25,6 +26,7 @@ namespace SitioWeb
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
+                // options.IdleTimeout = TimeSpan.FromMinutes(30); // ponemos esto?
                 options.Cookie.Name = ".MiAPP.Session";
 
             });
@@ -69,7 +71,7 @@ namespace SitioWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Login}/{id?}");
+                    pattern: "{controller=Ingreso}/{action=Login}/{id?}");
             });
         }
     }

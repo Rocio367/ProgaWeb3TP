@@ -11,7 +11,7 @@ namespace Servicios
     {
         public bool ValidarLogin(UsuarioDTO user)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
