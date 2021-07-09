@@ -16,7 +16,7 @@
                     <select class="custom-select js-example-basic" asp-for="pedido.idCliente" value="@Model.pedido.idCliente">
                         @foreach (DTOs.ClienteDTO cli in @Model.Clientes)
                         {
-                            <option value="@cli.IdCliente"> @cli.Nombre</option>
+                            <option value="@cli.IdCliente"> @cli.Nombre-@cli.Numero</option>
                         }
                     </select>
                         <span class="text-danger" asp-validation-for="pedido.idCliente"></span>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-row">
 
-                    @if (@Model.pedido.PedidoArticulos.Count() > 0)
+                    @if (@Model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).Count() > 0)
                     {
                         <div class="col-md-12 text-center">
 

@@ -180,6 +180,16 @@ namespace Repositorios
 
             }
         }
+
+        public string ExistePedidoAbiertoPorCliente(int id)
+        {
+            string nombre = "";
+            if (_context.Pedidos.Where(a =>a.IdCliente==id && a.FechaBorrado == null && a.IdEstado == 1 ).Count() > 0)
+            {
+                nombre= _context.Clientes.Find(id).Nombre;
+            }
+            return nombre;
+        }
     }
 
   

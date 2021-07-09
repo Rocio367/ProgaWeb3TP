@@ -72,7 +72,7 @@ namespace ProgaWeb3TP.Controllers
 
         [HttpPost]
         public ActionResult AgregarArticulo(CrearPedidoVM model,int articuloId, int idPedido, int cantidad, string view ) {
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -131,7 +131,7 @@ namespace ProgaWeb3TP.Controllers
             CrearPedidoVM model = new CrearPedidoVM();
             model.pedido = new PedidoDTO();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
 
@@ -140,7 +140,7 @@ namespace ProgaWeb3TP.Controllers
         [HttpPost]
 
         public ActionResult Crear(CrearPedidoVM model){
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -150,12 +150,20 @@ namespace ProgaWeb3TP.Controllers
             }
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
                 {
-                    int nroPedido=this._servicioPedido.Guardar(model.pedido);
+                var nombreCliente = _servicioPedido.ExistePedidoAbiertoPorCliente(model.pedido.idCliente);
+                if (nombreCliente == "") {
+                    int nroPedido = this._servicioPedido.Guardar(model.pedido);
                     CrearNotificacionExitosa("Pedido " + nroPedido + " fue creado  correctamente");
                     SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
                     return RedirectToAction("Lista", "Pedido");
 
                 }
+                else {
+                    CrearNotificacionDeError("El cliente " + nombreCliente  + " ya posee otro pedido Abierto, modifique ese pedido");
+                    return View(model);
+                }
+
+            }
                 else
                {
                    
@@ -170,7 +178,7 @@ namespace ProgaWeb3TP.Controllers
         // [ValidateAntiForgeryToken]
         public ActionResult GuardarYCrearOtro(CrearPedidoVM model)
         {
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
@@ -198,7 +206,7 @@ namespace ProgaWeb3TP.Controllers
         {
             CrearPedidoVM model = new CrearPedidoVM();
             model.pedido = _servicioPedido.ObtenerPedido(id);
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
 
             if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") == null)
@@ -217,7 +225,7 @@ namespace ProgaWeb3TP.Controllers
 
         public ActionResult Editar(CrearPedidoVM model)
         {
-            model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
+            model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 

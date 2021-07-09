@@ -17,7 +17,8 @@ namespace Servicios
         int cambiarEstado(int idPedido, int idEstado);
         List<PedidoDTO> ObtenerPedidosSinFiltro();
         List<PedidoDTO> ObtenerPedidosConFiltro(int? id_cliente, int? id_estado, Boolean eliminados, Boolean ult_meses);
-    
+
+        string ExistePedidoAbiertoPorCliente(int id);
 
         List<EstadoPedidoDTO> ObtenerEstados();
         Boolean ExisteEstado(int id);

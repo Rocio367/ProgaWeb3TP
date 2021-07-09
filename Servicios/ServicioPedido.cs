@@ -264,5 +264,10 @@ namespace Servicios
         {
             return _repositorioPedido.ExisteEstado(id);
         }
+
+        public string ExistePedidoAbiertoPorCliente(int id)
+        {
+            return _repositorioPedido.ExistePedidoAbiertoPorCliente(id);
+        }
     }
 }
