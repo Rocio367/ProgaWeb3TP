@@ -30,7 +30,7 @@ namespace ProgaWeb3TP.Controllers
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).ToPagedList(page.Value, _elementosPorPagina);
+            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).OrderBy(d => d.Codigo).ToPagedList(page.Value, _elementosPorPagina);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 

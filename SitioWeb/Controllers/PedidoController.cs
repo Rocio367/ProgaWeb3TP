@@ -10,6 +10,7 @@ using GestorDePedidos.Controllers;
 using SitioWeb.Models;
 using SitioWeb.Session;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -32,7 +33,6 @@ namespace ProgaWeb3TP.Controllers
         {   
 
             ListaPedidoVM model = new ListaPedidoVM();
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido",null);
 
             int?  id_estado_int = Int32.TryParse(id_estado, out int resultEstado) ? resultEstado : 1;
 
@@ -58,15 +58,17 @@ namespace ProgaWeb3TP.Controllers
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+            if (TempData["listaArticulosPedido"] != null)
             {
-                PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
 
             PedidoArticuloDTO aEliminar= PedidoArticulos.Find(d => d.Id== idEliminar);
             PedidoArticulos.Remove(aEliminar);
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
-            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            TempData["listaArticulosPedido"]= JsonConvert.SerializeObject(PedidoArticulos);
+            model.pedido.PedidoArticulos = PedidoArticulos;
+            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+
 
             return Redirect("Editar/"+ idPedido);
         }
@@ -77,9 +79,10 @@ namespace ProgaWeb3TP.Controllers
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             List<PedidoArticuloDTO> PedidoArticulos = new List<PedidoArticuloDTO>();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+            if (TempData["listaArticulosPedido"] != null)
             {
-                PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
+
             }
             
 
@@ -109,7 +112,7 @@ namespace ProgaWeb3TP.Controllers
                     }
 
                 }
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+                TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(PedidoArticulos);
               
                 } else {
                
@@ -117,7 +120,9 @@ namespace ProgaWeb3TP.Controllers
 
             }
           
-            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            model.pedido.PedidoArticulos = PedidoArticulos;
+            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(PedidoArticulos);
             if (view == "Crear") {
                 return View("Crear", model);
              }
@@ -134,7 +139,7 @@ namespace ProgaWeb3TP.Controllers
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
             model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+            TempData["listaArticulosPedido"] = null;
 
             return View(model);
         }
@@ -145,9 +150,9 @@ namespace ProgaWeb3TP.Controllers
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+            if (TempData["listaArticulosPedido"] != null)
             {
-                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                model.pedido.PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
                 {
@@ -155,7 +160,7 @@ namespace ProgaWeb3TP.Controllers
                 if (nombreCliente == "") {
                     int nroPedido = this._servicioPedido.Guardar(model.pedido);
                     CrearNotificacionExitosa("Pedido " + nroPedido + " fue creado  correctamente");
-                    SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+                    TempData["listaArticulosPedido"]=null;
                     return RedirectToAction("Lista", "Pedido");
 
                 }
@@ -183,16 +188,17 @@ namespace ProgaWeb3TP.Controllers
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+
+            if (TempData["listaArticulosPedido"] != null)
             {
-                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                model.pedido.PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
                 {
                     int nroPedido = this._servicioPedido.Guardar(model.pedido);
                     CrearNotificacionExitosa("Pedido " + nroPedido + " fue creado correctamente");
-                    SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
-                    return View("Crear", model);
+                TempData["listaArticulosPedido"] = null;
+                return View("Crear", model);
 
                 }
                 else
@@ -210,14 +216,13 @@ namespace ProgaWeb3TP.Controllers
             model.Clientes = _servicioCliente.ObtenerClientes();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") == null)
-            {
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
-            }
 
-            else {
-                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido").OrderBy(d => d.articulo.Codigo).ToList();
+            if (TempData["listaArticulosPedido"] != null)
+            {
+                model.pedido.PedidoArticulos =  JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
+            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(model.pedido.PedidoArticulos);
 
             return View(model);
         }
@@ -230,22 +235,22 @@ namespace ProgaWeb3TP.Controllers
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
             model.pedido.PedidoArticulos = new List<PedidoArticuloDTO>();
 
-            if (SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido") != null)
+            if (TempData["listaArticulosPedido"] != null)
             {
-                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                model.pedido.PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
 
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
             {
                 int nroPedido = this._servicioPedido.Editar(model.pedido);
                 CrearNotificacionExitosa("Pedido " + nroPedido + " fue editado  correctamente");
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", null);
+                TempData["listaArticulosPedido"] = null;
                 return RedirectToAction("Lista", "Pedido");
             }
 
             else
             {
-                CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
+                CrearNotificacionDeError("Complete corectamente el formulario para editar el pedido Pedido");
                 return View(model);
             }
         }
@@ -275,6 +280,7 @@ namespace ProgaWeb3TP.Controllers
         // [ValidateAntiForgeryToken]
         public ActionResult Cancelar()
         {
+
             return RedirectToAction("Lista", "Pedido");
 
         }
