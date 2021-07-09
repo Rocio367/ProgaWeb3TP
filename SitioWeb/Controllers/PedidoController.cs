@@ -32,6 +32,7 @@ namespace ProgaWeb3TP.Controllers
         {   
 
             ListaPedidoVM model = new ListaPedidoVM();
+            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido",null);
 
             int?  id_estado_int = Int32.TryParse(id_estado, out int resultEstado) ? resultEstado : 1;
 
@@ -64,8 +65,8 @@ namespace ProgaWeb3TP.Controllers
 
             PedidoArticuloDTO aEliminar= PedidoArticulos.Find(d => d.Id== idEliminar);
             PedidoArticulos.Remove(aEliminar);
-            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
-            model.pedido.PedidoArticulos = PedidoArticulos;
+            SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
+            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
 
             return Redirect("Editar/"+ idPedido);
         }
@@ -108,7 +109,7 @@ namespace ProgaWeb3TP.Controllers
                     }
 
                 }
-                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList());
+                SessionManager.Set<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido", PedidoArticulos);
               
                 } else {
                
@@ -116,7 +117,7 @@ namespace ProgaWeb3TP.Controllers
 
             }
           
-            model.pedido.PedidoArticulos = PedidoArticulos;
+            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
             if (view == "Crear") {
                 return View("Crear", model);
              }
@@ -215,7 +216,7 @@ namespace ProgaWeb3TP.Controllers
             }
 
             else {
-                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido");
+                model.pedido.PedidoArticulos = SessionManager.Get<List<PedidoArticuloDTO>>(HttpContext.Session, "listaArticulosPedido").OrderBy(d => d.articulo.Codigo).ToList();
             }
 
             return View(model);

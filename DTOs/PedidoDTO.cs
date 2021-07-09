@@ -17,6 +17,7 @@ namespace DTOs
         public int NroPedido { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
+        [StringLength(150, ErrorMessage = "No se puede ingresar mas de 150 caracteres")]
 
         public string Comentarios { get; set; }
         public DateTime FechaCreacion { get; set; }
