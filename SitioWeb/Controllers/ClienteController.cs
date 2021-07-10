@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Modelos;
 using Modelos.ModelosApi;
 using PagedList;
 using Servicios;
 using SitioWeb.Models;
-using System;
 using System.Collections.Generic;
 
 namespace GestorDePedidos.Controllers
@@ -55,12 +53,6 @@ namespace GestorDePedidos.Controllers
         {
             ClienteDTO cliente = _servicioCliente.ObtenerCliente(id);
             return View("Editar", cliente);
-        }
-
-        // GET: ClienteController/Create
-        public ActionResult Create()
-        {
-            return View();
         }
 
         // POST: ClienteController/Create
@@ -115,27 +107,6 @@ namespace GestorDePedidos.Controllers
         public ActionResult CancelarCreacion()
         {
             return RedirectToAction("Lista", "Cliente");
-        }
-
-        // GET: ClienteController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ClienteController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         [HttpPost]

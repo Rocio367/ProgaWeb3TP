@@ -9,7 +9,6 @@ using PagedList;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
-using Microsoft.AspNetCore.Identity;
 
 namespace GestorDePedidos.Controllers
 {
@@ -25,8 +24,6 @@ namespace GestorDePedidos.Controllers
             _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
-
-        // GET: UsuarioController1
         public IActionResult Lista(int? numeroPagina, string nombre, string email, bool excluirEliminados = true)
         {
             FiltroUsuario filtro = new FiltroUsuario
@@ -58,6 +55,7 @@ namespace GestorDePedidos.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Crear(UsuarioDTO usuarioDTO)
@@ -87,10 +85,10 @@ namespace GestorDePedidos.Controllers
 
         public ActionResult Ver(int id)
         {
-            System.Console.WriteLine("accion ver");
             UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
             return View("Editar", usuario);
         }
+
         public ActionResult Editar()
         {
             return View();
@@ -113,11 +111,6 @@ namespace GestorDePedidos.Controllers
             return vista;
         }
 
-        public ActionResult Eliminar()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Eliminar(Usuario usuarioDTO)
@@ -134,66 +127,6 @@ namespace GestorDePedidos.Controllers
                 vista = View("Editar", usuarioDTO);
             }
             return vista;
-        }
-
-
-
-
-        // POST: UsuarioController1/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UsuarioController1/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuarioController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UsuarioController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuarioController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
