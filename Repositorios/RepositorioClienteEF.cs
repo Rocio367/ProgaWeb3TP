@@ -30,7 +30,7 @@ namespace Repositorios
 
         public List<Cliente> ObtenerClientes()
         {
-            return _contexto.Clientes.ToList();
+            return _contexto.Clientes.OrderBy(c => c.Nombre).ToList();
         }
         public void Actualizar()
         {
@@ -38,15 +38,15 @@ namespace Repositorios
         }
         public List<Cliente> ObtenerClientePorFiltro(IFiltroCliente filtro)
         {
-            var resultado = _contexto.Clientes.Where(filtro.Evaluar).Select(cliente => cliente);
-            return resultado.ToList();
+            var resultado = _contexto.Clientes.Where(filtro.Evaluar);
+            return resultado.OrderBy(c => c.Nombre).ToList();
         }
 
         public List<Cliente> ObtenerClientesParaFiltro()
         {
 
             List<Cliente> resultados = new List<Cliente>();
-            List<Cliente> resultadosBD = _contexto.Clientes.Include(e => e.Pedidos).Where(e => e.FechaBorrado == null).ToList();
+            List<Cliente> resultadosBD = _contexto.Clientes.Include(e => e.Pedidos).Where(e => e.FechaBorrado == null).OrderBy(c => c.Nombre).ToList();
             resultadosBD.ForEach(e =>
             {
                 if (e.Pedidos.Where(d => d.IdEstado == 1).ToList().Count() <= 1)
