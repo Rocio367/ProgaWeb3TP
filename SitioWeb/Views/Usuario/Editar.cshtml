@@ -55,7 +55,7 @@
 
                     <div class="form-group col-md-6">
                         <label>Fecha Nacimiento:</label>
-                        @Html.EditorFor(model => model.FechaNacimiento, new { @type = "date" })
+                        @Html.EditorFor(model => model.FechaNacimiento, new { @type = "date", htmlAttributes = new { @class = "form-control" } })
                     </div> <!-- form-group// -->
 
                 </div>
