@@ -13,5 +13,6 @@ namespace DTOs
 		public string Direccion { set; get; }
 		[ValidadorCuit(ErrorMessage = "El CUIT ingresado es inválido")]
 		public string Cuit { set; get; }
+		public bool EstaEliminado { set; get; }
 	}
 }
