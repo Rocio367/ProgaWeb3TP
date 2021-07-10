@@ -27,10 +27,12 @@ namespace ProgaWeb3TP.Controllers
         public ActionResult Lista(string nombre, string numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
+            List<DTOs.ArticuloDTO> listaOrdenada= this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).OrderBy(d => d.Codigo).ToList();
             model.numero = numero;
             model.nombre = nombre;
             model.eliminados = eliminados;
-            model.articulos = this._servicioArticulo.ObtenerArticulos(nombre, numero, eliminados).OrderBy(d => d.Codigo).ToPagedList(page.Value, _elementosPorPagina);
+
+            model.articulos = listaOrdenada.ToPagedList(page.Value, _elementosPorPagina);
             model.nombres = this._servicioArticulo.ObtenerDescripciones();
             model.numeros = this._servicioArticulo.ObtenerCodigos();
 

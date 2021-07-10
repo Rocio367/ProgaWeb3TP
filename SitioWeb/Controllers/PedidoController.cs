@@ -66,8 +66,7 @@ namespace ProgaWeb3TP.Controllers
             PedidoArticuloDTO aEliminar= PedidoArticulos.Find(d => d.Id== idEliminar);
             PedidoArticulos.Remove(aEliminar);
             TempData["listaArticulosPedido"]= JsonConvert.SerializeObject(PedidoArticulos);
-            model.pedido.PedidoArticulos = PedidoArticulos;
-            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
 
 
             return Redirect("Editar/"+ idPedido);
@@ -120,8 +119,7 @@ namespace ProgaWeb3TP.Controllers
 
             }
           
-            model.pedido.PedidoArticulos = PedidoArticulos;
-            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
             TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(PedidoArticulos);
             if (view == "Crear") {
                 return View("Crear", model);
@@ -165,6 +163,8 @@ namespace ProgaWeb3TP.Controllers
 
                 }
                 else {
+                    model.pedido.PedidoArticulos = model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+                    TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(model.pedido.PedidoArticulos);
                     CrearNotificacionDeError("El cliente " + nombreCliente  + " ya posee otro pedido Abierto, modifique ese pedido");
                     return View(model);
                 }
@@ -172,8 +172,9 @@ namespace ProgaWeb3TP.Controllers
             }
                 else
                {
-                   
-                    CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
+                model.pedido.PedidoArticulos = model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+                TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(model.pedido.PedidoArticulos);
+                CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
                     return View(model);
 
                 }          
@@ -221,7 +222,7 @@ namespace ProgaWeb3TP.Controllers
             {
                 model.pedido.PedidoArticulos =  JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
             }
-            model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
+            model.pedido.PedidoArticulos=model.pedido.PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
             TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(model.pedido.PedidoArticulos);
 
             return View(model);
@@ -285,61 +286,6 @@ namespace ProgaWeb3TP.Controllers
 
         }
 
-        // POST: PedidoController1/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: PedidoController1/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PedidoController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PedidoController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PedidoController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
