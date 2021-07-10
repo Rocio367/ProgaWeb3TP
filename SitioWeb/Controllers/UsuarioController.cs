@@ -54,7 +54,6 @@ namespace GestorDePedidos.Controllers
             return View("Lista", modelo);
         }
 
-
         public ActionResult Crear()
         {
             return View();
@@ -66,9 +65,17 @@ namespace GestorDePedidos.Controllers
             IActionResult vista = null;
             if (ModelState.IsValid)
             {
-                _servicioUsuario.Guardar(usuarioDTO);
-                vista = RedirectToAction("Lista", "Usuario");
-                CrearNotificacionExitosa($"El Usuario {usuarioDTO.Nombre} se ha creado correctamente");
+                try
+                {
+                    _servicioUsuario.Guardar(usuarioDTO);
+                    vista = RedirectToAction("Lista", "Usuario");
+                    CrearNotificacionExitosa($"El Usuario {usuarioDTO.Nombre} se ha creado correctamente");
+                }
+                catch (Exception e)
+                {
+                    vista = View("Crear");
+                    CrearNotificacionDeError(e.Message);
+                }
             }
             else
             {
