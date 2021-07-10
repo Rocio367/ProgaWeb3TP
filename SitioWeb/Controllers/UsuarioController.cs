@@ -83,6 +83,31 @@ namespace GestorDePedidos.Controllers
             return vista;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GuardarYCrearOtro(UsuarioDTO usuarioDTO)
+        {
+            IActionResult vista = View("Crear");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _servicioUsuario.Guardar(usuarioDTO);
+                    CrearNotificacionExitosa($"El Usuario {usuarioDTO.Nombre} se ha creado correctamente");
+                    vista = RedirectToAction("Crear", "Usuario");
+                }
+                catch (Exception e)
+                {                    
+                    CrearNotificacionDeError(e.Message);
+                }
+            }
+            else
+            {                
+                CrearNotificacionDeError("no es posible");
+            }
+            return vista;
+        }
+
         public ActionResult Ver(int id)
         {
             UsuarioDTO usuario = _servicioUsuario.ObtenerUsuario(id);
@@ -127,6 +152,13 @@ namespace GestorDePedidos.Controllers
                 vista = View("Editar", usuarioDTO);
             }
             return vista;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelarCreacion()
+        {
+            return RedirectToAction("Lista", "Usuario");
         }
     }
 }
