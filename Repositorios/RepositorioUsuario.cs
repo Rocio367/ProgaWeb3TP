@@ -68,10 +68,7 @@ namespace Repositorios
         {
             List<Usuario> listUsuario = _contexto.Usuarios.ToList();
             Usuario user = listUsuario.Find(x => x.Email == usuario.Email && x.Password == usuario.Password);
-            if (user != null)
-                return true;
-            return false;
-
+            return user != null;
         }
 
 
