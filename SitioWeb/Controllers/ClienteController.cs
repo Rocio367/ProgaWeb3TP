@@ -72,9 +72,13 @@ namespace GestorDePedidos.Controllers
 
             if (ModelState.IsValid)
             {
-                _servicioCliente.Guardar(clienteDTO);
-                vista = RedirectToAction("Lista", "Cliente");
-                CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
+                if (int.TryParse(HttpContext.Session.GetString("id"), out int idUsuario))
+                {
+                    UsuarioDTO administrador = new UsuarioDTO { IdUsuario = idUsuario };
+                    _servicioCliente.Guardar(clienteDTO, administrador);
+                    vista = RedirectToAction("Lista", "Cliente");
+                    CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
+                }                
             }
             else
             {
@@ -91,9 +95,13 @@ namespace GestorDePedidos.Controllers
 
             if (ModelState.IsValid)
             {
-                _servicioCliente.Guardar(clienteDTO);
-                vista = RedirectToAction("Crear", "Cliente");
-                CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
+                if (int.TryParse(HttpContext.Session.GetString("id"), out int idUsuario))
+                {
+                    UsuarioDTO administrador = new UsuarioDTO { IdUsuario = idUsuario };
+                    _servicioCliente.Guardar(clienteDTO, administrador);
+                    vista = RedirectToAction("Crear", "Cliente");
+                    CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha creado correctamente");
+                }
             }
             else
             {
@@ -134,12 +142,13 @@ namespace GestorDePedidos.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(ClienteDTO clienteDTO)
         {
-            _servicioCliente.Eliminar(clienteDTO.IdCliente);
-            IActionResult vista = null;
+            int idUsuario = int.Parse(HttpContext.Session.GetString("id"));            
+            UsuarioDTO administrador = new UsuarioDTO { IdUsuario = idUsuario };
+            _servicioCliente.Eliminar(clienteDTO.IdCliente, administrador);            
             CrearNotificacionExitosa($"El cliente {clienteDTO.Nombre} se ha eliminado correctamente");
-            vista = RedirectToAction("Lista", "Cliente");
-            return vista;
+            return RedirectToAction("Lista", "Cliente");
         }
+
         // POST: ClienteController/Editar/idCliente a editar
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -149,8 +158,9 @@ namespace GestorDePedidos.Controllers
 
             if (ModelState.IsValid)
             {
-                int id = clienteDTO.IdCliente;
-                _servicioCliente.Editar(id,clienteDTO);
+                int idUsuario = int.Parse(HttpContext.Session.GetString("id"));
+                UsuarioDTO administrador = new UsuarioDTO { IdUsuario = idUsuario };                
+                _servicioCliente.Editar(clienteDTO, administrador);
                 vista = RedirectToAction("Lista", "Cliente");
             }
             else
