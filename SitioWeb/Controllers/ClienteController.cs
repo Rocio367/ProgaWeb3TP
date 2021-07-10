@@ -25,7 +25,7 @@ namespace GestorDePedidos.Controllers
             
         }
          
-    public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados)
+    public IActionResult Lista(int? numeroPagina, string nombre, int? numero, bool excluirEliminados = true)
         {
             
             FiltroCliente filtro = new FiltroCliente
