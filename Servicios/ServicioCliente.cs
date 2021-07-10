@@ -52,7 +52,8 @@ namespace Servicios
                 Email = cliente.Email,
                 Telefono = cliente.Telefono,
                 Direccion = cliente.Direccion,
-                Cuit = cliente.Cuit
+                Cuit = cliente.Cuit,
+                EstaEliminado = cliente.FechaBorrado != null
             };
         }
 

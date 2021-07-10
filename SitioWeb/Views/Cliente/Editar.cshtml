@@ -47,11 +47,11 @@
 
                 <div class="form-group ">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
-
                     @Html.ActionLink("Cancelar", "Lista", "Cliente", null, new { @class = "btn btn-secondary text-white" })
-
-
-                    <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+                    @if (Model.EstaEliminado == false)
+                    {
+                        <button type="button" class="btn btn-danger float-right " data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+                    }
                 </div> <!-- form-group// -->
 
             }

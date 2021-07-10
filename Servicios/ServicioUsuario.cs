@@ -28,7 +28,8 @@ namespace Servicios
                 //¿Esto no podria dar un nullpointer al intentar castear un null?
                 FechaNacimiento = (DateTime)usuario.FechaNacimiento,
                 Email = usuario.Email,
-                Password = usuario.Password
+                Password = usuario.Password,
+                EstaEliminado = usuario.FechaBorrado != null
             };
         }
 
