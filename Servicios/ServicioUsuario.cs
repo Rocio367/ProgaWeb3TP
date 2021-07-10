@@ -38,19 +38,27 @@ namespace Servicios
             return usuarios.Select(usuario => ConvertirEnDTO(usuario)).ToList();
         }
 
-
         public void Guardar(UsuarioDTO usuarioDTO)
         {
-            Usuario usuario = new Usuario
+            int cantidadDeUsuariosConEmail =_repositorioUsuario.ContarUsuariosConMail(usuarioDTO.Email);
+            if(cantidadDeUsuariosConEmail == 0)
             {
-                Nombre = usuarioDTO.Nombre,
-                Email = usuarioDTO.Email,
-                EsAdmin = usuarioDTO.EsAdmin,
-                Apellido = usuarioDTO.Apellido,
-                Password = usuarioDTO.Password,
-                FechaNacimiento = usuarioDTO.FechaNacimiento,
-            };
-            _repositorioUsuario.Guardar(usuario);
+                Usuario usuario = new Usuario
+                {
+                    Nombre = usuarioDTO.Nombre,
+                    Email = usuarioDTO.Email,
+                    EsAdmin = usuarioDTO.EsAdmin,
+                    Apellido = usuarioDTO.Apellido,
+                    Password = usuarioDTO.Password,
+                    FechaNacimiento = usuarioDTO.FechaNacimiento,
+                };
+                _repositorioUsuario.Guardar(usuario);
+            } 
+            else
+            {
+                throw new Exception("El mail ingresado ya esta en uso");
+            }
+            
         }
 
         public UsuarioDTO ObtenerUsuario(int id)

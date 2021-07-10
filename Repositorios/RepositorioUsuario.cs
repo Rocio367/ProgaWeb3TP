@@ -71,7 +71,6 @@ namespace Repositorios
             return user != null;
         }
 
-
         public void EditarHora(string email)
         {
             List<Usuario> listUsuario = _contexto.Usuarios.ToList();
@@ -99,6 +98,11 @@ namespace Repositorios
                 resultados.Add(e);
             });
             return resultados;
+        }
+
+        public int ContarUsuariosConMail(string mail)
+        {
+           return _contexto.Usuarios.Where(u => u.FechaBorrado == null && u.Email.Equals(mail)).Count();
         }
     }
 }
