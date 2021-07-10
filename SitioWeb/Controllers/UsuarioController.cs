@@ -10,9 +10,11 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDePedidos.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsuarioController : BaseController
     {
         private IServicioUsuario _servicioUsuario;

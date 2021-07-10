@@ -1,4 +1,5 @@
 ﻿using DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,8 @@ using System;
 using System.Collections.Generic;
 
 namespace GestorDePedidos.Controllers
-{   
+{
+    [Authorize(Roles = "Admin")]
     public class ClienteController : BaseController
     {
 
