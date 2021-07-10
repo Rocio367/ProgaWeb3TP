@@ -27,7 +27,7 @@ namespace GestorDePedidos.Controllers
 
 
         // GET: UsuarioController1
-        public IActionResult Lista(int? numeroPagina, string nombre, string email, bool excluirEliminados)
+        public IActionResult Lista(int? numeroPagina, string nombre, string email, bool excluirEliminados = true)
         {
             FiltroUsuario filtro = new FiltroUsuario
             {
