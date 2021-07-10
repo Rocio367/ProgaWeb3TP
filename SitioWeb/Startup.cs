@@ -1,4 +1,5 @@
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Repositorios;
 using Servicios;
 using System;
+using System.Security.Claims;
 
 namespace SitioWeb
 {
@@ -32,6 +34,25 @@ namespace SitioWeb
             });
 
             services.AddControllersWithViews();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/Ingreso/login";
+                    options.AccessDeniedPath = "/Ingreso/Denegado";
+                   /* options.Events = new CookieAuthenticationEvents()
+                    {
+                        OnSigningIn = async context =>
+                        {
+                            var principal = context.Principal;
+                            if (principal.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
+                            {
+                                if (principal.Claims.FirstOrEquals(context = >)
+                                {
+
+                                }
+                            }
+                        }
+                    };*/
+                });
             services.AddDbContext<_20211CTPContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));
 
@@ -63,6 +84,7 @@ namespace SitioWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();

@@ -10,9 +10,11 @@ using ProgaWeb3TP.Models;
 using GestorDePedidos.Controllers;
 using SitioWeb.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProgaWeb3TP.Controllers
-{
+{   
+    [Authorize(Roles ="Admin")]
     public class ArticuloController : BaseController
     { 
         private IServicioArticulo _servicioArticulo;
@@ -23,7 +25,6 @@ namespace ProgaWeb3TP.Controllers
             _servicioArticulo = servicioArticulo;
             _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
-
         public ActionResult Lista(string nombre, string numero, Boolean eliminados = true, int? page = 1)
         {
             ListaAticulosVM model = new ListaAticulosVM();
