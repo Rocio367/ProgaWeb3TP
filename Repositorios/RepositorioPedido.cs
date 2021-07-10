@@ -1,11 +1,12 @@
 ﻿using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Repositorios
 {
@@ -17,41 +18,41 @@ namespace Repositorios
             _context = contexto;
 
         }
-        public int cambiarEstado(int idPedido, int idEstado)
+        public int cambiarEstado(int idPedido, int idEstado,int idUsuario)
         {
             Pedido ped = _context.Pedidos.Find(idPedido);
-            //cambiar el modificadoPor por el id del usaurio actual
             ped.IdEstado = idEstado;
-            ped.ModificadoPor = 1;
+            ped.ModificadoPor =idUsuario;
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
             return ped.NroPedido;
         }
 
         public int Editar(Pedido pedido)
-        {            
-            //cambiar el modificadoPor por el id del usaurio actual
+        {
 
             Pedido ped = _context.Pedidos.Where(d => d.IdPedido == pedido.IdPedido).Include(d => d.PedidoArticulos).FirstOrDefault();
             ped.PedidoArticulos = pedido.PedidoArticulos;
             ped.Comentarios = pedido.Comentarios;
-            ped.ModificadoPor = 1;
-
+            ped.ModificadoPor = pedido.ModificadoPor;
             ped.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
             return ped.NroPedido;
         }
 
-        public void Eliminar(int id)
+        public void Eliminar(int id,int idUsuario)
         {
+
             Pedido ped = _context.Pedidos.Find(id);
             ped.IdEstado = 2;
             ped.FechaBorrado = DateTime.Now;
+            ped.BorradoPor = idUsuario;
             _context.SaveChanges();
         }
 
         public int Guardar(Pedido pedido)
         {
+
             pedido.IdEstado = 1;
             pedido.FechaCreacion = DateTime.Now;
             pedido.NroPedido = (_context.Pedidos.Max(d => d.NroPedido))+1;

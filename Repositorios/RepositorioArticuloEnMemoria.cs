@@ -127,5 +127,10 @@ namespace Repositorios
         {
             throw new NotImplementedException();
         }
+
+        public void Eliminar(int id, int idUsuario)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace DTOs
         public string Descripcion { set; get; }
         public DateTime? FechaBorrado { get; set; }
 
+        public int? CreadoPor { get; set; }
+        public int? ModificadoPor { get; set; }
+        public int? BorradoPor { get; set; }
+
+
     }
 }

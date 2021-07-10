@@ -10,6 +10,7 @@ using ProgaWeb3TP.Models;
 using GestorDePedidos.Controllers;
 using SitioWeb.Models;
 using Microsoft.Extensions.Configuration;
+using EllipticCurve.Utils;
 
 namespace ProgaWeb3TP.Controllers
 {
@@ -47,8 +48,9 @@ namespace ProgaWeb3TP.Controllers
             return View(new ArticuloDTO());
         }
         public ActionResult Eliminar(int id)
-        {
-            this._servicioArticulo.Eliminar(id);
+        {   string idUsuario = HttpContext.Session.GetString("id");
+
+            this._servicioArticulo.Eliminar(id, Int32.Parse(idUsuario));
             CrearNotificacionExitosa("El articulo fue eliminado correctamente");
             return RedirectToAction("Lista", "Articulo");
         }
@@ -62,6 +64,8 @@ namespace ProgaWeb3TP.Controllers
                 {
                     if (!_servicioArticulo.ExisteArticulo(art))
                     {
+                        int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
+                        art.CreadoPor = idUsuario;
                         this._servicioArticulo.Guardar(art);
                         CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
 
@@ -98,6 +102,8 @@ namespace ProgaWeb3TP.Controllers
 
                     if (!_servicioArticulo.ExisteArticulo(art))
                     {
+                        int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
+                        art.CreadoPor = idUsuario;
                         this._servicioArticulo.Guardar(art);
                         CrearNotificacionExitosa("Articulo " + art.Descripcion + " fue creado con correctamente");
                         art.Descripcion = null;
@@ -147,6 +153,8 @@ namespace ProgaWeb3TP.Controllers
                 {
                     if (!_servicioArticulo.ExisteArticulo(art))
                     {
+                        int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
+                        art.ModificadoPor = idUsuario;
                         this._servicioArticulo.Editar(art);
                         CrearNotificacionExitosa("Articulo  fue editado con correctamente");
                         return RedirectToAction("Lista", "Articulo");
@@ -170,61 +178,6 @@ namespace ProgaWeb3TP.Controllers
             }
         }
 
-        // POST: ArticuloController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ArticuloController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ArticuloController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ArticuloController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ArticuloController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    
     }
 }

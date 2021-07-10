@@ -23,6 +23,10 @@ namespace DTOs
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public DateTime? FechaBorrado { get; set; }
+        public int? CreadoPor { get; set; }
+        public int? ModificadoPor { get; set; }
+        public int? BorradoPor { get; set; }
+
         public virtual ClienteDTO IdClienteNavigation { get; set; }
         public virtual EstadoPedidoDTO IdEstadoNavigation { get; set; }
         public virtual List<PedidoArticuloDTO> PedidoArticulos { get; set; }

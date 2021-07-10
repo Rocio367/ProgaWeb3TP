@@ -156,6 +156,8 @@ namespace ProgaWeb3TP.Controllers
                 {
                 var nombreCliente = _servicioPedido.ExistePedidoAbiertoPorCliente(model.pedido.idCliente);
                 if (nombreCliente == "") {
+                    int idUsuario =Int32.Parse( HttpContext.Session.GetString("id"));
+                    model.pedido.CreadoPor = idUsuario;
                     int nroPedido = this._servicioPedido.Guardar(model.pedido);
                     CrearNotificacionExitosa("Pedido " + nroPedido + " fue creado  correctamente");
                     TempData["listaArticulosPedido"]=null;
@@ -196,7 +198,9 @@ namespace ProgaWeb3TP.Controllers
             }
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
                 {
-                    int nroPedido = this._servicioPedido.Guardar(model.pedido);
+                int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
+                model.pedido.CreadoPor = idUsuario;
+                int nroPedido = this._servicioPedido.Guardar(model.pedido);
                     CrearNotificacionExitosa("Pedido " + nroPedido + " fue creado correctamente");
                 TempData["listaArticulosPedido"] = null;
                 return View("Crear", model);
@@ -243,6 +247,8 @@ namespace ProgaWeb3TP.Controllers
 
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
             {
+                int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
+                model.pedido.ModificadoPor = idUsuario;
                 int nroPedido = this._servicioPedido.Editar(model.pedido);
                 CrearNotificacionExitosa("Pedido " + nroPedido + " fue editado  correctamente");
                 TempData["listaArticulosPedido"] = null;
@@ -258,21 +264,25 @@ namespace ProgaWeb3TP.Controllers
 
         public ActionResult Eliminar(int id)
         {
-            this._servicioPedido.Eliminar(id);
+            string idUsuario = HttpContext.Session.GetString("id");
+            this._servicioPedido.Eliminar(id, Int32.Parse(idUsuario));
             CrearNotificacionExitosa("El Pedido fue eliminado correctamente");
             return RedirectToAction("Lista", "Pedido");
         }
 
         public ActionResult Cerrar(int id)
         {
-            this._servicioPedido.cambiarEstado(id,2);
+            string idUsuario = HttpContext.Session.GetString("id");
+
+            this._servicioPedido.cambiarEstado(id,2,Int32.Parse(idUsuario));
             CrearNotificacionExitosa("El Pedido fue actualizado como 'Cerrado'");
             return RedirectToAction("Lista", "Pedido");
         }
 
         public ActionResult Entregado(int id)
         {
-            this._servicioPedido.cambiarEstado(id, 3);
+            string idUsuario = HttpContext.Session.GetString("id");
+            this._servicioPedido.cambiarEstado(id, 3,Int32.Parse(idUsuario));
             CrearNotificacionExitosa("El Pedido fue actualizado como 'Entregado'");
             return RedirectToAction("Lista", "Pedido");
         }

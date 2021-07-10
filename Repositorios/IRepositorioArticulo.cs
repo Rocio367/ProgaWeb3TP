@@ -14,7 +14,7 @@ namespace Repositorios
     {
         void Guardar(Articulo articulo);
         void Editar(Articulo articulo);
-        void Eliminar(int id);
+        void Eliminar(int id, int idUsuario);
         Articulo ObtenerArticulo(int id);
 
         List<Articulo> ObtenerArticulosSinFiltro();

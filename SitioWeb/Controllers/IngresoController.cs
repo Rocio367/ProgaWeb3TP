@@ -1,13 +1,8 @@
 ﻿using DTOs;
-using GestorDePedidos.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Servicios;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SitioWeb.Controllers
 {
@@ -36,7 +31,9 @@ namespace SitioWeb.Controllers
                 UsuarioDTO usuarioObt = _servicioUsuario.ObtenerUsuarioPorMail(usuario.Email);
                 _servicioUsuario.EditarHora(usuario.Email);
                 string nombreUsuario = usuarioObt.Nombre;
+                int id = usuarioObt.IdUsuario;
                 HttpContext.Session.SetString("nombre", nombreUsuario);
+                HttpContext.Session.SetString("id", id.ToString());
                 bool admin = usuarioObt.EsAdmin;
                 HttpContext.Session.SetString("admin", admin.ToString());
                 TempData["Mensaje"] = null;
