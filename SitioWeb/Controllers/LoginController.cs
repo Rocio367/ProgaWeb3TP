@@ -20,37 +20,7 @@ namespace GestorDePedidos.Controllers
         {
             return View(new UsuarioDTO());
         }
-        [HttpPost]
-        public ActionResult login(UsuarioDTO user)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    bool resul = _servicioLogin.ValidarLogin(user);
-                    if (resul)
-                    {
-                        return View("~/Views/Pedido/Lista.cshtml");
-                    }
-                    else
-                    {
-                        CrearNotificacionExitosa("el usuario y contraseña  son invalidos");
-                        return View();
-                    }
-
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return View("~/Views/Pedido/Lista.cshtml");
-            }
         
-        }
-
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(UsuarioDTO user)

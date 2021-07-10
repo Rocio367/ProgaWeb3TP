@@ -6,11 +6,11 @@ namespace Servicios
 {
     public interface IServicioCliente
     {
-        void Guardar(ClienteDTO clienteDTO);
+        void Guardar(ClienteDTO clienteDTO, UsuarioDTO administrador);
         List<ClienteDTO> ObtenerClientes();
         ClienteDTO ObtenerCliente(int id);
-        void Editar(int id, ClienteDTO clienteDTO);
-        ClienteDTO Eliminar(int id);
+        void Editar(ClienteDTO clienteDTO, UsuarioDTO administrador);
+        ClienteDTO Eliminar(int id, UsuarioDTO administrador);
         Boolean ExisteCliente(int id);
         public List<ClienteDTO> ObtenerClientesPorFiltro(string? Nombre, int? Numero, bool ExcluirEliminados);
 
