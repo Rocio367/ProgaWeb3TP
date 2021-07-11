@@ -11,9 +11,11 @@ using SitioWeb.Models;
 using SitioWeb.Session;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProgaWeb3TP.Controllers
 {
+    [Authorize(Roles = "Estandar")]
     public class PedidoController : BaseController
     {
         private IServicioPedido _servicioPedido;

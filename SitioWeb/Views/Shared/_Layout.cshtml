@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @{
     string nombre = Context.Session.GetString("nombre");
+    string rol = Context.Session.GetString("rolUsuario");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +36,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Pedido" asp-action="Lista">Pedidos</a>
                         </li>
+                        @if( string.IsNullOrEmpty(rol) || !rol.Equals("Estandar"))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Articulo" asp-action="Lista">Articulos</a>
                         </li>
@@ -44,8 +47,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Lista">Usuarios</a>
                         </li>
+                        }
                     </ul>
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
                 <div class="d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -57,6 +63,7 @@
 
                     </ul>
                 </div>
+                }
             </div>
         </nav>
     </header>

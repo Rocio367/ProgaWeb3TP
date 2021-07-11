@@ -1,4 +1,5 @@
 ﻿using DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +10,8 @@ using SitioWeb.Models;
 using System.Collections.Generic;
 
 namespace GestorDePedidos.Controllers
-{   
+{
+    [Authorize(Roles = "Admin")]
     public class ClienteController : BaseController
     {
 
