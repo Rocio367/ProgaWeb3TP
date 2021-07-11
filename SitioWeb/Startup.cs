@@ -38,20 +38,6 @@ namespace SitioWeb
                 .AddCookie(options => {
                     options.LoginPath = "/Ingreso/login";
                     options.AccessDeniedPath = "/Ingreso/Denegado";
-                   /* options.Events = new CookieAuthenticationEvents()
-                    {
-                        OnSigningIn = async context =>
-                        {
-                            var principal = context.Principal;
-                            if (principal.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
-                            {
-                                if (principal.Claims.FirstOrEquals(context = >)
-                                {
-
-                                }
-                            }
-                        }
-                    };*/
                 });
             services.AddDbContext<_20211CTPContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("_20211CTPContext")));

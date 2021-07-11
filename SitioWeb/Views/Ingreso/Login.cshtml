@@ -1,5 +1,6 @@
 ﻿@model DTOs.UsuarioDTO
 @{
+
 }
 @{
     var returnUrl = ViewData["ReturnUrl"] as string;
@@ -14,16 +15,16 @@
                         <article class="card-body">
                             <h4 class="card-title mb-4 mt-1">Ingreso sistema de pedido</h4>
                            
-                            <form action="/Ingreso/loginUsuario" method="post">
+                            <form action="/Ingreso/loginUsuario?ReturnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)" method="post">
                                 <div class="form-group">    
                                     <label>E-mail</label>
-                                    <input name="Email" class="form-control" value="@Model.Email" placeholder="Email" type="email">
+                                    <input name="Email" class="form-control"  @*value="@Model.Email"*@ placeholder="Email" type="email">
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div> <!-- form-group// -->
                                 <div class="form-group">
                                     <a class="float-right" href="#"></a>
                                     <label>Contraseña</label>
-                                    <input name="Password" class="form-control" value="@Model.Password" placeholder="******" type="password">
+                                    <input name="Password" class="form-control" @*value="@Model.Password"*@ placeholder="******" type="password">
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div> <!-- form-group// -->
                                 <div class="form-group">

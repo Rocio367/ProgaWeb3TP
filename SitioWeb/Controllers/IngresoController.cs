@@ -1,5 +1,6 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
+using GestorDePedidos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -28,9 +29,9 @@ namespace SitioWeb.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View("Login", new UsuarioDTO());
         }
-        [HttpGet("Denegado")]
-        public ActionResult Denegado()
+        public ActionResult Denegado(string returnUrl)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -38,7 +39,6 @@ namespace SitioWeb.Controllers
         [HttpPost]
         public async Task<ActionResult> loginUsuario(UsuarioDTO usuario, string returnUrl)
         {
-
             ViewData["ReturnUrl"] = returnUrl;
             Boolean response = _servicioUsuario.ValidarLogin(usuario);
             if (response)
@@ -48,8 +48,6 @@ namespace SitioWeb.Controllers
                 string nombreUsuario = usuarioObt.Nombre;
                 HttpContext.Session.SetString("nombre", nombreUsuario);
                 bool admin = usuarioObt.EsAdmin;
-                if (admin)
-                {
                     TempData["Mensaje"] = null;
                     var claims = new List<Claim>();
                     claims.Add(new Claim("nombre", usuarioObt.Nombre));
@@ -57,11 +55,14 @@ namespace SitioWeb.Controllers
                     if (usuarioObt.EsAdmin)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-                    }
+                        claims.Add(new Claim(ClaimTypes.Role, "Estandar"));
+                        HttpContext.Session.SetString("rolUsuario", "Admin");
+                }
                     else
                     {
                         claims.Add(new Claim(ClaimTypes.Role, "Estandar"));
-                    }
+                    HttpContext.Session.SetString("rolUsuario", "Estandar");
+                }
                     
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -72,8 +73,7 @@ namespace SitioWeb.Controllers
                         return Redirect(returnUrl);
                     }
                     return RedirectToAction("Lista", "Pedido");
-                    //return RedirectToAction("Lista", "Usuario");
-                }
+
                 TempData["Mensaje"] = "Error al ingresar a la pagina. Email y/o Contraseña es invalido";
                 return View("login");
                 

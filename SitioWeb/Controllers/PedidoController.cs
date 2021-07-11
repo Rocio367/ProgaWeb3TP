@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProgaWeb3TP.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Estandar")]
     public class PedidoController : BaseController
     {
         private IServicioPedido _servicioPedido;
