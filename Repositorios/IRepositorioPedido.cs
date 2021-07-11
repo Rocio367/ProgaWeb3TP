@@ -12,15 +12,16 @@ namespace Repositorios
     {
         int Guardar(Pedido pedido);
         int Editar(Pedido pedido);
-        void Eliminar(int id);
+        void Eliminar(int id,int idUsuario);
         Pedido ObtenerPedido(int id);
-        int cambiarEstado(int idPedido, int idEstado);
+        int cambiarEstado(int idPedido, int idEstado, int idUsuario);
         List<Pedido> ObtenerPedidosSinFiltro();
         List<Pedido> ObtenerPedidosConFiltro(IFiltrosPedido filtro);
         List<Cliente> ObtenerClientes(); 
         List<Cliente> ObtenerClientesFiltro(); 
          List<EstadoPedido> ObtenerEstados();
         Boolean ExisteEstado(int id);
+        string ExistePedidoAbiertoPorCliente(int id);
 
         PedidoResponse BuscarPedidoApi(PedidoRequest body);
 

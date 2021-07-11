@@ -17,11 +17,16 @@ namespace DTOs
         public int NroPedido { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
+        [StringLength(150, ErrorMessage = "No se puede ingresar mas de 150 caracteres")]
 
         public string Comentarios { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public DateTime? FechaBorrado { get; set; }
+        public int? CreadoPor { get; set; }
+        public int? ModificadoPor { get; set; }
+        public int? BorradoPor { get; set; }
+
         public virtual ClienteDTO IdClienteNavigation { get; set; }
         public virtual EstadoPedidoDTO IdEstadoNavigation { get; set; }
         public virtual List<PedidoArticuloDTO> PedidoArticulos { get; set; }

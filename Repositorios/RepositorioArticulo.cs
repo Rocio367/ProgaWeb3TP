@@ -1,17 +1,18 @@
 ﻿
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Http;
 using Modelos.ModelosApi;
 using Repositorios.Filtros.FiltrosArticulo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Repositorios
 {
    public class RepositorioArticulo : IRepositorioArticulo
     {
         private _20211CTPContext _context;
+        private ISession session;
         public RepositorioArticulo(_20211CTPContext contexto)
         {
             _context = contexto;
@@ -19,25 +20,28 @@ namespace Repositorios
         }
         public void Guardar(Articulo articulo)
         {
+
+
             _context.Add(articulo);
             _context.SaveChanges();
         }
 
         public void Editar(Articulo articulo)
         {
-
             Articulo art = _context.Articulos.Find(articulo.IdArticulo);
             art.Codigo = articulo.Codigo;
+            art.ModificadoPor = articulo.ModificadoPor;
             art.Descripcion = articulo.Descripcion;
             art.FechaModificacion = DateTime.Now;
             _context.SaveChanges();
 
         }
 
-        public void Eliminar(int id)
+        public void Eliminar(int id, int idUsuario)
         {
             Articulo art = _context.Articulos.Find(id);
             art.FechaBorrado = DateTime.Now;
+            art.BorradoPor = idUsuario;
             _context.SaveChanges();
 
         }

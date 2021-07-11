@@ -19,5 +19,6 @@ namespace Repositorios
         void EditarHora(string email);
         List<Usuario> ObtenerUsuariosPorFiltro(IFiltroUsuario filtro);
         public List<Usuario> ObtenerUsuariosParaFiltro();
+        int ContarUsuariosConMail(string mail);
     }
 }

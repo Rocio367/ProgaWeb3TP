@@ -25,6 +25,7 @@ namespace Servicios
             {
                 Codigo = articuloDTO.Codigo,
                 Descripcion = articuloDTO.Descripcion,
+                CreadoPor=articuloDTO.CreadoPor
 
             };
             _repositorioArticulo.Guardar(aticulo);
@@ -36,15 +37,15 @@ namespace Servicios
                 IdArticulo = ArticuloDTO.Id,
                 Codigo = ArticuloDTO.Codigo,
                 Descripcion = ArticuloDTO.Descripcion,
-
+                ModificadoPor=ArticuloDTO.ModificadoPor
 
             };
             _repositorioArticulo.Editar(aticulo);
         }
-        public void Eliminar(int id)
+        public void Eliminar(int id, int idUsuario)
         {
 
-            _repositorioArticulo.Eliminar(id);
+            _repositorioArticulo.Eliminar(id,idUsuario);
         }
 
         public List<ArticuloDTO> ObtenerArticulosSinFiltro()

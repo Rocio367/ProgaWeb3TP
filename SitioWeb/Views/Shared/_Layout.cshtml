@@ -73,32 +73,22 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - ProgaWeb3TP - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <partial name="pv_Footer" />
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.js-example-basic').select2();
-    });
-</script>
-
+<script src="~/js/autocomplete.js"></script>
 <script type="text/javascript">
     @{
         if (TempData["Notificacion.Mostrar"] != null)
         {
-            <text>
-                $.notify({
-                    message: '@TempData["Notificacion.Mensaje"]'
+        <text>
+            $.notify({
+                message: '@TempData["Notificacion.Mensaje"]'
                 }, {
-	                type: '@TempData["Notificacion.Tipo"]'
+                type: '@TempData["Notificacion.Tipo"]'
                 });
             </text>
-        }
+    }
     }
 </script>

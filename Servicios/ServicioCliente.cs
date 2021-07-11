@@ -15,7 +15,7 @@ namespace Servicios
         {
             _repositorioCliente = repositorioCliente;
         }
-        public void Guardar(ClienteDTO clienteDTO)
+        public void Guardar(ClienteDTO clienteDTO, UsuarioDTO administrador)
         {
             Cliente cliente = new Cliente
             {
@@ -23,7 +23,9 @@ namespace Servicios
                 Email = clienteDTO.Email,
                 Telefono = clienteDTO.Telefono,
                 Direccion = clienteDTO.Direccion,
-                Cuit = clienteDTO.Cuit
+                Cuit = clienteDTO.Cuit,
+                CreadoPor = administrador.IdUsuario,
+                FechaCreacion = DateTime.UtcNow
             };
             _repositorioCliente.Guardar(cliente);
         }
@@ -50,28 +52,32 @@ namespace Servicios
                 Email = cliente.Email,
                 Telefono = cliente.Telefono,
                 Direccion = cliente.Direccion,
-                Cuit = cliente.Cuit
+                Cuit = cliente.Cuit,
+                EstaEliminado = cliente.FechaBorrado != null
             };
         }
 
-        public void Editar(int id, ClienteDTO clienteDTO)
+        public void Editar(ClienteDTO clienteDTO, UsuarioDTO administrador)
         {
-            Cliente cliente = _repositorioCliente.ObtenerCliente(id);
+            Cliente cliente = _repositorioCliente.ObtenerCliente(clienteDTO.IdCliente);
 
             cliente.Nombre = clienteDTO.Nombre;
-            cliente.Numero = (int)clienteDTO.Numero;
+            cliente.Numero = clienteDTO.Numero.Value;
             cliente.Email = clienteDTO.Email;
             cliente.Telefono = clienteDTO.Telefono;
             cliente.Direccion = clienteDTO.Direccion;
             cliente.Cuit = clienteDTO.Cuit;
+            cliente.ModificadoPor = administrador.IdUsuario;
+            cliente.FechaModificacion = DateTime.UtcNow;
 
             _repositorioCliente.Actualizar();
         }
 
-        public ClienteDTO Eliminar(int id)
+        public ClienteDTO Eliminar(int idCliente, UsuarioDTO administrador)
         {
-            Cliente cliente = _repositorioCliente.ObtenerCliente(id);
-            cliente.FechaBorrado = DateTime.Now;
+            Cliente cliente = _repositorioCliente.ObtenerCliente(idCliente);
+            cliente.BorradoPor = administrador.IdUsuario;
+            cliente.FechaBorrado = DateTime.UtcNow;
             _repositorioCliente.Actualizar();
             return ConvertirEnDTO(cliente);
         }

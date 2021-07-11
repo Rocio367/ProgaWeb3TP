@@ -1,5 +1,6 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
+using Microsoft.AspNetCore.Http;
 using Modelos.ModelosApi;
 using Repositorios;
 using Repositorios.Filtros.FiltrosPedido;
@@ -27,8 +28,9 @@ namespace Servicios
                 IdCliente = pedido.idCliente,
                 Comentarios = pedido.Comentarios,
                 IdPedido = pedido.IdPedido,
-                IdEstado=pedido.IdEstado,
-                NroPedido=pedido.NroPedido
+                IdEstado = pedido.IdEstado,
+                NroPedido = pedido.NroPedido,
+                ModificadoPor=pedido.ModificadoPor
             };
 
             pedido.PedidoArticulos.ForEach(d =>
@@ -43,12 +45,12 @@ namespace Servicios
             return _repositorioPedido.Editar(ped);
         }
 
-        public void Eliminar(int id)
+        public void Eliminar(int id, int idUsuario)
         {
-            _repositorioPedido.Eliminar(id);
+            _repositorioPedido.Eliminar(id,idUsuario);
         }
-        public int cambiarEstado(int idPedido, int idEstado) {
-            return _repositorioPedido.cambiarEstado(idPedido,idEstado);
+        public int cambiarEstado(int idPedido, int idEstado, int idUsuario) {
+            return _repositorioPedido.cambiarEstado(idPedido,idEstado,idUsuario);
         }
         public int Guardar(PedidoDTO pedido)
         {
@@ -58,6 +60,7 @@ namespace Servicios
             {
                 IdCliente = pedido.idCliente,
                 Comentarios=pedido.Comentarios,
+                CreadoPor=pedido.CreadoPor
             };
 
             pedido.PedidoArticulos.ForEach(d =>
@@ -263,6 +266,11 @@ namespace Servicios
         public bool ExisteEstado(int id)
         {
             return _repositorioPedido.ExisteEstado(id);
+        }
+
+        public string ExistePedidoAbiertoPorCliente(int id)
+        {
+            return _repositorioPedido.ExistePedidoAbiertoPorCliente(id);
         }
     }
 }

@@ -68,12 +68,8 @@ namespace Repositorios
         {
             List<Usuario> listUsuario = _contexto.Usuarios.ToList();
             Usuario user = listUsuario.Find(x => x.Email == usuario.Email && x.Password == usuario.Password);
-            if (user != null)
-                return true;
-            return false;
-
+            return user != null;
         }
-
 
         public void EditarHora(string email)
         {
@@ -102,6 +98,11 @@ namespace Repositorios
                 resultados.Add(e);
             });
             return resultados;
+        }
+
+        public int ContarUsuariosConMail(string mail)
+        {
+           return _contexto.Usuarios.Where(u => u.FechaBorrado == null && u.Email.Equals(mail)).Count();
         }
     }
 }

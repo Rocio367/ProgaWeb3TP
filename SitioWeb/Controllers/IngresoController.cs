@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -46,7 +45,9 @@ namespace SitioWeb.Controllers
                 UsuarioDTO usuarioObt = _servicioUsuario.ObtenerUsuarioPorMail(usuario.Email);
                 _servicioUsuario.EditarHora(usuario.Email);
                 string nombreUsuario = usuarioObt.Nombre;
+                int id = usuarioObt.IdUsuario;
                 HttpContext.Session.SetString("nombre", nombreUsuario);
+                HttpContext.Session.SetString("id", id.ToString());
                 bool admin = usuarioObt.EsAdmin;
                     TempData["Mensaje"] = null;
                     var claims = new List<Claim>();
