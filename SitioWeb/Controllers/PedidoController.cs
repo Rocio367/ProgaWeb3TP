@@ -118,7 +118,6 @@ namespace ProgaWeb3TP.Controllers
                     }
 
                 }
-                TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(PedidoArticulos);
               
                 } else {
                
