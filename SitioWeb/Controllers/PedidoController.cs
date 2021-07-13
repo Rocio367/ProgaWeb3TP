@@ -31,18 +31,17 @@ namespace ProgaWeb3TP.Controllers
             _elementosPorPagina = configuration.GetValue<int>("ElementosPorPagina");
         }
 
-        public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, string? id_estado = "Sin Filtro")
+        public ActionResult Lista( int? id_cliente, Boolean eliminados = true, Boolean solo_ultimos_dos_meses = true, int page = 1, int? id_estado =1)
         {   
 
             ListaPedidoVM model = new ListaPedidoVM();
 
-            int?  id_estado_int = Int32.TryParse(id_estado, out int resultEstado) ? resultEstado : 1;
 
-            model.id_estado = id_estado_int;
+            model.id_estado = id_estado;
             model.id_cliente = id_cliente;
             model.eliminados = eliminados;
             model.solo_ultimos_dos_meses = solo_ultimos_dos_meses;
-            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado_int, eliminados, solo_ultimos_dos_meses).ToPagedList(page, _elementosPorPagina);
+            model.pedidos = this._servicioPedido.ObtenerPedidosConFiltro(id_cliente, id_estado, eliminados, solo_ultimos_dos_meses).ToPagedList(page, _elementosPorPagina);
 
             model.estados = this._servicioPedido.ObtenerEstados();
             model.clientes = _servicioCliente.ObtenerClientes();
