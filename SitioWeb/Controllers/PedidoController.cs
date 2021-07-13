@@ -53,7 +53,7 @@ namespace ProgaWeb3TP.Controllers
 
 
         [HttpPost]
-        public ActionResult EliminarArticulo(CrearPedidoVM model, int idPedido, int idEliminar)
+        public ActionResult EliminarArticulo(CrearPedidoVM model, int idPedido, int idEliminar, string view)
         {
             model.Clientes = _servicioCliente.ObtenerClientesParaFiltro();
             model.Articulos = _servicioArticulo.ObtenerArticulosSinFiltro();
@@ -69,8 +69,14 @@ namespace ProgaWeb3TP.Controllers
             TempData["listaArticulosPedido"]= JsonConvert.SerializeObject(PedidoArticulos);
             model.pedido.PedidoArticulos = PedidoArticulos.OrderBy(d => d.articulo.Codigo).ToList();
 
-
-            return Redirect("Editar/"+ idPedido);
+            if (view == "Crear")
+            {
+                return View("Crear", model);
+            }
+            else
+            {
+                return Redirect("Editar/" + idPedido);
+            }
         }
 
         [HttpPost]
@@ -249,7 +255,7 @@ namespace ProgaWeb3TP.Controllers
             if (ModelState.IsValid && model.pedido.PedidoArticulos.Count() > 0)
             {
                 int idUsuario = Int32.Parse(HttpContext.Session.GetString("id"));
-                model.pedido.ModificadoPor = idUsuario;
+                 model.pedido.ModificadoPor = idUsuario;
                 int nroPedido = this._servicioPedido.Editar(model.pedido);
                 CrearNotificacionExitosa("Pedido " + nroPedido + " fue editado  correctamente");
                 TempData["listaArticulosPedido"] = null;
