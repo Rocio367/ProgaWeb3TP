@@ -1,14 +1,11 @@
 ﻿using DTOs;
 using GestorDePedidos.Entidades;
-using Microsoft.AspNetCore.Http;
 using Modelos.ModelosApi;
 using Repositorios;
 using Repositorios.Filtros.FiltrosPedido;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Servicios
 {
@@ -83,8 +80,6 @@ namespace Servicios
                 {
                     IdEstadoPedido = est.IdEstadoPedido,
                     Descripcion = est.Descripcion,
-
-
                 }
             ).ToList();
         }
@@ -228,10 +223,6 @@ namespace Servicios
                     } : new UsuarioDTO(),
                 }
             ).ToList();
-
-
-           
-
         }
         ///services para API REST
 
