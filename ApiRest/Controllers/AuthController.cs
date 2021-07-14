@@ -67,7 +67,7 @@ namespace ApiRest.Controllers
             string secretKey = _configuration.GetValue<string>("SecretKey");
             byte[] key = Encoding.ASCII.GetBytes(secretKey);
 
-            string rol = usuario.EsAdmin ? "Admin" : "Usuario";
+            string rol = usuario.EsAdmin ? "Admin" : "Estandar";
 
             ClaimsIdentity claims = new ClaimsIdentity(new[]
             {
