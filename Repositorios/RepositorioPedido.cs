@@ -52,7 +52,14 @@ namespace Repositorios
         {
             pedido.IdEstado = 1;
             pedido.FechaCreacion = DateTime.Now;
-            pedido.NroPedido = (_context.Pedidos.Max(d => d.NroPedido))+1;
+            if (_context.Pedidos.Count() > 0)
+            {
+                pedido.NroPedido = (_context.Pedidos.Max(d => d.NroPedido)) + 1;
+
+            }
+            else {
+                pedido.NroPedido = 1;
+            }
             _context.Add(pedido);
             _context.SaveChanges();
             return pedido.NroPedido;
