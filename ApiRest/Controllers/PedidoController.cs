@@ -39,13 +39,13 @@ namespace ApiRest.Controllers
             }
             if (!_servicioPedido.ExisteEstado(body.IdEstado) )
             {
-                mensaje.Mensaje = "El 'IdEstado' ingresado no fue encontrado en la base de dats ";
+                mensaje.Mensaje = "El 'IdEstado' ingresado no fue encontrado en la base de datos ";
                 return NotFound(mensaje);
             }
 
             if (!_servicioCliente.ExisteCliente(body.IdCliente))
             {
-                mensaje.Mensaje = "El 'IdCliente' ingresado no fue encontrado en la base de dats ";
+                mensaje.Mensaje = "El 'IdCliente' ingresado no fue encontrado en la base de datos ";
                 return NotFound(mensaje);
             }
 
@@ -66,7 +66,12 @@ namespace ApiRest.Controllers
                 mensaje.Mensaje = "Se debe ingresar como minimo un articulo para crear un pedido";
                 return BadRequest(mensaje);
             }
-
+            var nombreCliente = _servicioPedido.ExistePedidoAbiertoPorCliente(body.IdCliente);
+            if (nombreCliente != "")
+            {
+                mensaje.Mensaje = "El cliente " + nombreCliente + " ya posee otro pedido Abierto, modifique ese pedido";
+                return NotFound(mensaje);
+            }
             if (!_servicioArticulo.ExisteListaDeArticulo(body.Articulos))
             {
                 mensaje.Mensaje = "Alguno de los articulos ingresados no existe en la base de datos";
