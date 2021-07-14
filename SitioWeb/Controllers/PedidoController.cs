@@ -90,7 +90,6 @@ namespace ProgaWeb3TP.Controllers
                 PedidoArticulos =JsonConvert.DeserializeObject<List<PedidoArticuloDTO>>(TempData["listaArticulosPedido"].ToString());
 
             }
-            
 
             if (cantidad > 0 )
             {
@@ -133,7 +132,6 @@ namespace ProgaWeb3TP.Controllers
             else {
                 return Redirect("Editar/" + idPedido);
             }
-          
         }
 
         public ActionResult Crear()
@@ -184,9 +182,7 @@ namespace ProgaWeb3TP.Controllers
                 TempData["listaArticulosPedido"] = JsonConvert.SerializeObject(model.pedido.PedidoArticulos);
                 CrearNotificacionDeError("Complete corectamente el formulario para crear un nuevo Pedido");
                     return View(model);
-
-                }          
-           
+                }
         }
 
         [HttpPost]
@@ -299,9 +295,6 @@ namespace ProgaWeb3TP.Controllers
         {
 
             return RedirectToAction("Lista", "Pedido");
-
         }
-
-
     }
 }

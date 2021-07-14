@@ -30,7 +30,6 @@ namespace Repositorios
 
         public int Editar(Pedido pedido)
         {
-
             Pedido ped = _context.Pedidos.Where(d => d.IdPedido == pedido.IdPedido).Include(d => d.PedidoArticulos).FirstOrDefault();
             ped.PedidoArticulos = pedido.PedidoArticulos;
             ped.Comentarios = pedido.Comentarios;
@@ -42,7 +41,6 @@ namespace Repositorios
 
         public void Eliminar(int id,int idUsuario)
         {
-
             Pedido ped = _context.Pedidos.Find(id);
             ped.IdEstado = 2;
             ped.FechaBorrado = DateTime.Now;
@@ -52,7 +50,6 @@ namespace Repositorios
 
         public int Guardar(Pedido pedido)
         {
-
             pedido.IdEstado = 1;
             pedido.FechaCreacion = DateTime.Now;
             pedido.NroPedido = (_context.Pedidos.Max(d => d.NroPedido))+1;
@@ -63,7 +60,6 @@ namespace Repositorios
 
         public List<Cliente> ObtenerClientesFiltro()
         {
-       
             return _context.Clientes.ToList();
         }
 
@@ -105,11 +101,6 @@ namespace Repositorios
             return resultado.ToList();
         }
 
-
-
-
-
-
         // para API REST
         public PedidoResponse BuscarPedidoApi(PedidoRequest body)
         {
@@ -134,8 +125,6 @@ namespace Repositorios
             return respuesta;
         }
 
-
-
         public IEnumerable<ArticuloPedidoDatos> obtenerArticulosPedidoDatos(Pedido pedido)
         {
             IEnumerable<ArticuloPedidoDatos> articulos = pedido.PedidoArticulos.ToList().Select(a =>
@@ -153,9 +142,6 @@ namespace Repositorios
             return articulos;
         }
 
-
-
-
         public UsuarioDatos obtenerUsuarioDatos(Pedido p)
         {
             return  new UsuarioDatos
@@ -165,9 +151,7 @@ namespace Repositorios
                     Nombre = p.ModificadoPorNavigation.Nombre,
                     Apellido = p.ModificadoPorNavigation.Apellido,
                     FechaNacimiento = p.ModificadoPorNavigation.FechaNacimiento,
-
                 };
-            
         }
 
         public bool ExisteEstado(int id)
@@ -178,7 +162,6 @@ namespace Repositorios
             }
             else {
                 return false;
-
             }
         }
 
@@ -192,9 +175,4 @@ namespace Repositorios
             return nombre;
         }
     }
-
-  
-       
-    
 }
-
